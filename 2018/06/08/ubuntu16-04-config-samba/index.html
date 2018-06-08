@@ -108,27 +108,25 @@
 
 
 
-  <meta name="description" content="brpc的bthread提供了一个性能很高的微线程库，代码质量很高，很值得研究。">
-<meta name="keywords" content="brpc">
+  <meta name="description" content="1. samba安装sudo apt-get install samba samba-common smbclient 2. 查看samba服务samba安装成功后，会默认启动samba服务。ps -ef | grep smb 3. 修改samba配置文件/etc/samba/smb.conf123456789101112131415161718192021#===================">
+<meta name="keywords" content="linux">
 <meta property="og:type" content="article">
-<meta property="og:title" content="bthread bthread_start_background时序图">
-<meta property="og:url" content="http://yoursite.com/2018/05/11/brpc-bthread-bthread-start-background/index.html">
+<meta property="og:title" content="ubuntu16.04配置samba">
+<meta property="og:url" content="http://yoursite.com/2018/06/08/ubuntu16-04-config-samba/index.html">
 <meta property="og:site_name" content="写在人生的边上">
-<meta property="og:description" content="brpc的bthread提供了一个性能很高的微线程库，代码质量很高，很值得研究。">
+<meta property="og:description" content="1. samba安装sudo apt-get install samba samba-common smbclient 2. 查看samba服务samba安装成功后，会默认启动samba服务。ps -ef | grep smb 3. 修改samba配置文件/etc/samba/smb.conf123456789101112131415161718192021#===================">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:image" content="http://yoursite.com/2018/05/11/brpc-bthread-bthread-start-background/bthread_seq.png">
-<meta property="og:updated_time" content="2018-05-11T08:02:36.776Z">
+<meta property="og:updated_time" content="2018-06-08T13:11:37.596Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="bthread bthread_start_background时序图">
-<meta name="twitter:description" content="brpc的bthread提供了一个性能很高的微线程库，代码质量很高，很值得研究。">
-<meta name="twitter:image" content="http://yoursite.com/2018/05/11/brpc-bthread-bthread-start-background/bthread_seq.png">
+<meta name="twitter:title" content="ubuntu16.04配置samba">
+<meta name="twitter:description" content="1. samba安装sudo apt-get install samba samba-common smbclient 2. 查看samba服务samba安装成功后，会默认启动samba服务。ps -ef | grep smb 3. 修改samba配置文件/etc/samba/smb.conf123456789101112131415161718192021#===================">
 
 
 
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2018/05/11/brpc-bthread-bthread-start-background/"/>
+  <link rel="canonical" href="http://yoursite.com/2018/06/08/ubuntu16-04-config-samba/"/>
 
 
 
@@ -138,7 +136,7 @@
   };
 </script>
 
-  <title>bthread bthread_start_background时序图 | 写在人生的边上</title>
+  <title>ubuntu16.04配置samba | 写在人生的边上</title>
   
 
 
@@ -291,7 +289,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/05/11/brpc-bthread-bthread-start-background/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/06/08/ubuntu16-04-config-samba/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Datong Li">
@@ -308,7 +306,7 @@
 
         
         
-          <h2 class="post-title" itemprop="name headline">bthread bthread_start_background时序图
+          <h2 class="post-title" itemprop="name headline">ubuntu16.04配置samba
               
             
           </h2>
@@ -333,7 +331,7 @@
                 
               
 
-              <time title="创建时间：2018-05-11 15:50:30 / 修改时间：16:02:36" itemprop="dateCreated datePublished" datetime="2018-05-11T15:50:30+08:00">2018-05-11</time>
+              <time title="创建时间：2018-06-08 21:09:24 / 修改时间：21:11:37" itemprop="dateCreated datePublished" datetime="2018-06-08T21:09:24+08:00">2018-06-08</time>
             
 
             
@@ -371,8 +369,13 @@
       
 
       
-        <p>brpc的bthread提供了一个性能很高的微线程库，代码质量很高，很值得研究。</p>
-<p><img src="/2018/05/11/brpc-bthread-bthread-start-background/bthread_seq.png" alt="bthread bthread_start_background seq"></p>
+        <h4 id="1-samba安装"><a href="#1-samba安装" class="headerlink" title="1. samba安装"></a>1. samba安装</h4><p><code>sudo apt-get install samba samba-common smbclient</code></p>
+<h4 id="2-查看samba服务"><a href="#2-查看samba服务" class="headerlink" title="2. 查看samba服务"></a>2. 查看samba服务</h4><p>samba安装成功后，会默认启动samba服务。<br><code>ps -ef | grep smb</code></p>
+<h4 id="3-修改samba配置文件-etc-samba-smb-conf"><a href="#3-修改samba配置文件-etc-samba-smb-conf" class="headerlink" title="3. 修改samba配置文件/etc/samba/smb.conf"></a>3. 修改samba配置文件/etc/samba/smb.conf</h4><figure class="highlight vhdl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">#======================= Share Definitions =======================</span><br><span class="line"> </span><br><span class="line"># Un-comment the following <span class="keyword">and</span> create the netlogon directory <span class="keyword">for</span> Domain Logons</span><br><span class="line"># Un-comment the following (<span class="keyword">and</span> tweak the other settings below <span class="keyword">to</span> suit)</span><br><span class="line"># <span class="keyword">to</span> enable the <span class="keyword">default</span> home directory shares. This will share each</span><br><span class="line"># user<span class="symbol">'s</span> home directory as \\server\username</span><br><span class="line">[homes]</span><br><span class="line">  comment = Home Directories</span><br><span class="line">  browseable = no</span><br><span class="line"> </span><br><span class="line"># By <span class="keyword">default</span>, the home directories are exported read-only. Change the</span><br><span class="line"># <span class="keyword">next</span> parameter <span class="keyword">to</span> <span class="symbol">'no</span>' <span class="keyword">if</span> you want <span class="keyword">to</span> be able <span class="keyword">to</span> write <span class="keyword">to</span> them.</span><br><span class="line">  read only = no</span><br><span class="line"> </span><br><span class="line"># <span class="keyword">File</span> creation mask <span class="keyword">is</span> set <span class="keyword">to</span> <span class="number">0700</span> <span class="keyword">for</span> security reasons. <span class="keyword">If</span> you want <span class="keyword">to</span></span><br><span class="line"># create files <span class="keyword">with</span> <span class="keyword">group</span>=rw permissions, set <span class="keyword">next</span> parameter <span class="keyword">to</span> <span class="number">0775</span>.</span><br><span class="line">  create mask = <span class="number">0775</span></span><br><span class="line"> </span><br><span class="line"># Directory creation mask <span class="keyword">is</span> set <span class="keyword">to</span> <span class="number">0700</span> <span class="keyword">for</span> security reasons. <span class="keyword">If</span> you want <span class="keyword">to</span></span><br><span class="line"># create dirs. <span class="keyword">with</span> <span class="keyword">group</span>=rw permissions, set <span class="keyword">next</span> parameter <span class="keyword">to</span> <span class="number">0775</span>.</span><br><span class="line">  directory mask = <span class="number">0775</span></span><br></pre></td></tr></table></figure>
+<h4 id="4-重启samba服务"><a href="#4-重启samba服务" class="headerlink" title="4. 重启samba服务"></a>4. 重启samba服务</h4><p><code>/etc/init.d/samba restart</code></p>
+<h4 id="5-调试samba功能"><a href="#5-调试samba功能" class="headerlink" title="5. 调试samba功能"></a>5. 调试samba功能</h4><h5 id="5-1-创建linux登录账号（例如test-user-test-password）"><a href="#5-1-创建linux登录账号（例如test-user-test-password）" class="headerlink" title="5.1 创建linux登录账号（例如test_user/test_password）"></a>5.1 创建linux登录账号（例如test_user/test_password）</h5><p><code>sudo adduser test_user</code></p>
+<h5 id="5-2-给上述test-user用户创建samba密码"><a href="#5-2-给上述test-user用户创建samba密码" class="headerlink" title="5.2 给上述test_user用户创建samba密码"></a>5.2 给上述test_user用户创建samba密码</h5><p><code>sudo smbpasswd -a test_user</code></p>
+<p>如果因权限不足问题，不能创建、修改该目录下的文件，请检查<code>3.修改samba配置文件/etc/samba/smb.conf</code>是否配置正确。samba详细配置见/etc/samba/smb.conf 文件中的注释或用命令man smb.conf查看。</p>
 
       
     </div>
@@ -393,7 +396,7 @@
       
         <div class="post-tags">
           
-            <a href="/tags/brpc/" rel="tag"># brpc</a>
+            <a href="/tags/linux/" rel="tag"># linux</a>
           
         </div>
       
@@ -406,8 +409,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2018/05/10/shared-ptr-thread-safe-level/" rel="next" title="shared_ptr的安全级别">
-                <i class="fa fa-chevron-left"></i> shared_ptr的安全级别
+              <a href="/2018/05/28/Thread-safe-singleton-for-c-11/" rel="next" title="c++11线程安全单例写法">
+                <i class="fa fa-chevron-left"></i> c++11线程安全单例写法
               </a>
             
           </div>
@@ -415,10 +418,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2018/05/13/Binary-search-tree-for-better-implementation/" rel="prev" title="二叉搜索树更好的实现">
-                二叉搜索树更好的实现 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -467,8 +466,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -559,6 +567,22 @@
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-samba安装"><span class="nav-text">1. samba安装</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-查看samba服务"><span class="nav-text">2. 查看samba服务</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-修改samba配置文件-etc-samba-smb-conf"><span class="nav-text">3. 修改samba配置文件/etc/samba/smb.conf</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-重启samba服务"><span class="nav-text">4. 重启samba服务</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#5-调试samba功能"><span class="nav-text">5. 调试samba功能</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#5-1-创建linux登录账号（例如test-user-test-password）"><span class="nav-text">5.1 创建linux登录账号（例如test_user/test_password）</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#5-2-给上述test-user用户创建samba密码"><span class="nav-text">5.2 给上述test_user用户创建samba密码</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
