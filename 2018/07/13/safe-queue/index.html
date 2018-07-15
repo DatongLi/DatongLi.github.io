@@ -108,20 +108,25 @@
 
 
 
-  <meta property="og:type" content="website">
-<meta property="og:title" content="写在人生的边上">
-<meta property="og:url" content="http://yoursite.com/archives/page/3/index.html">
+  <meta name="description" content="记录一个非常好的线程安全队列写法。非常方便、简洁的实现。12345678910111213// thread_safe_queue.htemplate &amp;lt;typename T&amp;gt;class ThreadSafeQueue&amp;#123;public:         void Insert(T value);         void Popup(T &amp;amp;value);">
+<meta name="keywords" content="cpp">
+<meta property="og:type" content="article">
+<meta property="og:title" content="线程安全队列">
+<meta property="og:url" content="http://yoursite.com/2018/07/13/safe-queue/index.html">
 <meta property="og:site_name" content="写在人生的边上">
+<meta property="og:description" content="记录一个非常好的线程安全队列写法。非常方便、简洁的实现。12345678910111213// thread_safe_queue.htemplate &amp;lt;typename T&amp;gt;class ThreadSafeQueue&amp;#123;public:         void Insert(T value);         void Popup(T &amp;amp;value);">
 <meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2018-07-13T13:18:21.409Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="写在人生的边上">
+<meta name="twitter:title" content="线程安全队列">
+<meta name="twitter:description" content="记录一个非常好的线程安全队列写法。非常方便、简洁的实现。12345678910111213// thread_safe_queue.htemplate &amp;lt;typename T&amp;gt;class ThreadSafeQueue&amp;#123;public:         void Insert(T value);         void Popup(T &amp;amp;value);">
 
 
 
 
 
 
-  <link rel="canonical" href="http://yoursite.com/archives/page/3/"/>
+  <link rel="canonical" href="http://yoursite.com/2018/07/13/safe-queue/"/>
 
 
 
@@ -131,7 +136,7 @@
   };
 </script>
 
-  <title>归档 | 写在人生的边上</title>
+  <title>线程安全队列 | 写在人生的边上</title>
   
 
 
@@ -178,7 +183,7 @@
     
   
 
-  <div class="container sidebar-position-left page-archive">
+  <div class="container sidebar-position-left page-post-detail">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -223,7 +228,7 @@
         
         
           
-          <li class="menu-item menu-item-archives menu-item-active">
+          <li class="menu-item menu-item-archives">
     <a href="/archives/" rel="section">
       <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />归档</a>
   </li>
@@ -243,22 +248,6 @@
 
   
     
-
-    
-    
-      
-      
-    
-      
-      
-    
-      
-      
-    
-    
-
-  
-
 
   
 
@@ -284,306 +273,178 @@
           <div id="content" class="content">
             
 
-  
-  
-  
-  <div class="post-block archive">
-    <div id="posts" class="posts-collapse">
-      <span class="archive-move-on"></span>
+  <div id="posts" class="posts-expand">
+    
 
-      
-      <span class="archive-page-counter">
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/07/13/safe-queue/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Datong Li">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/mine.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="写在人生的边上">
+    </span>
+
+    
+      <header class="post-header">
+
         
         
+          <h2 class="post-title" itemprop="name headline">线程安全队列
+              
+            
+          </h2>
         
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2018-07-13 21:14:17 / 修改时间：21:18:21" itemprop="dateCreated datePublished" datetime="2018-07-13T21:14:17+08:00">2018-07-13</time>
+            
+
+            
+              
+
+              
+            
+          </span>
+
           
-        
-        嗯..! 目前共计 27 篇日志。 继续努力。
-      </span>
-      
 
-      
-
-        
-        
-        
-
-        
           
-          <div class="collection-title">
-            <h2 class="archive-year" id="archive-year-2018">2018</h2>
-          </div>
-        
-        
+            
+          
 
-        
+          
+          
 
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
+          
 
-      <h3 class="post-title">
-        
-            <a class="post-title-link" href="/2018/04/18/A-more-elegant-way-to-implement-an-enum-type-map-to-a-string/" itemprop="url">
-              
-                <span itemprop="name">更优雅实现enum类型映射到string的方法——重载<<运算符</span>
-              
-            </a>
-        
-      </h3>
+          
 
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2018-04-18T22:03:57+08:00"
-              content="2018-04-18" >
-          04-18
-        </time>
-      </div>
+          
 
-    </header>
-  </article>
+        </div>
+      </header>
+    
 
-
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
 
       
-
-        
-        
-        
-
-        
-        
-
-        
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h3 class="post-title">
-        
-            <a class="post-title-link" href="/2018/04/18/A-way-to-gracefully-implement-state-transfer-of-state-machine/" itemprop="url">
-              
-                <span itemprop="name">优雅地实现状态机状态转移的方法</span>
-              
-            </a>
-        
-      </h3>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2018-04-18T22:02:42+08:00"
-              content="2018-04-18" >
-          04-18
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-
       
 
-        
-        
-        
-
-        
-        
-
-        
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h3 class="post-title">
-        
-            <a class="post-title-link" href="/2018/04/18/The-random-number-is-obtained-under-the-system-of-linux/" itemprop="url">
-              
-                <span itemprop="name">linux系统下获取随机数</span>
-              
-            </a>
-        
-      </h3>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2018-04-18T22:01:16+08:00"
-              content="2018-04-18" >
-          04-18
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
+      
+        <p>记录一个非常好的线程安全队列写法。非常方便、简洁的实现。<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// thread_safe_queue.h</span></span><br><span class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">ThreadSafeQueue</span>&#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">         <span class="function"><span class="keyword">void</span> <span class="title">Insert</span><span class="params">(T value)</span></span>;</span><br><span class="line">         <span class="function"><span class="keyword">void</span> <span class="title">Popup</span><span class="params">(T &amp;value)</span></span>;</span><br><span class="line">         <span class="function"><span class="keyword">bool</span> <span class="title">Empety</span><span class="params">()</span></span>;</span><br><span class="line"> </span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">       <span class="keyword">mutable</span> <span class="built_in">std</span>::mutex mut_;</span><br><span class="line">       <span class="built_in">std</span>::<span class="built_in">queue</span>&lt;T&gt; que_;</span><br><span class="line">       <span class="built_in">std</span>::condition_variable cond_;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure></p>
+<p>对应接口实现。<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// thread_safe_queue.cpp</span></span><br><span class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</span><br><span class="line"><span class="keyword">void</span> ThreadSafeQueue::Insert(T value)&#123;</span><br><span class="line">	<span class="built_in">std</span>::lock_guard&lt;<span class="built_in">std</span>::mutex&gt; lk(mut_);</span><br><span class="line">	que_.push_back(value);</span><br><span class="line">	cond_.notify_one();</span><br><span class="line">&#125;</span><br><span class="line"> </span><br><span class="line"> </span><br><span class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</span><br><span class="line"><span class="keyword">void</span> ThreadSafeQueue::Popup(T &amp;value)&#123;</span><br><span class="line">	<span class="built_in">std</span>::unique_lock&lt;<span class="built_in">std</span>::mutex&gt; lk(mut_);</span><br><span class="line">	cond_.wait(lk, [<span class="keyword">this</span>]&#123;<span class="keyword">return</span> !que_.empety();&#125;);</span><br><span class="line">	value = que_.front();</span><br><span class="line">	que_.pop();</span><br><span class="line">&#125;</span><br><span class="line"> </span><br><span class="line"> </span><br><span class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</span><br><span class="line"><span class="keyword">bool</span> ThreadSafeQueue::Empty() <span class="keyword">const</span>&#123;</span><br><span class="line">        <span class="built_in">std</span>::lock_guard&lt;<span class="built_in">std</span>::mutex&gt; lk(mut_);</span><br><span class="line">        <span class="keyword">return</span> que_.empty();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
 
       
-
-        
-        
-        
-
-        
-        
-
-        
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h3 class="post-title">
-        
-            <a class="post-title-link" href="/2018/04/17/Function-definitions-and-implementations-cannot-be-separated-for-template/" itemprop="url">
-              
-                <span itemprop="name">template函数定义和实现不能分离</span>
-              
-            </a>
-        
-      </h3>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2018-04-17T22:33:13+08:00"
-              content="2018-04-17" >
-          04-17
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-
-      
-
-        
-        
-        
-
-        
-        
-
-        
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h3 class="post-title">
-        
-            <a class="post-title-link" href="/2018/04/17/The-type-inference-mechanism-implied-by-the-function-parameter-for-template/" itemprop="url">
-              
-                <span itemprop="name">template函数参数暗含的类型推导机制</span>
-              
-            </a>
-        
-      </h3>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2018-04-17T22:28:38+08:00"
-              content="2018-04-17" >
-          04-17
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-
-      
-
-        
-        
-        
-
-        
-        
-
-        
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h3 class="post-title">
-        
-            <a class="post-title-link" href="/2018/04/17/static-and-anonymity-namespace/" itemprop="url">
-              
-                <span itemprop="name">static和匿名namespace</span>
-              
-            </a>
-        
-      </h3>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2018-04-17T22:17:31+08:00"
-              content="2018-04-17" >
-          04-17
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-
-      
-
-        
-        
-        
-
-        
-        
-
-        
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h3 class="post-title">
-        
-            <a class="post-title-link" href="/2018/04/14/How-to-use-hexo/" itemprop="url">
-              
-                <span itemprop="name">如何使用hexo</span>
-              
-            </a>
-        
-      </h3>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2018-04-14T18:38:41+08:00"
-              content="2018-04-14" >
-          04-14
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-
-      
-
     </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/cpp/" rel="tag"># cpp</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/06/08/ubuntu16-04-config-samba/" rel="next" title="ubuntu16.04配置samba">
+                <i class="fa fa-chevron-left"></i> ubuntu16.04配置samba
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/07/15/typeid-for-cpp/" rel="prev" title="cpp中的typeid多态使用">
+                cpp中的typeid多态使用 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
   </div>
   
   
   
-
-  
-  <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/archives/page/2/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/archives/">1</a><a class="page-number" href="/archives/page/2/">2</a><span class="page-number current">3</span>
-  </nav>
+  </article>
 
 
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
 
 
           </div>
           
+
+  
+
+
 
         </div>
         
@@ -819,6 +680,10 @@
   
 
   
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=6.3.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=6.3.0"></script>
+
+
 
   
 
