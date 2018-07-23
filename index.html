@@ -285,6 +285,159 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/07/23/Build-ubuntu-from-scratch-with-docker/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Datong Li">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/mine.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="写在人生的边上">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/07/23/Build-ubuntu-from-scratch-with-docker/" itemprop="url">
+                  从零开始用docker搭建ubuntu
+                </a>
+              
+            
+          </h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2018-07-23 22:11:17 / 修改时间：22:12:33" itemprop="dateCreated datePublished" datetime="2018-07-23T22:11:17+08:00">2018-07-23</time>
+            
+
+            
+              
+
+              
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h3 id="先找好源"><a href="#先找好源" class="headerlink" title="先找好源"></a>先找好源</h3><p>网易云的镜像源很不错，<code>https://c.163yun.com/hub#/m/repository/?repoId=3186</code>，网易做开源真的是业界良心。</p>
+<h3 id="写好Dockerfile"><a href="#写好Dockerfile" class="headerlink" title="写好Dockerfile"></a>写好Dockerfile</h3><p>直接用网易镜像源上面提供的，更新为网易的软件源，还有工具支持ssh，足够用了。<br><figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">FROM</span> hub.c.<span class="number">163</span>.com/public/ubuntu:<span class="number">16.04</span></span><br><span class="line"><span class="keyword">MAINTAINER</span> netease</span><br><span class="line"><span class="keyword">RUN</span><span class="bash"> mkdir -p /var/run/sshd</span></span><br><span class="line"><span class="bash">RUN mkdir /root/.ssh/</span></span><br><span class="line"><span class="bash">RUN apt-get update \</span></span><br><span class="line"><span class="bash">    &amp;&amp; apt-get update &amp;&amp; apt-get install -y openssh-server vim tar wget curl rsync bzip2 iptables tcpdump less telnet net-tools lsof sysstat cron supervisor inetutils-ping ufw \</span></span><br><span class="line"><span class="bash">    &amp;&amp; rm -rf /var/lib/apt/lists/*</span></span><br><span class="line"><span class="bash">RUN ufw allow ssh</span></span><br><span class="line"><span class="bash">RUN <span class="built_in">echo</span> <span class="string">'root:qwer1234'</span> | chpasswd</span></span><br><span class="line"><span class="bash">RUN ssh-keygen -q -t rsa -b 2048 -f ~/.ssh/id_rsa -P <span class="string">''</span> -N <span class="string">''</span></span></span><br><span class="line"><span class="bash">RUN sed -i s/<span class="string">"PermitRootLogin prohibit-password"</span>/<span class="string">"PermitRootLogin yes"</span>/g /etc/ssh/sshd_config</span></span><br><span class="line"><span class="bash">RUN cp -f /usr/share/zoneinfo/Asia/Shanghai /etc/localtime</span></span><br><span class="line"><span class="bash">EXPOSE 22</span></span><br><span class="line"><span class="bash">COPY sshd.conf /etc/supervisor/conf.d/sshd.conf</span></span><br><span class="line"><span class="bash">CMD [<span class="string">"/usr/bin/supervisord"</span>]</span></span><br></pre></td></tr></table></figure></p>
+<p>其中<code>sshd.conf</code>文件是：<br><figure class="highlight ini"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="section">[supervisord]</span></span><br><span class="line"><span class="attr">nodaemon</span>=<span class="literal">true</span></span><br><span class="line"><span class="section">[program:sshd]</span></span><br><span class="line"><span class="attr">command</span>=/usr/sbin/sshd -D</span><br></pre></td></tr></table></figure></p>
+<h3 id="macOS下准备环境"><a href="#macOS下准备环境" class="headerlink" title="macOS下准备环境"></a>macOS下准备环境</h3><p>macOS准备环境还挺麻烦<br><figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">brew install docker-machine docker</span><br><span class="line">brew cask install virtualbox</span><br><span class="line">docker-machine create --driver virtualbox default</span><br><span class="line">eval <span class="string">"<span class="variable">$(docker-machine env default)</span>"</span></span><br><span class="line"><span class="comment"># 如果出问题：</span></span><br><span class="line"><span class="comment"># docker-machine --debug env default</span></span><br><span class="line"><span class="comment"># docker-machine start</span></span><br><span class="line"><span class="comment"># docker-machine ls</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 如果是linux的话</span></span><br><span class="line"><span class="comment"># service docker restart</span></span><br><span class="line"><span class="comment"># 或者：/etc/init.d/docker restart</span></span><br><span class="line"><span class="comment"># 或者： systemctl restart docker</span></span><br><span class="line"><span class="comment"># 可能要root权限</span></span><br></pre></td></tr></table></figure></p>
+<h3 id="执行build拉取镜像"><a href="#执行build拉取镜像" class="headerlink" title="执行build拉取镜像"></a>执行build拉取镜像</h3><p>拉取镜像<br><figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker pull hub.c<span class="number">.163</span>.com<span class="regexp">/public/</span><span class="string">ubuntu:</span><span class="number">16.04</span>-tools</span><br></pre></td></tr></table></figure></p>
+<p>开始build了<br><figure class="highlight n1ql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker <span class="keyword">build</span> -t ubuntu:starheap -f <span class="symbol">`pwd`</span>/Dockerfile ubuntu</span><br></pre></td></tr></table></figure></p>
+<h3 id="run"><a href="#run" class="headerlink" title="run"></a>run</h3><p>使用上面拉取的镜像，启动一个容器<br><figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 使用ubuntu:starheap镜像以后台模式启动一个名为backend的容器</span></span><br><span class="line">docker <span class="keyword">run</span><span class="bash"> --name backend -d ubuntu:starheap</span></span><br><span class="line"><span class="bash"></span></span><br><span class="line"><span class="bash"><span class="comment"># 使用镜像ubuntu:starheap以后台模式启动一个容器,并将容器的80端口映射到主机随机端口</span></span></span><br><span class="line"><span class="bash"><span class="comment"># -P :是容器内部端口随机映射到主机的高端口</span></span></span><br><span class="line"><span class="bash">docker run -P -d ubuntu:starheap</span></span><br><span class="line"><span class="bash"></span></span><br><span class="line"><span class="bash"><span class="comment"># 使用镜像ubuntu:starheap以后台模式启动一个容器,将容器的80端口映射到主机的80端口,主机的目录/data映射到容器的/data</span></span></span><br><span class="line"><span class="bash"><span class="comment"># -p : 是容器内部端口绑定到指定的主机端口。</span></span></span><br><span class="line"><span class="bash">docker run -p 80:80 -v /data:/data -d ubuntu:starheap</span></span><br><span class="line"><span class="bash"></span></span><br><span class="line"><span class="bash"><span class="comment"># 可以指定ip 地址，默认绑定的是tcp，还可以绑定udp</span></span></span><br><span class="line"><span class="bash">docker run -p 127.0.0.1:80:80 -v /data:/data -d ubuntu:starheap</span></span><br><span class="line"><span class="bash"></span></span><br><span class="line"><span class="bash"></span></span><br><span class="line"><span class="bash"><span class="comment"># 使用镜像nginx:latest以交互模式启动一个容器,在容器内执行/bin/bash命令</span></span></span><br><span class="line"><span class="bash">docker run -it ubuntu:starheap /bin/bash</span></span><br></pre></td></tr></table></figure></p>
+<p>注意，macOS可能每次使用前都要执行：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">eval</span> <span class="string">"<span class="variable">$(docker-machine env default)</span>"</span></span><br></pre></td></tr></table></figure></p>
+<h3 id="docker容器的start-stop-restart"><a href="#docker容器的start-stop-restart" class="headerlink" title="docker容器的start/stop/restart"></a>docker容器的start/stop/restart</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 启动已被停止的容器backend</span></span><br><span class="line">docker start backend</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> 停止运行中的容器backend</span></span><br><span class="line">docker stop backend</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> 重启容器backend</span></span><br><span class="line">docker restart backend</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash">  docker rm 命令来删除不需要的容器</span></span><br><span class="line">docker rm backend</span><br></pre></td></tr></table></figure>
+<h3 id="如何ssh上容器"><a href="#如何ssh上容器" class="headerlink" title="如何ssh上容器"></a>如何ssh上容器</h3><p>因为用的网易docker镜像，已经安装好了sshd，可以直接在启动容器的时候指定绑定的端口，就可以通过服务器的端口ssh到容器内部的22端口了，具体操作如下：<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 将新的镜像启动，并将docker服务器的50001端口映射到容器的22端口上</span></span><br><span class="line">docker run -d -p 50001:22 ubuntu:starheap /usr/sbin/sshd -D</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> 执行ssh就行了</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> ssh root@localhost -p 50001</span></span><br></pre></td></tr></table></figure></p>
+<h3 id="使用docker进入容器"><a href="#使用docker进入容器" class="headerlink" title="使用docker进入容器"></a>使用docker进入容器</h3><p>ssh连接到docker容器太难配置了，可以用docker直接进入容器。<br><figure class="highlight lsl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">~/Desktop/workspace/docker-ubuntu docker images -a</span><br><span class="line">hub.c<span class="number">.163</span>.com/public/ubuntu   <span class="number">16.04</span>-tools         <span class="number">1196</span>ea15dad6        <span class="number">14</span> months ago       <span class="number">336</span>MB</span><br><span class="line">hub.c<span class="number">.163</span>.com/public/ubuntu   <span class="number">16.04</span>               <span class="number">70</span>b70c987e8f        <span class="number">2</span> years ago         <span class="number">224</span>MB</span><br></pre></td></tr></table></figure></p>
+<figure class="highlight applescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker <span class="built_in">run</span> <span class="comment">--name backend2 -itd  -p 50002:22  1196ea15dad6</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight livecodeserver"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">~/Desktop/workspace/docker-ubuntu docker ps -<span class="keyword">a</span></span><br><span class="line">CONTAINER ID        IMAGE               COMMAND                  CREATED              STATUS                          PORTS                   NAMES</span><br><span class="line">a902de9e2392        <span class="number">1196</span>ea15dad6        <span class="string">"/usr/bin/supervisord"</span>   <span class="number">6</span> <span class="built_in">seconds</span> ago        Up <span class="number">5</span> <span class="built_in">seconds</span>                    <span class="number">0.0</span><span class="number">.0</span><span class="number">.0</span>:<span class="number">50002</span>-&gt;<span class="number">22</span>/tcp   backend2</span><br></pre></td></tr></table></figure>
+<figure class="highlight applescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker exec -<span class="keyword">it</span> a902de9e2392 /bin/bash</span><br></pre></td></tr></table></figure>
+
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/07/15/typeid-for-cpp/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -473,12 +626,24 @@
                 
               
 
-              <time title="创建时间：2018-07-13 21:14:17 / 修改时间：21:18:21" itemprop="dateCreated datePublished" datetime="2018-07-13T21:14:17+08:00">2018-07-13</time>
+              <time title="创建时间：2018-07-13 21:14:17" itemprop="dateCreated datePublished" datetime="2018-07-13T21:14:17+08:00">2018-07-13</time>
             
 
             
               
 
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2018-07-15 21:25:40" itemprop="dateModified" datetime="2018-07-15T21:25:40+08:00">2018-07-15</time>
               
             
           </span>
@@ -513,8 +678,8 @@
       
         
           
-            <p>记录一个非常好的线程安全队列写法。非常方便、简洁的实现。<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// thread_safe_queue.h</span></span><br><span class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">ThreadSafeQueue</span>&#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">         <span class="function"><span class="keyword">void</span> <span class="title">Insert</span><span class="params">(T value)</span></span>;</span><br><span class="line">         <span class="function"><span class="keyword">void</span> <span class="title">Popup</span><span class="params">(T &amp;value)</span></span>;</span><br><span class="line">         <span class="function"><span class="keyword">bool</span> <span class="title">Empety</span><span class="params">()</span></span>;</span><br><span class="line"> </span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">       <span class="keyword">mutable</span> <span class="built_in">std</span>::mutex mut_;</span><br><span class="line">       <span class="built_in">std</span>::<span class="built_in">queue</span>&lt;T&gt; que_;</span><br><span class="line">       <span class="built_in">std</span>::condition_variable cond_;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure></p>
-<p>对应接口实现。<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// thread_safe_queue.cpp</span></span><br><span class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</span><br><span class="line"><span class="keyword">void</span> ThreadSafeQueue::Insert(T value)&#123;</span><br><span class="line">	<span class="built_in">std</span>::lock_guard&lt;<span class="built_in">std</span>::mutex&gt; lk(mut_);</span><br><span class="line">	que_.push_back(value);</span><br><span class="line">	cond_.notify_one();</span><br><span class="line">&#125;</span><br><span class="line"> </span><br><span class="line"> </span><br><span class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</span><br><span class="line"><span class="keyword">void</span> ThreadSafeQueue::Popup(T &amp;value)&#123;</span><br><span class="line">	<span class="built_in">std</span>::unique_lock&lt;<span class="built_in">std</span>::mutex&gt; lk(mut_);</span><br><span class="line">	cond_.wait(lk, [<span class="keyword">this</span>]&#123;<span class="keyword">return</span> !que_.empety();&#125;);</span><br><span class="line">	value = que_.front();</span><br><span class="line">	que_.pop();</span><br><span class="line">&#125;</span><br><span class="line"> </span><br><span class="line"> </span><br><span class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</span><br><span class="line"><span class="keyword">bool</span> ThreadSafeQueue::Empty() <span class="keyword">const</span>&#123;</span><br><span class="line">        <span class="built_in">std</span>::lock_guard&lt;<span class="built_in">std</span>::mutex&gt; lk(mut_);</span><br><span class="line">        <span class="keyword">return</span> que_.empty();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+            <p>记录一个非常好的线程安全队列写法。非常方便、简洁的实现。<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// thread_safe_queue.h</span></span><br><span class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">ThreadSafeQueue</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">         <span class="function"><span class="keyword">void</span> <span class="title">Insert</span><span class="params">(T value)</span></span>;</span><br><span class="line">         <span class="function"><span class="keyword">void</span> <span class="title">Popup</span><span class="params">(T &amp;value)</span></span>;</span><br><span class="line">         <span class="function"><span class="keyword">bool</span> <span class="title">Empety</span><span class="params">()</span></span>;</span><br><span class="line"> </span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">       <span class="keyword">mutable</span> <span class="built_in">std</span>::mutex mut_;</span><br><span class="line">       <span class="built_in">std</span>::<span class="built_in">queue</span>&lt;T&gt; que_;</span><br><span class="line">       <span class="built_in">std</span>::condition_variable cond_;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure></p>
+<p>对应接口实现。<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// thread_safe_queue.cpp</span></span><br><span class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</span><br><span class="line"><span class="keyword">void</span> ThreadSafeQueue::Insert(T value) &#123;</span><br><span class="line">        <span class="built_in">std</span>::lock_guard&lt;<span class="built_in">std</span>::mutex&gt; lk(mut_);</span><br><span class="line">        que_.push_back(value);</span><br><span class="line">        cond_.notify_one();</span><br><span class="line">&#125;</span><br><span class="line"> </span><br><span class="line"> </span><br><span class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</span><br><span class="line"><span class="keyword">void</span> ThreadSafeQueue::Popup(T &amp;value) &#123;</span><br><span class="line">	<span class="built_in">std</span>::unique_lock&lt;<span class="built_in">std</span>::mutex&gt; lk(mut_);</span><br><span class="line">	cond_.wait(lk, [<span class="keyword">this</span>]&#123;<span class="keyword">return</span> !que_.empety();&#125;);</span><br><span class="line">	value = que_.front();</span><br><span class="line">	que_.pop();</span><br><span class="line">&#125;</span><br><span class="line"> </span><br><span class="line"> </span><br><span class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</span><br><span class="line"><span class="keyword">bool</span> ThreadSafeQueue::Empty() <span class="keyword">const</span> &#123;</span><br><span class="line">        <span class="built_in">std</span>::lock_guard&lt;<span class="built_in">std</span>::mutex&gt; lk(mut_);</span><br><span class="line">        <span class="keyword">return</span> que_.empty();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
 
           
         
@@ -1562,147 +1727,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/05/11/brpc-bthread-bthread-start-background/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Datong Li">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/mine.png">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="写在人生的边上">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h2 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/05/11/brpc-bthread-bthread-start-background/" itemprop="url">
-                  bthread bthread_start_background时序图
-                </a>
-              
-            
-          </h2>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-
-            
-            
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2018-05-11 15:50:30 / 修改时间：16:02:36" itemprop="dateCreated datePublished" datetime="2018-05-11T15:50:30+08:00">2018-05-11</time>
-            
-
-            
-              
-
-              
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>brpc的bthread提供了一个性能很高的微线程库，代码质量很高，很值得研究。</p>
-<p><img src="/2018/05/11/brpc-bthread-bthread-start-background/bthread_seq.png" alt="bthread bthread_start_background seq"></p>
-
-          
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -1754,7 +1778,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">27</span>
+                    <span class="site-state-item-count">28</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
