@@ -285,6 +285,152 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/07/23/Vim-partial-substitution/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Datong Li">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/mine.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="写在人生的边上">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/07/23/Vim-partial-substitution/" itemprop="url">
+                  Vim部分替换
+                </a>
+              
+            
+          </h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2018-07-23 22:40:33 / 修改时间：22:40:58" itemprop="dateCreated datePublished" datetime="2018-07-23T22:40:33+08:00">2018-07-23</time>
+            
+
+            
+              
+
+              
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>以下命令将文中所有的字符串idiots替换成managers：<br><figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">:<span class="number">1</span>,<span class="variable">$s</span><span class="regexp">/idiots/m</span>anages<span class="regexp">/g</span></span><br></pre></td></tr></table></figure></p>
+<p>通常我们会在命令中使用%指代整个文件做为替换范围：<br><figure class="highlight elixir"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="symbol">:%s/search/replace/g</span></span><br></pre></td></tr></table></figure></p>
+<p>以下命令指定只在第5至第15行间进行替换:<br><figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">:<span class="number">5</span>,<span class="number">15</span>s<span class="regexp">/dog/</span>cat<span class="regexp">/g</span></span><br></pre></td></tr></table></figure></p>
+<p>以下命令指定只在当前行至文件结尾间进行替换:<br><figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">:.,<span class="variable">$s</span><span class="regexp">/dog/</span>cat<span class="regexp">/g</span></span><br></pre></td></tr></table></figure></p>
+<p>以下命令指定只在后续9行内进行替换:<br><figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">:.,.+<span class="number">8</span>s<span class="regexp">/dog/</span>cat<span class="regexp">/g</span></span><br></pre></td></tr></table></figure></p>
+<p>你还可以将特定字符做为替换范围。比如，将SQL语句从FROM至分号部分中的所有等号（=）替换为不等号（&lt;&gt;）：<br><figure class="highlight elixir"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="symbol">:/FROM/</span>,<span class="regexp">/;/s</span><span class="regexp">/=/</span>&lt;&gt;<span class="regexp">/g</span></span><br></pre></td></tr></table></figure></p>
+<p>在可视化模式下，首先选择替换范围, 然后输入:进入命令模式，就可以利用s命令在选中的范围内进行文本替换。</p>
+
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/07/23/RAII-usage-of-lambda-functions/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1585,156 +1731,11 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/05/20/how-to-config-after-uninstall-xcode/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Datong Li">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/mine.png">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="写在人生的边上">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h2 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/05/20/how-to-config-after-uninstall-xcode/" itemprop="url">
-                  macOS卸载掉Xcode后如何设置
-                </a>
-              
-            
-          </h2>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-
-            
-            
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2018-05-20 15:16:52 / 修改时间：15:17:43" itemprop="dateCreated datePublished" datetime="2018-05-20T15:16:52+08:00">2018-05-20</time>
-            
-
-            
-              
-
-              
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>Xcode大的时候有10G，占用很多空间，如果不用开发MacOS或者iOS，完全可以卸载掉。然后输入指令：<br><figure class="highlight ada"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo xcode-<span class="keyword">select</span> <span class="comment">--install</span></span><br></pre></td></tr></table></figure></p>
-<p>可以完成安装常用环境。而往往运行命令的时候会出现报错</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">~ g++ <span class="comment">--version</span></span><br><span class="line">xcrun: error: active developer path ("/Applications/Xcode.app/Contents/Developer") does not exist</span><br><span class="line"><span class="keyword">Use</span> <span class="string">`sudo xcode-select --switch path/to/Xcode.app`</span> <span class="keyword">to</span> specify the Xcode that you wish <span class="keyword">to</span> <span class="keyword">use</span> <span class="keyword">for</span> command line developer tools, <span class="keyword">or</span> <span class="keyword">use</span> <span class="string">`xcode-select --install`</span> <span class="keyword">to</span> <span class="keyword">install</span> the <span class="keyword">standalone</span> command line developer tools.</span><br><span class="line">See <span class="string">`man xcode-select`</span> <span class="keyword">for</span> more details.</span><br></pre></td></tr></table></figure>
-<p>是因为环境变量没设置好，可以用<code>xcode-select -p</code>查看，修改路径为：</p>
-<figure class="highlight ada"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo xcode-<span class="keyword">select</span> <span class="comment">--switch /Library/Developer/CommandLineTools</span></span><br></pre></td></tr></table></figure>
-<p>即可。</p>
-
-          
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
   <nav class="pagination">
-    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
+    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><span class="space">&hellip;</span><a class="page-number" href="/page/4/">4</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
   </nav>
 
 
@@ -1781,7 +1782,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">30</span>
+                    <span class="site-state-item-count">31</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
