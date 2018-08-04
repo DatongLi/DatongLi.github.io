@@ -1,0 +1,802 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-CN">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=6.3.0" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=6.3.0">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=6.3.0">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=6.3.0">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=6.3.0" color="#222">
+
+
+
+
+
+
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '6.3.0',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="元编程元编程是一种比较陌生的编程范式，有两个好处：  编译期进行计算，编译期之后直接得到常量结果； 通过模板生成通用代码；  元编程实现编译期计算可以直接用模板+模板特化+enum定义常量类型，实现编译期进行计算1234567891011121314151617template &amp;lt;int N&amp;gt;struct Factorial &amp;#123;">
+<meta name="keywords" content="cpp">
+<meta property="og:type" content="article">
+<meta property="og:title" content="元编程与反射机制">
+<meta property="og:url" content="http://yoursite.com/2018/08/04/Metaprogramming-and-reflection-mechanisms/index.html">
+<meta property="og:site_name" content="写在人生的边上">
+<meta property="og:description" content="元编程元编程是一种比较陌生的编程范式，有两个好处：  编译期进行计算，编译期之后直接得到常量结果； 通过模板生成通用代码；  元编程实现编译期计算可以直接用模板+模板特化+enum定义常量类型，实现编译期进行计算1234567891011121314151617template &amp;lt;int N&amp;gt;struct Factorial &amp;#123;">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="http://yoursite.com/2018/08/04/Metaprogramming-and-reflection-mechanisms/o_protobuf_classdiagram.png">
+<meta property="og:updated_time" content="2018-08-04T16:08:09.499Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="元编程与反射机制">
+<meta name="twitter:description" content="元编程元编程是一种比较陌生的编程范式，有两个好处：  编译期进行计算，编译期之后直接得到常量结果； 通过模板生成通用代码；  元编程实现编译期计算可以直接用模板+模板特化+enum定义常量类型，实现编译期进行计算1234567891011121314151617template &amp;lt;int N&amp;gt;struct Factorial &amp;#123;">
+<meta name="twitter:image" content="http://yoursite.com/2018/08/04/Metaprogramming-and-reflection-mechanisms/o_protobuf_classdiagram.png">
+
+
+
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/08/04/Metaprogramming-and-reflection-mechanisms/"/>
+
+
+
+<script type="text/javascript" id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>元编程与反射机制 | 写在人生的边上</title>
+  
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style type="text/css">
+    .use-motion .motion-element,
+    .use-motion .brand,
+    .use-motion .menu-item,
+    .sidebar-inner,
+    .use-motion .post-block,
+    .use-motion .pagination,
+    .use-motion .comments,
+    .use-motion .post-header,
+    .use-motion .post-body,
+    .use-motion .collection-title { opacity: initial; }
+
+    .use-motion .logo,
+    .use-motion .site-title,
+    .use-motion .site-subtitle {
+      opacity: initial;
+      top: initial;
+    }
+
+    .use-motion {
+      .logo-line-before i { left: initial; }
+      .logo-line-after i { right: initial; }
+    }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">写在人生的边上</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+    <a href="/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-home"></i> <br />首页</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+    <a href="/archives/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />归档</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+    <a href="/tags/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />标签</a>
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+    
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/08/04/Metaprogramming-and-reflection-mechanisms/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Datong Li">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/mine.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="写在人生的边上">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">元编程与反射机制
+              
+            
+          </h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2018-08-04 23:59:15" itemprop="dateCreated datePublished" datetime="2018-08-04T23:59:15+08:00">2018-08-04</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2018-08-05 00:08:09" itemprop="dateModified" datetime="2018-08-05T00:08:09+08:00">2018-08-05</time>
+              
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h3 id="元编程"><a href="#元编程" class="headerlink" title="元编程"></a>元编程</h3><p>元编程是一种比较陌生的编程范式，有两个好处：</p>
+<ol>
+<li>编译期进行计算，编译期之后直接得到常量结果；</li>
+<li>通过模板生成通用代码；</li>
+</ol>
+<h4 id="元编程实现编译期计算"><a href="#元编程实现编译期计算" class="headerlink" title="元编程实现编译期计算"></a>元编程实现编译期计算</h4><p>可以直接用模板+模板特化+enum定义常量类型，实现编译期进行计算<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">template</span> &lt;<span class="keyword">int</span> N&gt;</span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">Factorial</span> &#123;</span>                             </span><br><span class="line">    <span class="keyword">enum</span> &#123; value = N * Factorial&lt;N - <span class="number">1</span>&gt;::value; &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">template</span> &lt;&gt;</span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">Factorial</span>&lt;0&gt; &#123;</span></span><br><span class="line">    <span class="keyword">enum</span> &#123; value = <span class="number">1</span>; &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">// Factorial&lt;4&gt;::value == 24</span></span><br><span class="line"><span class="comment">// Factorial&lt;0&gt;::value == 1</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">foo</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> x = Factorial&lt;<span class="number">4</span>&gt;::value; <span class="comment">// == 24</span></span><br><span class="line">    <span class="keyword">int</span> y = Factorial&lt;<span class="number">0</span>&gt;::value; <span class="comment">// == 1</span></span><br><span class="line">    <span class="built_in">std</span>::<span class="built_in">cout</span> &lt;&lt; <span class="string">"x = "</span> &lt;&lt; x &lt;&lt; <span class="string">", y = "</span> &lt;&lt; y &lt;&lt; <span class="built_in">std</span>::<span class="built_in">endl</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>可以把enum替换成static const的类型，作为static类型是为了可以直接方便模板类型的调用<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">template</span> &lt;<span class="keyword">int</span> N&gt;</span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">Factorial</span> &#123;</span>                             </span><br><span class="line">    <span class="keyword">static</span> <span class="keyword">const</span> <span class="keyword">int</span> value = N * Factorial&lt;N - <span class="number">1</span>&gt;::value;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">template</span> &lt;&gt;</span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">Factorial</span>&lt;0&gt; &#123;</span></span><br><span class="line">    <span class="keyword">static</span> <span class="keyword">const</span> <span class="keyword">int</span> value = <span class="number">1</span>;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">// Factorial&lt;4&gt;::value == 24</span></span><br><span class="line"><span class="comment">// Factorial&lt;0&gt;::value == 1</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">foo</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> x = Factorial&lt;<span class="number">4</span>&gt;::value; <span class="comment">// == 24</span></span><br><span class="line">    <span class="keyword">int</span> y = Factorial&lt;<span class="number">0</span>&gt;::value; <span class="comment">// == 1</span></span><br><span class="line">    <span class="built_in">std</span>::<span class="built_in">cout</span> &lt;&lt; <span class="string">"x = "</span> &lt;&lt; x &lt;&lt; <span class="string">", y = "</span> &lt;&lt; y &lt;&lt; <span class="built_in">std</span>::<span class="built_in">endl</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h4 id="元编程模板生成代码"><a href="#元编程模板生成代码" class="headerlink" title="元编程模板生成代码"></a>元编程模板生成代码</h4><p>模板生成适用&lt;int, long&gt;和&lt;double, long&gt;输入类型的类模板<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// template_kv.h</span></span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">T1</span> &#123;</span></span><br><span class="line">    <span class="keyword">using</span> Req = <span class="keyword">int</span>;</span><br><span class="line">    <span class="keyword">using</span> Res = <span class="keyword">long</span>;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">T2</span> &#123;</span></span><br><span class="line">    <span class="keyword">using</span> Req = <span class="keyword">double</span>;</span><br><span class="line">    <span class="keyword">using</span> Res = <span class="keyword">long</span>;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">template</span>&lt;<span class="class"><span class="keyword">class</span> <span class="title">T</span>&gt;</span></span><br><span class="line"><span class="class"><span class="title">class</span> <span class="title">foo</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    foo() &#123;</span><br><span class="line">        req = <span class="number">3</span>;</span><br><span class="line">        res = <span class="number">5</span>;</span><br><span class="line">    &#125;                                                                                                                      </span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">print</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="built_in">std</span>::<span class="built_in">cout</span> &lt;&lt; <span class="string">"req = "</span> &lt;&lt; req &lt;&lt; <span class="string">", res = "</span> &lt;&lt; res &lt;&lt; <span class="built_in">std</span>::<span class="built_in">endl</span>;</span><br><span class="line">    &#125;                                                                                                                      </span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">    <span class="keyword">typename</span> T::Req req;</span><br><span class="line">    <span class="keyword">typename</span> T::Res res;</span><br><span class="line">&#125;; </span><br><span class="line"></span><br><span class="line"><span class="comment">// main.cpp</span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    foo&lt;T2&gt; ff;</span><br><span class="line">    ff.print();</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h3 id="反射机制"><a href="#反射机制" class="headerlink" title="反射机制"></a>反射机制</h3><p>反射机制，在Java中的反射是通过JVM的机制，动态加载编译好的<code>.class</code>文件，反序列化到内存中的对象，有Jave虚拟机保证得到类的元信息。</p>
+<p>而<code>C++</code>是强类型语言，要求在编译器期间把几乎（除了虚函数实现的多态）所有都静态确定好。所以反射机制在<code>C++</code>层面是不提供的，并且是不好实现的。</p>
+<p>近日看<code>protobuf v3.6.1</code>的源代码中使用反射实现了proto的动态加载，多有裨益。在pb中，使用<code>Descriptor</code>保存proto文件的<code>message</code>中属性，这得到的就是用户定义的<code>message</code>的元信息，pb提供的对元信息操作的接口，将元信息传入<code>reflection</code>类中通过<code>reflection</code>的函数操作，具体的pb关键uml图如下。</p>
+<p><img src="/2018/08/04/Metaprogramming-and-reflection-mechanisms/o_protobuf_classdiagram.png" alt="protobuf uml"></p>
+<p>反射机制最关键的地方就是通过元数据对数据进行操作。</p>
+<p>为什么把元编程和反射机制放在一起讨论？其实是有关系的，要实现元编程的代码生成，有两种方法：</p>
+<ol>
+<li>不用模板，直接用宏编程，通过把源代码直接翻译为目的代码；</li>
+<li>使用模板；</li>
+</ol>
+<p>反射机制在这里面担任的是什么角色呢？</p>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/cpp/" rel="tag"># cpp</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/07/23/Vim-partial-substitution/" rel="next" title="Vim部分替换">
+                <i class="fa fa-chevron-left"></i> Vim部分替换
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/mine.png"
+                alt="Datong Li" />
+            
+              <p class="site-author-name" itemprop="name">Datong Li</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">32</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  <a href="/tags/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">6</span>
+                    <span class="site-state-item-name">标签</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  <a href="https://github.com/DatongLi" target="_blank" title="GitHub" rel="external nofollow"><i class="fa fa-fw fa-github"></i>GitHub</a>
+                  
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="mailto:im.datong.li@gmail.com" target="_blank" title="E-Mail" rel="external nofollow"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="https://www.linkedin.com/in/imlidatong" target="_blank" title="Linkedin" rel="external nofollow"><i class="fa fa-fw fa-Linkedin"></i>Linkedin</a>
+                  
+                </span>
+              
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#元编程"><span class="nav-text">元编程</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#元编程实现编译期计算"><span class="nav-text">元编程实现编译期计算</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#元编程模板生成代码"><span class="nav-text">元编程模板生成代码</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#反射机制"><span class="nav-text">反射机制</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Datong Li</span>
+
+  
+
+  
+</div>
+
+
+  
+
+
+
+
+
+
+
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=6.3.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=6.3.0"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=6.3.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=6.3.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=6.3.0"></script>
+
+
+
+  
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
