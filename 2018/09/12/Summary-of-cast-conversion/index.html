@@ -1,0 +1,786 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-CN">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=6.3.0" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=6.3.0">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=6.3.0">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=6.3.0">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=6.3.0" color="#222">
+
+
+
+
+
+
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '6.3.0',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="写代码过程会遇到需要使用cast的场景，常见的有static_cast，dynamic_cast，const_cast等，使用时有些容易忽略或理解不清的地方导致误用。 static_cast使用要点static_cast操作符可用于将一个指向基类的指针转换为指向子类的指针。但是这样的转换不总是安全的。static_cast不够安全，就是指在运行阶段不进行类型检查。具体用法：  用于类层次结构中基类">
+<meta name="keywords" content="cpp">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Cast转换总结">
+<meta property="og:url" content="http://yoursite.com/2018/09/12/Summary-of-cast-conversion/index.html">
+<meta property="og:site_name" content="写在人生的边上">
+<meta property="og:description" content="写代码过程会遇到需要使用cast的场景，常见的有static_cast，dynamic_cast，const_cast等，使用时有些容易忽略或理解不清的地方导致误用。 static_cast使用要点static_cast操作符可用于将一个指向基类的指针转换为指向子类的指针。但是这样的转换不总是安全的。static_cast不够安全，就是指在运行阶段不进行类型检查。具体用法：  用于类层次结构中基类">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2018-09-12T11:17:46.741Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Cast转换总结">
+<meta name="twitter:description" content="写代码过程会遇到需要使用cast的场景，常见的有static_cast，dynamic_cast，const_cast等，使用时有些容易忽略或理解不清的地方导致误用。 static_cast使用要点static_cast操作符可用于将一个指向基类的指针转换为指向子类的指针。但是这样的转换不总是安全的。static_cast不够安全，就是指在运行阶段不进行类型检查。具体用法：  用于类层次结构中基类">
+
+
+
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/09/12/Summary-of-cast-conversion/"/>
+
+
+
+<script type="text/javascript" id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>Cast转换总结 | 写在人生的边上</title>
+  
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style type="text/css">
+    .use-motion .motion-element,
+    .use-motion .brand,
+    .use-motion .menu-item,
+    .sidebar-inner,
+    .use-motion .post-block,
+    .use-motion .pagination,
+    .use-motion .comments,
+    .use-motion .post-header,
+    .use-motion .post-body,
+    .use-motion .collection-title { opacity: initial; }
+
+    .use-motion .logo,
+    .use-motion .site-title,
+    .use-motion .site-subtitle {
+      opacity: initial;
+      top: initial;
+    }
+
+    .use-motion {
+      .logo-line-before i { left: initial; }
+      .logo-line-after i { right: initial; }
+    }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">写在人生的边上</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+    <a href="/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-home"></i> <br />首页</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+    <a href="/archives/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />归档</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+    <a href="/tags/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />标签</a>
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+    
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/09/12/Summary-of-cast-conversion/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Datong Li">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/mine.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="写在人生的边上">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">Cast转换总结
+              
+            
+          </h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2018-09-12 19:16:58 / 修改时间：19:17:46" itemprop="dateCreated datePublished" datetime="2018-09-12T19:16:58+08:00">2018-09-12</time>
+            
+
+            
+              
+
+              
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>写代码过程会遇到需要使用cast的场景，常见的有<code>static_cast</code>，<code>dynamic_cast</code>，<code>const_cast</code>等，使用时有些容易忽略或理解不清的地方导致误用。</p>
+<h4 id="static-cast使用要点"><a href="#static-cast使用要点" class="headerlink" title="static_cast使用要点"></a><code>static_cast</code>使用要点</h4><p><code>static_cast</code>操作符可用于将一个指向基类的指针转换为指向子类的指针。但是这样的转换不总是安全的。<code>static_cast</code>不够安全，就是指在运行阶段不进行类型检查。<br>具体用法：</p>
+<ol>
+<li>用于类层次结构中基类（父类）和派生类（子类）之间指针或引用的转换；进行上行转换（把派生类的指针或引用转换成基类表示）是安全的；进行下行转换（把基类指针或引用转换成派生类表示）时，由于没有动态类型检查，所以是不安全的。</li>
+<li>用于基本数据类型之间的转换，如把int转换成char，把int转换成enum。这种转换的安全性也要开发人员来保证。</li>
+<li>把空指针转换成目标类型的空指针。</li>
+<li>把任何类型的表达式转换成void类型。<br><em>static_cast不能转换掉expression的const、volatile、或者__unaligned属性。</em></li>
+</ol>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;vector&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">B</span> &#123;</span></span><br><span class="line">    <span class="keyword">int</span> m = <span class="number">0</span>;</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">hello</span><span class="params">()</span> <span class="keyword">const</span> </span>&#123;</span><br><span class="line">        <span class="built_in">std</span>::<span class="built_in">cout</span> &lt;&lt; <span class="string">"Hello world, this is B!\n"</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">D</span> :</span> B &#123;</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">hello</span><span class="params">()</span> <span class="keyword">const</span> </span>&#123;</span><br><span class="line">        <span class="built_in">std</span>::<span class="built_in">cout</span> &lt;&lt; <span class="string">"Hello world, this is D!\n"</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">enum</span> <span class="class"><span class="keyword">class</span> <span class="title">E</span> &#123;</span> ONE = <span class="number">1</span>, TWO, THREE &#125;;</span><br><span class="line"><span class="keyword">enum</span> EU &#123; ONE = <span class="number">1</span>, TWO, THREE &#125;;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="comment">// 1: initializing conversion</span></span><br><span class="line">    <span class="keyword">int</span> n = <span class="keyword">static_cast</span>&lt;<span class="keyword">int</span>&gt;(<span class="number">3.14</span>);</span><br><span class="line">    <span class="built_in">std</span>::<span class="built_in">cout</span> &lt;&lt; <span class="string">"n = "</span> &lt;&lt; n &lt;&lt; <span class="string">'\n'</span>;</span><br><span class="line">    <span class="built_in">std</span>::<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; v = <span class="keyword">static_cast</span>&lt;<span class="built_in">std</span>::<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&gt;(<span class="number">10</span>);</span><br><span class="line">    <span class="built_in">std</span>::<span class="built_in">cout</span> &lt;&lt; <span class="string">"v.size() = "</span> &lt;&lt; v.size() &lt;&lt; <span class="string">'\n'</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 2: static downcast</span></span><br><span class="line">    D d;</span><br><span class="line">    B&amp; br = d; <span class="comment">// upcast via implicit conversion</span></span><br><span class="line">    br.hello();</span><br><span class="line">    D&amp; another_d = <span class="keyword">static_cast</span>&lt;D&amp;&gt;(br); <span class="comment">// downcast</span></span><br><span class="line">    another_d.hello();</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 3: lvalue to xvalue</span></span><br><span class="line">    <span class="built_in">std</span>::<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; v2 = <span class="keyword">static_cast</span>&lt;<span class="built_in">std</span>::<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&amp;&amp;&gt;(v);</span><br><span class="line">    <span class="built_in">std</span>::<span class="built_in">cout</span> &lt;&lt; <span class="string">"after move, v.size() = "</span> &lt;&lt; v.size() &lt;&lt; <span class="string">'\n'</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 4: discarded-value expression</span></span><br><span class="line">    <span class="keyword">static_cast</span>&lt;<span class="keyword">void</span>&gt;(v2.size());</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 5. inverse of implicit conversion</span></span><br><span class="line">    <span class="keyword">void</span>* nv = &amp;n;</span><br><span class="line">    <span class="keyword">int</span>* ni = <span class="keyword">static_cast</span>&lt;<span class="keyword">int</span>*&gt;(nv);</span><br><span class="line">    <span class="built_in">std</span>::<span class="built_in">cout</span> &lt;&lt; <span class="string">"*ni = "</span> &lt;&lt; *ni &lt;&lt; <span class="string">'\n'</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 6. array-to-pointer followed by upcast</span></span><br><span class="line">    D a[<span class="number">10</span>];</span><br><span class="line">    B* dp = <span class="keyword">static_cast</span>&lt;B*&gt;(a);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 7. scoped enum to int or float</span></span><br><span class="line">    E e = E::ONE;</span><br><span class="line">    <span class="keyword">int</span> one = <span class="keyword">static_cast</span>&lt;<span class="keyword">int</span>&gt;(e);</span><br><span class="line">    <span class="built_in">std</span>::<span class="built_in">cout</span> &lt;&lt; one &lt;&lt; <span class="string">'\n'</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 8. int to enum, enum to another enum</span></span><br><span class="line">    E e2 = <span class="keyword">static_cast</span>&lt;E&gt;(one);</span><br><span class="line">    EU eu = <span class="keyword">static_cast</span>&lt;EU&gt;(e2);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 9. pointer to member upcast</span></span><br><span class="line">    <span class="keyword">int</span> D::*pm = &amp;D::m;</span><br><span class="line">    <span class="built_in">std</span>::<span class="built_in">cout</span> &lt;&lt; br.*<span class="keyword">static_cast</span>&lt;<span class="keyword">int</span> B::*&gt;(pm) &lt;&lt; <span class="string">'\n'</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 10. void* to any type</span></span><br><span class="line">    <span class="keyword">void</span>* voidp = &amp;e;</span><br><span class="line">    <span class="built_in">std</span>::<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;* p = <span class="keyword">static_cast</span>&lt;<span class="built_in">std</span>::<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;*&gt;(voidp);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="dynamic-cast使用要点"><a href="#dynamic-cast使用要点" class="headerlink" title="dynamic_cast使用要点"></a><code>dynamic_cast</code>使用要点</h4><p><code>dynamic_cast</code>的转换也需要目标类型和源对象有一定的关系：继承关系。 更准确的说，<code>dynamic_cast</code>是用来检查两者是否有继承关系。因此该运算符实际上只接受基于类对象的指针和引用的类转换。</p>
+<h5 id="对于指针的场景"><a href="#对于指针的场景" class="headerlink" title="对于指针的场景"></a>对于指针的场景</h5><p>用<code>dynamic_cast</code>转指针时，如果不符合继承关系的向下转换时，会返回<code>nullptr</code>，非常便于判断。<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">V</span> &#123;</span></span><br><span class="line">    <span class="function"><span class="keyword">virtual</span> <span class="keyword">void</span> <span class="title">f</span><span class="params">()</span> </span>&#123;&#125;;  <span class="comment">// must be polymorphic to use runtime-checked dynamic_cast</span></span><br><span class="line">&#125;;</span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">A</span> :</span> <span class="keyword">virtual</span> V &#123;&#125;;</span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">B</span> :</span> <span class="keyword">virtual</span> V &#123;</span><br><span class="line">  B(V* v, A* a) &#123;</span><br><span class="line">    <span class="comment">// casts during construction (see the call in the constructor of D below)</span></span><br><span class="line">    <span class="keyword">dynamic_cast</span>&lt;B*&gt;(v); <span class="comment">// well-defined: v of type V*, V base of B, results in B*</span></span><br><span class="line">    <span class="keyword">dynamic_cast</span>&lt;B*&gt;(a); <span class="comment">// undefined behavior: a has type A*, A not a base of B</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">D</span> :</span> A, B &#123;</span><br><span class="line">    D() : B((A*)<span class="keyword">this</span>, <span class="keyword">this</span>) &#123; &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">Base</span> &#123;</span></span><br><span class="line">    <span class="keyword">virtual</span> ~Base() &#123;&#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">Derived</span>:</span> Base &#123;</span><br><span class="line">    <span class="function"><span class="keyword">virtual</span> <span class="keyword">void</span> <span class="title">name</span><span class="params">()</span> </span>&#123;&#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    D d; <span class="comment">// the most derived object</span></span><br><span class="line">    A&amp; a = d; <span class="comment">// upcast, dynamic_cast may be used, but unnecessary</span></span><br><span class="line">    D&amp; new_d = <span class="keyword">dynamic_cast</span>&lt;D&amp;&gt;(a); <span class="comment">// downcast</span></span><br><span class="line">    B&amp; new_b = <span class="keyword">dynamic_cast</span>&lt;B&amp;&gt;(a); <span class="comment">// sidecast</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    Base* b1 = <span class="keyword">new</span> Base;</span><br><span class="line">    <span class="keyword">if</span>(Derived* d = <span class="keyword">dynamic_cast</span>&lt;Derived*&gt;(b1))</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="built_in">std</span>::<span class="built_in">cout</span> &lt;&lt; <span class="string">"downcast from b1 to d successful\n"</span>;</span><br><span class="line">        d-&gt;name(); <span class="comment">// safe to call</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    Base* b2 = <span class="keyword">new</span> Derived;</span><br><span class="line">    <span class="keyword">if</span>(Derived* d = <span class="keyword">dynamic_cast</span>&lt;Derived*&gt;(b2))</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="built_in">std</span>::<span class="built_in">cout</span> &lt;&lt; <span class="string">"downcast from b2 to d successful\n"</span>;</span><br><span class="line">        d-&gt;name(); <span class="comment">// safe to call</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">delete</span> b1;</span><br><span class="line">    <span class="keyword">delete</span> b2;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h5 id="对于引用场景"><a href="#对于引用场景" class="headerlink" title="对于引用场景"></a>对于引用场景</h5><p>使用<code>dynamic_cast</code>转引用时，如果不符合继承关系的向下转换，会抛出<code>std::bad_cast</code>异常。<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;typeinfo&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">Foo</span> &#123;</span> <span class="keyword">virtual</span> ~Foo() &#123;&#125; &#125;;</span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">Bar</span> &#123;</span> <span class="keyword">virtual</span> ~Bar() &#123;&#125; &#125;;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    Bar b;</span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">        Foo&amp; f = <span class="keyword">dynamic_cast</span>&lt;Foo&amp;&gt;(b);</span><br><span class="line">    &#125; <span class="keyword">catch</span>(<span class="keyword">const</span> <span class="built_in">std</span>::bad_cast&amp; e)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="built_in">std</span>::<span class="built_in">cout</span> &lt;&lt; e.what() &lt;&lt; <span class="string">'\n'</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h4 id="const-cast使用要点"><a href="#const-cast使用要点" class="headerlink" title="const_cast使用要点"></a><code>const_cast</code>使用要点</h4><p>对于const类型变量，只能使用<code>const_cast</code>进行转换。<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">type</span> &#123;</span></span><br><span class="line">    <span class="keyword">int</span> i;</span><br><span class="line"></span><br><span class="line">    type(): i(<span class="number">3</span>) &#123;&#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">f</span><span class="params">(<span class="keyword">int</span> v)</span> <span class="keyword">const</span> </span>&#123;</span><br><span class="line">        <span class="comment">// this-&gt;i = v;                 // compile error: this is a pointer to const</span></span><br><span class="line">        <span class="keyword">const_cast</span>&lt;type*&gt;(<span class="keyword">this</span>)-&gt;i = v; <span class="comment">// OK as long as the type object isn't const</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> i = <span class="number">3</span>;                 <span class="comment">// i is not declared const</span></span><br><span class="line">    <span class="keyword">const</span> <span class="keyword">int</span>&amp; rci = i;</span><br><span class="line">    <span class="keyword">const_cast</span>&lt;<span class="keyword">int</span>&amp;&gt;(rci) = <span class="number">4</span>; <span class="comment">// OK: modifies i</span></span><br><span class="line">    <span class="built_in">std</span>::<span class="built_in">cout</span> &lt;&lt; <span class="string">"i = "</span> &lt;&lt; i &lt;&lt; <span class="string">'\n'</span>;</span><br><span class="line"></span><br><span class="line">    type t; <span class="comment">// if this was const type t, then t.f(4) would be undefined behavior</span></span><br><span class="line">    t.f(<span class="number">4</span>);</span><br><span class="line">    <span class="built_in">std</span>::<span class="built_in">cout</span> &lt;&lt; <span class="string">"type::i = "</span> &lt;&lt; t.i &lt;&lt; <span class="string">'\n'</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">const</span> <span class="keyword">int</span> j = <span class="number">3</span>; <span class="comment">// j is declared const</span></span><br><span class="line">    <span class="keyword">int</span>* pj = <span class="keyword">const_cast</span>&lt;<span class="keyword">int</span>*&gt;(&amp;j);</span><br><span class="line">    <span class="comment">// *pj = 4;      // undefined behavior</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">void</span> (type::* pmf)(<span class="keyword">int</span>) <span class="keyword">const</span> = &amp;type::f; <span class="comment">// pointer to member function</span></span><br><span class="line">    <span class="comment">// const_cast&lt;void(type::*)(int)&gt;(pmf);   // compile error: const_cast does</span></span><br><span class="line">                                              <span class="comment">// not work on function pointers</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/cpp/" rel="tag"># cpp</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/09/01/How-to-track-untracked-content/" rel="next" title="git其他lib untrackable怎么办">
+                <i class="fa fa-chevron-left"></i> git其他lib untrackable怎么办
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/mine.png"
+                alt="Datong Li" />
+            
+              <p class="site-author-name" itemprop="name">Datong Li</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">37</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  <a href="/tags/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">8</span>
+                    <span class="site-state-item-name">标签</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  <a href="https://github.com/DatongLi" target="_blank" title="GitHub" rel="external nofollow"><i class="fa fa-fw fa-github"></i>GitHub</a>
+                  
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="mailto:im.datong.li@gmail.com" target="_blank" title="E-Mail" rel="external nofollow"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="https://www.linkedin.com/in/imlidatong" target="_blank" title="Linkedin" rel="external nofollow"><i class="fa fa-fw fa-Linkedin"></i>Linkedin</a>
+                  
+                </span>
+              
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#static-cast使用要点"><span class="nav-text">static_cast使用要点</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#dynamic-cast使用要点"><span class="nav-text">dynamic_cast使用要点</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#对于指针的场景"><span class="nav-text">对于指针的场景</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#对于引用场景"><span class="nav-text">对于引用场景</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#const-cast使用要点"><span class="nav-text">const_cast使用要点</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Datong Li</span>
+
+  
+
+  
+</div>
+
+
+  
+
+
+
+
+
+
+
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=6.3.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=6.3.0"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=6.3.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=6.3.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=6.3.0"></script>
+
+
+
+  
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
