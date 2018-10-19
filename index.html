@@ -285,6 +285,395 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/10/19/the-use-of-heap/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Datong Li">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/mine.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="写在人生的边上">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/10/19/the-use-of-heap/" itemprop="url">
+                  heap的使用
+                </a>
+              
+            
+          </h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2018-10-19 21:03:30 / 修改时间：21:04:03" itemprop="dateCreated datePublished" datetime="2018-10-19T21:03:30+08:00">2018-10-19</time>
+            
+
+            
+              
+
+              
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>最大堆、最小堆有非常好的时间复杂度和空间效率。STL提供了这个函数，可以非常方便地构建最大堆（heap，默认就是max_heap，即根节点最大）。学习下heap的使用方法。</p>
+<h4 id="常规使用"><a href="#常规使用" class="headerlink" title="常规使用"></a>常规使用</h4><figure class="highlight elixir"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="symbol">std:</span><span class="symbol">:make_heap</span>(v.<span class="keyword">begin</span>(), v.<span class="keyword">end</span>());   <span class="regexp">//</span> build a heap <span class="keyword">for</span> vector</span><br><span class="line"><span class="symbol">std:</span><span class="symbol">:pop_heap</span>(v.<span class="keyword">begin</span>(), v.<span class="keyword">end</span>());    <span class="regexp">//</span> moves the largest to the <span class="keyword">end</span>，即从heap中删掉最大的节点，挪到vector的最后</span><br><span class="line"><span class="symbol">std:</span><span class="symbol">:push_heap</span>(v.<span class="keyword">begin</span>(), v.<span class="keyword">end</span>());   <span class="regexp">//</span> 在vector最后存在一个未排序的节点前提下，调用push_heap将对最后元素往前面已经组成heap的结构中添加</span><br></pre></td></tr></table></figure>
+<h4 id="特殊使用"><a href="#特殊使用" class="headerlink" title="特殊使用"></a>特殊使用</h4><p>因为默认的只是max heap，并且可以支持的comparator函数比较少，往往在实际使用中需要自定义。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">Greater</span> &#123;</span></span><br><span class="line">  <span class="function"><span class="keyword">bool</span> <span class="title">operator</span><span class="params">()</span><span class="params">(<span class="keyword">int</span> a, <span class="keyword">int</span> b)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> a &gt; b;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> Greater greater_;</span><br><span class="line">make_heap(v.begin(), v.end(), greater_);</span><br></pre></td></tr></table></figure>
+<p>注意重载<code>operator()</code>，使其类可以作为类似函数的使用。</p>
+
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/09/17/Study-notes-for-the-MegaStore-paper/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Datong Li">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/mine.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="写在人生的边上">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/09/17/Study-notes-for-the-MegaStore-paper/" itemprop="url">
+                  MegaStore论文学习笔记
+                </a>
+              
+            
+          </h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2018-09-17 14:58:01" itemprop="dateCreated datePublished" datetime="2018-09-17T14:58:01+08:00">2018-09-17</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2018-10-19 21:04:42" itemprop="dateModified" datetime="2018-10-19T21:04:42+08:00">2018-10-19</time>
+              
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h3 id="Megastore概述"><a href="#Megastore概述" class="headerlink" title="Megastore概述"></a>Megastore概述</h3><p>Megastore概述是谷歌开发的满足在线交互服务需求的数据存储系统。其期望满足的需求如下：</p>
+<ol>
+<li>highly scalable.</li>
+<li>low latency.</li>
+<li>highly available.</li>
+<li>user consistent view of the data.</li>
+</ol>
+<p>在传统的Relational databases提供了丰富而方便的数据库接口，但是在扩展性方面欠缺； NoSQL databases有很好的扩展性，但是接口很受限，并且一致性模型比较松散。Megastore是二者的折衷，结合NoSQL的可扩展和RDBMS的便利，使用同步副本(synchronous replication)来获取高可用和数据一致性视角，简言之，Megastore使用ACID语义的远距离多副本同步，同时做到足够低的时延，支持在线交互业务。</p>
+<p>做法大概是：</p>
+<ol>
+<li>数据分区，每个分区独立做副本管理；</li>
+<li>对一个分区内部支持足够的ACID语义，但是分区之间只保证有限的一致性；</li>
+<li>提供传统数据库的二级索引，但是只对用户可以忍受的时延限制做扩展，也只支持部分分区scheme。</li>
+</ol>
+<p>作者假设用户场景数据是由用户可以做好数据分区的。</p>
+<p>论文最核心的有三点：</p>
+<ol>
+<li>数据模型(data model)和存储系统(storage system)的设计，支持高可用和可扩展交互式应用的快速开发；</li>
+<li>Paxos副本和一致性算法实现针对低时延操作的优化实现，充分利用跨地域的分布式数据中心提供高可用；</li>
+<li>Megasotre大规模部署的经验。</li>
+</ol>
+<h3 id="高可用和可扩展的设计"><a href="#高可用和可扩展的设计" class="headerlink" title="高可用和可扩展的设计"></a>高可用和可扩展的设计</h3><p>设计思路：</p>
+<ol>
+<li>高可用，实现了针对长距离链接的同步、容错的log replicator；</li>
+<li>可扩展，把数据划分为若个小数据库，每个有独立的replicated log，存储在pre-replica NoSQL datastore。</li>
+</ol>
+<h4 id="Replication"><a href="#Replication" class="headerlink" title="Replication"></a>Replication</h4><p>实现多副本很重要。介绍实现多副本的策略和引进Paxos。</p>
+<h5 id="策略"><a href="#策略" class="headerlink" title="策略"></a>策略</h5><p>通常有3种多副本策略：</p>
+<ol>
+<li>异步Master/Slave ： Master分发write-ahead log entries给至少一个slave，在分发的同时Master给外界返回ACK表示写入成功，支持ACID的事务操作，但是有丢数据的风险，做一致性需要有master的身份；</li>
+<li>同步Master/Slave ：Master需要等待Slaves返回ACK才确认写成功，不会丢数据，但是Master和Slave的失败需要外界系统定时探测；</li>
+<li>乐观副本：任何replica group都是同等身份接收写入，然后再异步相互提交。这种策略可用性和时延都很优秀的，但是没有时序，做不了事务。</li>
+</ol>
+<p>丢数据不可接受；不支持ACID事务的策略也不可接受；重型唯一的Master的方案也不接受，因为容错和恢复的复杂性很高。需要做一个任一Master容错的、易恢复的系统。</p>
+<h5 id="考虑Paxos"><a href="#考虑Paxos" class="headerlink" title="考虑Paxos"></a>考虑Paxos</h5><p>Paxos，一个已经被证明了的、最优的、容错的一致性协议，并且不需要引入独特的master机制。</p>
+<ol>
+<li>通过Paxos算法，各个节点都是对等的，不存在统一的、独特的master做管理，减少了master单点错误状态处理；</li>
+<li>同时因为各个节点都是对等的，所以Write-Ahead-Log机制各个节点都复制一份log，这能够提升容错，但是对于大区域的业务而言，通信latency的需求限制了整体的吞吐；</li>
+<li>为了保证数据可靠，往往都需要达到多数派才能够ack写入ok；在传统数据库中，使用的是单master管理很多节点，同步写入多数派数据来保证写入成功；</li>
+<li>所以，为了使用多份副本写入，需要通过每个Group管理自己一部分数据集来达到提升可用性和吞吐。</li>
+</ol>
+<h4 id="分区和区域化"><a href="#分区和区域化" class="headerlink" title="分区和区域化"></a>分区和区域化</h4><p>为了扩展副本schema和最大化底层数据存储的性能，设计了由用户设定的数据分区和区域化控制策略。</p>
+<h5 id="Entity-Groups"><a href="#Entity-Groups" class="headerlink" title="Entity Groups"></a>Entity Groups</h5><p>为了扩展吞吐和区域优势，我们把数据切分为<code>entity groups</code>集合，每个<code>entity group</code>是一个在广域范围内独立和同步的副本复制单位。底层数据存储在每个数据中心的可扩展的NoSQL数据库中。每个<code>entity group</code>提供单阶段的ACID事务操作（内部支持Paxos副本复制）。<br><img src="/2018/09/17/Study-notes-for-the-MegaStore-paper/Scalable Replication.png" alt="Scalable Replication"><br>跨<code>entity group</code>支持性能差得两段提交事务，但是Megastore提供了高效的异步消息机制。<br><img src="/2018/09/17/Study-notes-for-the-MegaStore-paper/Operations Across Entity Groups.png" alt="Operations Across Entity Groups"><br>注意，此处说到的跨<code>entity group</code>是指逻辑距离，不是物理距离。可以做到跨数据中心都是<code>entity group</code>内部的log复制，跨<code>entity group</code>是在同一个数据中心内部实现的。</p>
+<h5 id="选entity-group边界"><a href="#选entity-group边界" class="headerlink" title="选entity group边界"></a>选<code>entity group</code>边界</h5><p><code>entity group</code>是需要快速操作的数据组，选好<code>entity group</code>边界很重要，当放太多无关数据到一个<code>entity group</code>会减少有效数据的吞吐，但是有关数据放在不同<code>entity group</code>又会增大跨<code>entity group</code>的开销。论文举了几个例子，分别是邮件、博客、地图等。</p>
+<h5 id="物理布局"><a href="#物理布局" class="headerlink" title="物理布局"></a>物理布局</h5><p><code>Megastore</code>使用<code>Bigtable</code>作为单数据中心的可扩展、高容错的存储，允许支持跨多行的任意读写吞吐。为了最小化latency和最大化吞吐，允许应用自己控制数据分布——通过选择Bigtable实例和指定实例区域。为了低lantecy，应用保证用户和副本靠近，分配<code>entity group</code>到最多被获取的区域。每个<code>entity group</code>持有连续的key range，利用cache的数据，降低latency和提升吞吐。schema语言还允许控制层级数据的位置。</p>
+<h4 id="Megastore实现"><a href="#Megastore实现" class="headerlink" title="Megastore实现"></a><code>Megastore实现</code></h4><h5 id="API设计哲学"><a href="#API设计哲学" class="headerlink" title="API设计哲学"></a>API设计哲学</h5><p>ACID追求正确性，而往往同等重要的还有性能。<code>Megastore</code>追求易懂的API，通过运行时消耗来匹配用户的指令。</p>
+<p>常规的关系型schame依赖于join来给用户提供服务，因为以下几个原因，这个模型并不适合<code>Megastore</code>：</p>
+<ol>
+<li>对于高交互的工作负载来说，数据预取性能比query 语言明确表达带来的收益更大；</li>
+<li>针对我们目标用户而言，读比写场景多很多；</li>
+<li>存储和查询层级数据是作为kv存储的（底层使用bigtable）；</li>
+</ol>
+<p>因为这些原因，我们设计一个数据模型和schema语言去提供细粒度的物理区域的指定控制。</p>
+<h5 id="数据模型"><a href="#数据模型" class="headerlink" title="数据模型"></a>数据模型</h5><p><code>Megastore</code>支持介于RDBMS和NoSQL的数据模型。</p>
+<ol>
+<li>针对RDBMS，数据模型被定义在schema并且是强类型。每个schema有一组表，每个表包含若干<code>entities</code>，拥有着一组属性，属性有属性名和类型。类型可以是<code>strings</code>、<code>numbers</code>、<code>Google&#39;s Protocol Buffers</code>，可以是<code>required</code>、<code>optional</code>、<code>repeated</code>。一个表的所有<code>entities</code>可以指定entity的<code>primary key</code>，在表格内是唯一的。<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">CREATE SCHEMA PhotoApp;</span><br><span class="line">CREATE TABLE<span class="built_in"> User </span>&#123;</span><br><span class="line">    required int64 user_id; </span><br><span class="line">    required string name;</span><br><span class="line">&#125; PRIMARY KEY(user_id), ENTITY<span class="built_in"> GROUP </span>ROOT;</span><br><span class="line"></span><br><span class="line">CREATE TABLE Photo &#123;</span><br><span class="line">    required int64 user_id; </span><br><span class="line">    required int32 photo_id; </span><br><span class="line">    required int64 time;</span><br><span class="line">    required string full_url; </span><br><span class="line">    optional string thumbnail_url; </span><br><span class="line">    repeated string tag;</span><br><span class="line">&#125; PRIMARY KEY(user_id, photo_id),</span><br><span class="line"></span><br><span class="line"><span class="keyword">IN</span> TABLE User,</span><br><span class="line">ENTITY<span class="built_in"> GROUP </span>KEY(user_id) REFERENCES User;</span><br><span class="line">CREATE LOCAL INDEX PhotosByTime</span><br><span class="line">  ON Photo(user_id, time);</span><br><span class="line">CREATE GLOBAL INDEX PhotosByTag</span><br><span class="line">  ON Photo(tag) STORING (thumbnail_url);</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<p><code>Megastore</code>表格包含root tables和child tables。每个child table必须定义有<code>foreign key</code>引用到root table，如上例子的<code>ENTITY GROUP KEY(user_id) REFERENCES User</code>的<code>user_id</code>。</p>
+<h5 id="带key的预join"><a href="#带key的预join" class="headerlink" title="带key的预join"></a>带key的预join</h5><p>每个entity映射到bigtable的同一行，primary key作为这一行的row_key，剩余的属性作为其余的列。</p>
+<h5 id="索引"><a href="#索引" class="headerlink" title="索引"></a>索引</h5><p>二级索引可以定义在任何entity属性的list中。我们区分两种类型的索引：local和global。一个local索引被作为每个<code>entity group</code>的独立索引，global索引是多个<code>entity groups</code>的索引。<code>Megastore</code>还提供有额外的索引特性：</p>
+<h6 id="STORING条目"><a href="#STORING条目" class="headerlink" title="STORING条目"></a>STORING条目</h6><p>通过索引获取数据通常有两个步骤：</p>
+<ol>
+<li>读索引去匹配primary key；</li>
+<li>使用primary key去fetch entities。<br>我们通过增加STORING字段，应用端从primary table中存储额外的属性，可以减少读primary key的时间。</li>
+</ol>
+<h6 id="Repeated-Indexes"><a href="#Repeated-Indexes" class="headerlink" title="Repeated Indexes"></a>Repeated Indexes</h6><p>对于repeated类型属性提供索引。</p>
+<h6 id="Inline-Indexes"><a href="#Inline-Indexes" class="headerlink" title="Inline Indexes"></a>Inline Indexes</h6><p>内置索引提供了对非常规数据转化为关联entity的方法：index entities在target entry作为virtual repeated column。这个特性对从child entities抽取信息分片和数据存储parent中快速获取的场景很有帮助。</p>
+<h5 id="Megastore映射到Bigtable"><a href="#Megastore映射到Bigtable" class="headerlink" title="Megastore映射到Bigtable"></a><code>Megastore</code>映射到<code>Bigtable</code></h5><p>把<code>tablename.property</code>作为<code>Bigtable</code>的列名，可以做到让<code>Megastore</code>的多个表映射到<code>Bigtable</code>的同一行。<br><img src="/2018/09/17/Study-notes-for-the-MegaStore-paper/Sample Data Layout in Bigtable.png" alt="Sample Data Layout in Bigtable"><br>同样，把root entity映射到<code>Bigtable</code>的一行，利用单行事务可以实现<code>Megastore</code>层面的事务。</p>
+<h4 id="事务和并发"><a href="#事务和并发" class="headerlink" title="事务和并发"></a>事务和并发</h4><p>每个<code>Megastore</code>的<code>entity group</code>都如同mini database一样提供序列化ACID的原语。一个事务先写入<code>entity group</code>的<code>write-head log</code>，然后再做数据变更。</p>
+<p><code>Bigtable</code>提供存储多个同样row/column带有不同时间戳的value，利用这个特性实现多版本并发控制（multiversion concurrency control）：当带事务的写提交应用时（意思是写完log之后），事务操作的写是带有时间戳写入的。此时，读这次事务之前的版本可以避免看到部分更新的情况。读和写不相互阻塞，并且在事务期间读独立于写。</p>
+<p><code>Megastore</code>提供current、snapshot、inconsistent读。current和snapshot读是针对单一<code>entity group</code>范围的。而写操作总是起始于current读的下一个log position，commit操作把写操作提交到log entry，并且分配比之前大的时间戳，最后通过Paxos把写操作添加到log日志文件中。</p>
+<p>完整的事务生命周期是：</p>
+<ol>
+<li>读：拥有时间戳和最后commit事务的log position；</li>
+<li>应用逻辑：从<code>Bigtable</code>读取数据，把写数据聚合写入log entry；</li>
+<li>提交：使用Paxos添加数据到log，一致性保证；</li>
+<li>应用：写数据到<code>Bigtable</code>上的entities和indexs；</li>
+<li>清理：删除不再需要的数据。</li>
+</ol>
+<h5 id="队列"><a href="#队列" class="headerlink" title="队列"></a>队列</h5><p>对于跨<code>entity groups</code>情况，<code>Megastore</code>提供事务消息队列支持。</p>
+<h5 id="两阶段提交"><a href="#两阶段提交" class="headerlink" title="两阶段提交"></a>两阶段提交</h5><p><code>Megastore</code>为跨<code>entity groups</code>的原子更新提供两阶段提交机制。</p>
+<h4 id="其他特性"><a href="#其他特性" class="headerlink" title="其他特性"></a>其他特性</h4><p>全文本索引，同步复制，加密。。。</p>
+<h3 id="副本"><a href="#副本" class="headerlink" title="副本"></a>副本</h3><p>本节叙述同步副本schema的核心——低latency的Paxos实现。</p>
+<h4 id="整体介绍"><a href="#整体介绍" class="headerlink" title="整体介绍"></a>整体介绍</h4><p><code>Megastore</code>副本系统提供一个单一的、数据一致性视角，数据存储在底层的副本中。读和写可以在任何副本发起，事务原语不用管副本client处于哪个状态。每个<code>entity group</code>的副本同步复制group的事务log。通常写要求一轮数据中心的交互，正常读一般本地可读完成，current读提供两个保证：</p>
+<ol>
+<li>读总能看到最后确认的写；</li>
+<li>在写被看到后，未来的所有读都能看到这个写（一个写可能在它完成前被看到）。</li>
+</ol>
+<h4 id="Paxos简介"><a href="#Paxos简介" class="headerlink" title="Paxos简介"></a>Paxos简介</h4><p>Paxos算法是就一个值在一个group的多个副本机上达到一致性的方法。它会有延时或乱序，也会因副本机stop而失败。算法要正常运行，大多数副本机必须是可用的并且可到达的，对于2F+1个副本机，允许F个失败。一旦这个value被大多数选中，所有的未来尝试去读或者写都能够达到同样的输出。数据库通常使用Paxos算法复制一个事务log，新value写入最新的选中位置。</p>
+<p>原始的Paxos论文因为要求多轮通信而导致高latency，为了达到一个值，写请求至少副本机之间至少两轮交互：一轮prepares和一轮accepts。读要求至少一轮prepares去确定最后选中的value。工程实现时可做些简化。</p>
+<h4 id="基于Master的方法"><a href="#基于Master的方法" class="headerlink" title="基于Master的方法"></a>基于Master的方法</h4><p>为了最小化latency，很多系统使用一个总控master，经过所有的读写请求。因为master会经过所有的写请求，所以master的状态一定是最新的，并且可以提供不需要额外网络通信的一致性读。写也得以简化为一个prepares的回调确认accpect。master可以batch写请求提升吞吐。</p>
+<p>对于读写灵活性受到master的限制。事务处理必须在相邻master副本机之间完成，否则会出现串行读的累计latency；任何潜在的master副本机必须为全负载拥有充足的资源；slave副本机在正式成为master前都是浪费的；master错误恢复要求复杂的状态机转换，需要一定时间做服务恢复，做不到用户无感。</p>
+<h4 id="Megastore的方法"><a href="#Megastore的方法" class="headerlink" title="Megastore的方法"></a><code>Megastore</code>的方法</h4><p>本节讨论Paxos的工程优化。</p>
+<h5 id="fast-reads"><a href="#fast-reads" class="headerlink" title="fast reads"></a>fast reads</h5>
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/09/17/Allocator-usage-learning/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1481,299 +1870,11 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/07/23/Vim-partial-substitution/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Datong Li">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/mine.png">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="写在人生的边上">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h2 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/07/23/Vim-partial-substitution/" itemprop="url">
-                  Vim部分替换
-                </a>
-              
-            
-          </h2>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-
-            
-            
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2018-07-23 22:40:33 / 修改时间：22:40:58" itemprop="dateCreated datePublished" datetime="2018-07-23T22:40:33+08:00">2018-07-23</time>
-            
-
-            
-              
-
-              
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>以下命令将文中所有的字符串idiots替换成managers：<br><figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">:<span class="number">1</span>,<span class="variable">$s</span><span class="regexp">/idiots/m</span>anages<span class="regexp">/g</span></span><br></pre></td></tr></table></figure></p>
-<p>通常我们会在命令中使用%指代整个文件做为替换范围：<br><figure class="highlight elixir"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="symbol">:%s/search/replace/g</span></span><br></pre></td></tr></table></figure></p>
-<p>以下命令指定只在第5至第15行间进行替换:<br><figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">:<span class="number">5</span>,<span class="number">15</span>s<span class="regexp">/dog/</span>cat<span class="regexp">/g</span></span><br></pre></td></tr></table></figure></p>
-<p>以下命令指定只在当前行至文件结尾间进行替换:<br><figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">:.,<span class="variable">$s</span><span class="regexp">/dog/</span>cat<span class="regexp">/g</span></span><br></pre></td></tr></table></figure></p>
-<p>以下命令指定只在后续9行内进行替换:<br><figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">:.,.+<span class="number">8</span>s<span class="regexp">/dog/</span>cat<span class="regexp">/g</span></span><br></pre></td></tr></table></figure></p>
-<p>你还可以将特定字符做为替换范围。比如，将SQL语句从FROM至分号部分中的所有等号（=）替换为不等号（&lt;&gt;）：<br><figure class="highlight elixir"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="symbol">:/FROM/</span>,<span class="regexp">/;/s</span><span class="regexp">/=/</span>&lt;&gt;<span class="regexp">/g</span></span><br></pre></td></tr></table></figure></p>
-<p>在可视化模式下，首先选择替换范围, 然后输入:进入命令模式，就可以利用s命令在选中的范围内进行文本替换。</p>
-
-          
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/07/23/RAII-usage-of-lambda-functions/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Datong Li">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/mine.png">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="写在人生的边上">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h2 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/07/23/RAII-usage-of-lambda-functions/" itemprop="url">
-                  lambda函数的RAII用法
-                </a>
-              
-            
-          </h2>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-
-            
-            
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2018-07-23 22:31:29 / 修改时间：22:32:18" itemprop="dateCreated datePublished" datetime="2018-07-23T22:31:29+08:00">2018-07-23</time>
-            
-
-            
-              
-
-              
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>有很多时候操作是成对出现的，或者是有些操作是希望在函数return的时候调用的，以往的用法需要每个return都增加上对应的重复代码，当然也可以用goto（其实更坑）。</p>
-<p>可以使用lambda+func_scope_guard实现RAII，用法很简单，只需要增加一个class就行。</p>
-<figure class="highlight arduino"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;functional&gt;</span></span></span><br><span class="line"><span class="keyword">namespace</span> common &#123;</span><br><span class="line"></span><br><span class="line">class FuncScopeGuard &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="keyword">explicit</span> FuncScopeGuard(std::function&lt;<span class="keyword">void</span>()&gt; on_exit_scope)</span><br><span class="line">        : on_exit_scope_(on_exit_scope), dismissed_(false) &#123;&#125;</span><br><span class="line"></span><br><span class="line">    FuncScopeGuard(FuncScopeGuard <span class="keyword">const</span>&amp;) = <span class="keyword">delete</span>;</span><br><span class="line">    FuncScopeGuard&amp; <span class="keyword">operator</span>=(<span class="keyword">const</span> FuncScopeGuard&amp;) = <span class="keyword">delete</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">virtual</span> ~FuncScopeGuard() &#123;</span><br><span class="line">        <span class="built_in">if</span>(!dismissed_) &#123;</span><br><span class="line">            on_exit_scope_();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">void</span> Dismiss() &#123;</span><br><span class="line">        dismissed_ = true;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">    std::function&lt;<span class="keyword">void</span>()&gt; on_exit_scope_;</span><br><span class="line">    <span class="keyword">bool</span> dismissed_;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">using</span> common::FuncScopeGuard;</span><br></pre></td></tr></table></figure>
-
-          
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
   <nav class="pagination">
-    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><span class="space">&hellip;</span><a class="page-number" href="/page/4/">4</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
+    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><span class="space">&hellip;</span><a class="page-number" href="/page/5/">5</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
   </nav>
 
 
@@ -1820,7 +1921,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">39</span>
+                    <span class="site-state-item-count">41</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
