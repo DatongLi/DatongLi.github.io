@@ -285,6 +285,149 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/04/29/Binary-search-for-rotating-array-problems/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Datong Li">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/mine.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="写在人生的边上">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/04/29/Binary-search-for-rotating-array-problems/" itemprop="url">
+                  二分查找做旋转数组题
+                </a>
+              
+            
+          </h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2018-04-29 22:22:27 / 修改时间：22:27:04" itemprop="dateCreated datePublished" datetime="2018-04-29T22:22:27+08:00">2018-04-29</time>
+            
+
+            
+              
+
+              
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>最近做了一道简单的题目，回忆了一下二分查找怎么写。</p>
+<figure class="highlight lsl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">题目描述</span><br><span class="line">把一个数组最开始的若干个元素搬到数组的末尾，我们称之为数组的旋转。 输入一个非递减排序的数组的一个旋转，输出旋转数组的最小元素。 例如数组&#123;<span class="number">3</span>,<span class="number">4</span>,<span class="number">5</span>,<span class="number">1</span>,<span class="number">2</span>&#125;为&#123;<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="number">5</span>&#125;的一个旋转，该数组的最小值为<span class="number">1</span>。 NOTE：给出的所有元素都大于<span class="number">0</span>，若数组大小为<span class="number">0</span>，请返回<span class="number">0</span>。</span><br></pre></td></tr></table></figure>
+<p>一开始用最简单的从头到尾遍历一遍，O(n)时间复杂度；不太过瘾，再用二分查找做一遍，时间复杂度O(nlogn)。<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">"common.h"</span></span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">int</span> <span class="title">binary</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; rotateArray, <span class="keyword">int</span> left, <span class="keyword">int</span> right)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (left == right) &#123;</span><br><span class="line">            <span class="keyword">return</span> rotateArray[left];</span><br><span class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span> (left + <span class="number">1</span> == right) &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="built_in">std</span>::min(rotateArray[left], rotateArray[right]);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">int</span> middle = (right + left)/<span class="number">2</span>;</span><br><span class="line">        <span class="keyword">int</span> left_min_number = binary(rotateArray, left, middle - <span class="number">1</span>);</span><br><span class="line">        <span class="keyword">int</span> right_min_number = binary(rotateArray, middle + <span class="number">1</span>, right);</span><br><span class="line">        <span class="built_in">cout</span> &lt;&lt; <span class="string">"mid ["</span> &lt;&lt; middle &lt;&lt; <span class="string">"] = "</span>&lt;&lt; rotateArray[middle] &lt;&lt; <span class="string">", left ["</span> &lt;&lt; left &lt;&lt; <span class="string">"]= "</span> &lt;&lt; left_min_number</span><br><span class="line">            &lt;&lt; <span class="string">", right ["</span> &lt;&lt; right &lt;&lt; <span class="string">"] = "</span> &lt;&lt; right_min_number &lt;&lt; <span class="built_in">endl</span>;</span><br><span class="line">        <span class="keyword">return</span> <span class="built_in">std</span>::min(rotateArray[middle], <span class="built_in">std</span>::min(left_min_number, right_min_number));</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">int</span> <span class="title">minNumberInRotateArray</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; rotateArray)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (rotateArray.size() == <span class="number">0</span>) &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span> (rotateArray.size() == <span class="number">1</span>) &#123;</span><br><span class="line">            <span class="keyword">return</span> rotateArray[<span class="number">0</span>];</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> binary(rotateArray, <span class="number">0</span>, rotateArray.size()<span class="number">-1</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; rotateArray&#123;<span class="number">6501</span>,<span class="number">6828</span>,<span class="number">6963</span>,<span class="number">7036</span>,<span class="number">7422</span>,<span class="number">7674</span>,<span class="number">8146</span>,<span class="number">8468</span>,<span class="number">8704</span>,<span class="number">8717</span>,<span class="number">9170</span>,<span class="number">9359</span>,<span class="number">9719</span>,<span class="number">9895</span>,<span class="number">9896</span>,<span class="number">9913</span>,<span class="number">9962</span>,<span class="number">154</span>,<span class="number">293</span>,<span class="number">334</span>,<span class="number">492</span>,<span class="number">1323</span>,<span class="number">1479</span>,<span class="number">1539</span>,<span class="number">1727</span>,<span class="number">1870</span>,<span class="number">1943</span>,<span class="number">2383</span>,<span class="number">2392</span>,<span class="number">2996</span>,<span class="number">3282</span>,<span class="number">3812</span>,<span class="number">3903</span>,<span class="number">4465</span>,<span class="number">4605</span>,<span class="number">4665</span>,<span class="number">4772</span>,<span class="number">4828</span>,<span class="number">5142</span>,<span class="number">5437</span>,<span class="number">5448</span>,<span class="number">5668</span>,<span class="number">5706</span>,<span class="number">5725</span>,<span class="number">6300</span>,<span class="number">6335</span>&#125;;</span><br><span class="line">    Solution sol;</span><br><span class="line">    <span class="built_in">cout</span> &lt;&lt; sol.minNumberInRotateArray(rotateArray) &lt;&lt; <span class="built_in">endl</span>;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>很惊喜，然后发现还有一种时间复杂度是O(logn)的解法：<br><figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">int minNumberInRotateArray(vector&lt;int&gt; rotateArray) &#123;</span><br><span class="line">    <span class="keyword">if</span> (rotateArray.size() == <span class="number">0</span>) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (rotateArray.size() == <span class="number">1</span>) &#123;</span><br><span class="line">        <span class="keyword">return</span> rotateArray[<span class="number">0</span>];</span><br><span class="line">    &#125;</span><br><span class="line">    int <span class="keyword">right</span> = rotateArray.size() - <span class="number">1</span>;</span><br><span class="line">    int <span class="keyword">left</span> = <span class="number">0</span>;</span><br><span class="line">    int middle = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">while</span>(<span class="keyword">right</span> &gt; <span class="keyword">left</span>) &#123;</span><br><span class="line">        middle = (<span class="keyword">left</span> + <span class="keyword">right</span>)/<span class="number">2</span>;</span><br><span class="line">        <span class="keyword">if</span> (rotateArray[middle] &gt; rotateArray[<span class="keyword">right</span>]) &#123;</span><br><span class="line">            <span class="keyword">if</span> (middle + <span class="number">1</span> == <span class="keyword">right</span>) &#123;</span><br><span class="line">                <span class="keyword">return</span> rotateArray[<span class="keyword">right</span>];</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">left</span> = middle;</span><br><span class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span> (rotateArray[<span class="keyword">left</span>] &gt; rotateArray[middle]) &#123;</span><br><span class="line">            <span class="keyword">if</span> (<span class="keyword">left</span> + <span class="number">1</span> == middle) &#123;</span><br><span class="line">                <span class="keyword">return</span> rotateArray[middle];</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">right</span> = middle;</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="keyword">return</span> rotateArray[<span class="number">0</span>];</span><br><span class="line">        &#125;</span><br><span class="line">        cout &lt;&lt; <span class="string">"mid ["</span> &lt;&lt; middle &lt;&lt; <span class="string">"] = "</span>&lt;&lt; rotateArray[middle] &lt;&lt; <span class="string">", left ["</span> &lt;&lt; <span class="keyword">left</span> &lt;&lt; <span class="string">"]= "</span> &lt;&lt; rotateArray[<span class="keyword">left</span>]</span><br><span class="line">        &lt;&lt; <span class="string">", right ["</span> &lt;&lt; <span class="keyword">right</span> &lt;&lt; <span class="string">"] = "</span> &lt;&lt; rotateArray[<span class="keyword">right</span>] &lt;&lt; endl;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> rotateArray[<span class="keyword">left</span>];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/04/29/frequently-used-command-in-Shell/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1743,163 +1886,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/04/17/static-and-anonymity-namespace/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Datong Li">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/mine.png">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="写在人生的边上">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h2 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/04/17/static-and-anonymity-namespace/" itemprop="url">
-                  static和匿名namespace
-                </a>
-              
-            
-          </h2>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-
-            
-            
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2018-04-17 22:17:31" itemprop="dateCreated datePublished" datetime="2018-04-17T22:17:31+08:00">2018-04-17</time>
-            
-
-            
-              
-
-              
-                
-                <span class="post-meta-divider">|</span>
-                
-
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">更新于</span>
-                
-                <time title="修改时间：2018-05-01 02:13:51" itemprop="dateModified" datetime="2018-05-01T02:13:51+08:00">2018-05-01</time>
-              
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h4 id="static的3种情况"><a href="#static的3种情况" class="headerlink" title="static的3种情况"></a>static的3种情况</h4><ol>
-<li>在函数内部的静态局部变量：在c++11之后，这种情况保证static局部变量构造的线程安全；静态局部变量作用域仅限于函数内部，但是可以保证只进行一次初始化，分配内存空间在堆上；初始化发生在调用时</li>
-<li>在class中的静态成员变量和静态全局变量：静态成员变量初始化时间和静态全局变量初始化时间相同，都发生在main函数之前；这两种静态变量作用域都是局部的，分别是类内和文件内，<strong>静态全局变量在别的文件内可以访问</strong>；因为在main函数之前进行的初始化，所以不能保证多个静态全局变量和静态成员变量的初始化顺序（无序，随机），用之需谨慎；</li>
-<li>静态成员方法和静态全局函数：<strong>注意静态全局方法作用仅限于文件内部，其他模块的文件用不了</strong></li>
-</ol>
-<h4 id="匿名namespace作用"><a href="#匿名namespace作用" class="headerlink" title="匿名namespace作用"></a>匿名namespace作用</h4><p>因为在c++中static的作用太多，增加匿名namespace是为了可以在某些场合（定义一些仅在当前文件内部使用的变量和函数），避免使用static，直接使用匿名namespace使得语义清晰。</p>
-
-          
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -1951,7 +1937,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">41</span>
+                    <span class="site-state-item-count">42</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
