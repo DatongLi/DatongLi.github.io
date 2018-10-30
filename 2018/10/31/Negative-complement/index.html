@@ -108,25 +108,25 @@
 
 
 
-  <meta name="description" content="Xcode大的时候有10G，占用很多空间，如果不用开发MacOS或者iOS，完全可以卸载掉。然后输入指令：1sudo xcode-select --install 可以完成安装常用环境。而往往运行命令的时候会出现报错 1234~ g++ --versionxcrun: error: active developer path (&quot;/Applications/Xcode.app/Contents/D">
+  <meta name="description" content="有一些很基础的知识也挺容易忘记的，比如说：负数补码。容易忘记的原因往往是因为理解得不够深刻。 取模和数学中的补数取模的概念很容易理解，举个时钟的例子，12个小时转一圈，比如北京时间和比利时时间时差7小时，反应在时钟上就是：北京时间5点时，比利时时间10点，既可以通过5-7=-2%12=10得到，也可以通过5+（12-7）=5+5=10得到。 这时对于模12的数字7来说，5就是补数了。这说明啥？说明">
 <meta name="keywords" content="linux">
 <meta property="og:type" content="article">
-<meta property="og:title" content="macOS卸载掉Xcode后如何设置">
-<meta property="og:url" content="http://yoursite.com/2018/05/20/how-to-config-after-uninstall-xcode/index.html">
+<meta property="og:title" content="负数的补码">
+<meta property="og:url" content="http://yoursite.com/2018/10/31/Negative-complement/index.html">
 <meta property="og:site_name" content="写在人生的边上">
-<meta property="og:description" content="Xcode大的时候有10G，占用很多空间，如果不用开发MacOS或者iOS，完全可以卸载掉。然后输入指令：1sudo xcode-select --install 可以完成安装常用环境。而往往运行命令的时候会出现报错 1234~ g++ --versionxcrun: error: active developer path (&quot;/Applications/Xcode.app/Contents/D">
+<meta property="og:description" content="有一些很基础的知识也挺容易忘记的，比如说：负数补码。容易忘记的原因往往是因为理解得不够深刻。 取模和数学中的补数取模的概念很容易理解，举个时钟的例子，12个小时转一圈，比如北京时间和比利时时间时差7小时，反应在时钟上就是：北京时间5点时，比利时时间10点，既可以通过5-7=-2%12=10得到，也可以通过5+（12-7）=5+5=10得到。 这时对于模12的数字7来说，5就是补数了。这说明啥？说明">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2018-05-20T07:17:43.673Z">
+<meta property="og:updated_time" content="2018-10-30T16:40:11.828Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="macOS卸载掉Xcode后如何设置">
-<meta name="twitter:description" content="Xcode大的时候有10G，占用很多空间，如果不用开发MacOS或者iOS，完全可以卸载掉。然后输入指令：1sudo xcode-select --install 可以完成安装常用环境。而往往运行命令的时候会出现报错 1234~ g++ --versionxcrun: error: active developer path (&quot;/Applications/Xcode.app/Contents/D">
+<meta name="twitter:title" content="负数的补码">
+<meta name="twitter:description" content="有一些很基础的知识也挺容易忘记的，比如说：负数补码。容易忘记的原因往往是因为理解得不够深刻。 取模和数学中的补数取模的概念很容易理解，举个时钟的例子，12个小时转一圈，比如北京时间和比利时时间时差7小时，反应在时钟上就是：北京时间5点时，比利时时间10点，既可以通过5-7=-2%12=10得到，也可以通过5+（12-7）=5+5=10得到。 这时对于模12的数字7来说，5就是补数了。这说明啥？说明">
 
 
 
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2018/05/20/how-to-config-after-uninstall-xcode/"/>
+  <link rel="canonical" href="http://yoursite.com/2018/10/31/Negative-complement/"/>
 
 
 
@@ -136,7 +136,7 @@
   };
 </script>
 
-  <title>macOS卸载掉Xcode后如何设置 | 写在人生的边上</title>
+  <title>负数的补码 | 写在人生的边上</title>
   
 
 
@@ -289,7 +289,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/05/20/how-to-config-after-uninstall-xcode/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/10/31/Negative-complement/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Datong Li">
@@ -306,7 +306,7 @@
 
         
         
-          <h2 class="post-title" itemprop="name headline">macOS卸载掉Xcode后如何设置
+          <h2 class="post-title" itemprop="name headline">负数的补码
               
             
           </h2>
@@ -331,7 +331,7 @@
                 
               
 
-              <time title="创建时间：2018-05-20 15:16:52 / 修改时间：15:17:43" itemprop="dateCreated datePublished" datetime="2018-05-20T15:16:52+08:00">2018-05-20</time>
+              <time title="创建时间：2018-10-31 00:39:11 / 修改时间：00:40:11" itemprop="dateCreated datePublished" datetime="2018-10-31T00:39:11+08:00">2018-10-31</time>
             
 
             
@@ -369,12 +369,12 @@
       
 
       
-        <p>Xcode大的时候有10G，占用很多空间，如果不用开发MacOS或者iOS，完全可以卸载掉。然后输入指令：<br><figure class="highlight ada"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo xcode-<span class="keyword">select</span> <span class="comment">--install</span></span><br></pre></td></tr></table></figure></p>
-<p>可以完成安装常用环境。而往往运行命令的时候会出现报错</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">~ g++ <span class="comment">--version</span></span><br><span class="line">xcrun: error: active developer path ("/Applications/Xcode.app/Contents/Developer") does not exist</span><br><span class="line"><span class="keyword">Use</span> <span class="string">`sudo xcode-select --switch path/to/Xcode.app`</span> <span class="keyword">to</span> specify the Xcode that you wish <span class="keyword">to</span> <span class="keyword">use</span> <span class="keyword">for</span> command line developer tools, <span class="keyword">or</span> <span class="keyword">use</span> <span class="string">`xcode-select --install`</span> <span class="keyword">to</span> <span class="keyword">install</span> the <span class="keyword">standalone</span> command line developer tools.</span><br><span class="line">See <span class="string">`man xcode-select`</span> <span class="keyword">for</span> more details.</span><br></pre></td></tr></table></figure>
-<p>是因为环境变量没设置好，可以用<code>xcode-select -p</code>查看，修改路径为：</p>
-<figure class="highlight ada"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo xcode-<span class="keyword">select</span> <span class="comment">--switch /Library/Developer/CommandLineTools</span></span><br></pre></td></tr></table></figure>
-<p>即可。</p>
+        <p>有一些很基础的知识也挺容易忘记的，比如说：负数补码。容易忘记的原因往往是因为理解得不够深刻。</p>
+<h3 id="取模和数学中的补数"><a href="#取模和数学中的补数" class="headerlink" title="取模和数学中的补数"></a>取模和数学中的补数</h3><p>取模的概念很容易理解，举个时钟的例子，12个小时转一圈，比如北京时间和比利时时间时差7小时，反应在时钟上就是：北京时间5点时，比利时时间10点，既可以通过5-7=-2%12=10得到，也可以通过5+（12-7）=5+5=10得到。</p>
+<p>这时对于模12的数字7来说，5就是补数了。这说明啥？说明减去一个数等于加上这个数的补数，这样就能够把减法转变为加法了。</p>
+<h3 id="负数的补码"><a href="#负数的补码" class="headerlink" title="负数的补码"></a>负数的补码</h3><p>负数的补码就是取模/补数，先来个简单的4位机计算机，模2^4=16，如何计算5-3呢？<br><figure class="highlight lsl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">5</span><span class="number">-3</span></span><br><span class="line"></span><br><span class="line">#等价于</span><br><span class="line"><span class="number">5</span>+(<span class="number">16</span><span class="number">-3</span>)</span><br><span class="line"></span><br><span class="line">#等价于用二进制表示</span><br><span class="line"><span class="number">0101</span> + (<span class="number">1</span> <span class="number">0000</span> - <span class="number">0011</span>)</span><br><span class="line"></span><br><span class="line">#等价于</span><br><span class="line"><span class="number">0101</span> + (<span class="number">0001</span> + <span class="number">1111</span> - <span class="number">0011</span>)</span><br><span class="line"></span><br><span class="line">#等价于</span><br><span class="line"><span class="number">0101</span> + (<span class="number">0001</span> + <span class="number">1100</span>) <span class="comment">// 1100 就是0011的反码，而0001+1100就是0011的补码</span></span><br><span class="line"></span><br><span class="line">#等价于</span><br><span class="line"><span class="number">0101</span> + <span class="number">1101</span></span><br><span class="line"></span><br><span class="line">#等价于</span><br><span class="line"><span class="number">1</span> <span class="number">0010</span></span><br><span class="line"></span><br><span class="line">#因为最高位<span class="number">1</span>溢出</span><br><span class="line"><span class="number">0010</span> = <span class="number">2</span></span><br></pre></td></tr></table></figure></p>
+<p>在计算机中如果是8位正负机的话，也就是模2^8=256，用最高位来表示正负，也就是范围在-127~127之间（一共255个数），就说-5，就用<code>1000 0101</code>表示，-5的补码是啥呢？根据上面的取模和补数的理论，因为最高位1代表负数，不动，那么：<br><figure class="highlight lsl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">-5</span></span><br><span class="line"></span><br><span class="line">#二进制表示</span><br><span class="line"><span class="number">1</span> <span class="number">000</span> <span class="number">0101</span></span><br><span class="line"></span><br><span class="line">#除去最高位代表负数外，余下的<span class="number">7</span>位可全填满，所以模的话是第<span class="number">8</span>位为<span class="number">1</span> ，也就是<span class="number">128</span></span><br><span class="line">#所以相当于不区分正负的<span class="number">1000</span> <span class="number">0000</span>，也就是 <span class="number">111</span> <span class="number">1111</span> + <span class="number">000</span> <span class="number">0001</span></span><br><span class="line">(<span class="number">111</span> <span class="number">1111</span> + <span class="number">000</span> <span class="number">0001</span>) - <span class="number">000</span> <span class="number">0101</span> = <span class="number">000</span> <span class="number">0001</span>+ <span class="number">111</span> <span class="number">1010</span> = <span class="number">111</span> <span class="number">1011</span></span><br><span class="line"></span><br><span class="line">#所以<span class="number">-5</span>的补数是：</span><br><span class="line"><span class="number">1111</span> <span class="number">1011</span> = <span class="number">-123</span></span><br><span class="line"></span><br><span class="line">#验证下减去一个数等于加上它的补数理论</span><br><span class="line"><span class="number">125</span> - (- <span class="number">5</span>) = <span class="number">130</span> % <span class="number">128</span> = <span class="number">2</span></span><br><span class="line"><span class="number">125</span> + (<span class="number">-123</span>) = <span class="number">2</span></span><br></pre></td></tr></table></figure></p>
+<h3 id="结论是啥"><a href="#结论是啥" class="headerlink" title="结论是啥"></a>结论是啥</h3><p>说明了上面的负数补码，其实总结就是这么一句话：<code>负数的补码等于最高位的其余位取反+1</code>，为啥+1这个其实很容易理解，就是就是模，比如上面的<code>1000 0000 = 0111 1111 + 0000 0001</code>，想想不难理解的东西，以前计算机老师只知道让记住，也是醉醉的。</p>
 
       
     </div>
@@ -408,8 +408,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2018/05/13/The-red-black-tree-is-implemented-without-a-delete/" rel="next" title="红黑树无delete版实现">
-                <i class="fa fa-chevron-left"></i> 红黑树无delete版实现
+              <a href="/2018/10/29/stl-most-basic-allocator/" rel="next" title="STL最重要的基础——空间配置器（allocator）">
+                <i class="fa fa-chevron-left"></i> STL最重要的基础——空间配置器（allocator）
               </a>
             
           </div>
@@ -417,10 +417,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2018/05/20/config-shadowsocks/" rel="prev" title="配置shadowsocks">
-                配置shadowsocks <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -469,8 +465,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -565,6 +570,22 @@
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#取模和数学中的补数"><span class="nav-text">取模和数学中的补数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#负数的补码"><span class="nav-text">负数的补码</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#结论是啥"><span class="nav-text">结论是啥</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
