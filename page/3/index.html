@@ -285,6 +285,159 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/07/13/safe-queue/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Datong Li">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/mine.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="写在人生的边上">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/07/13/safe-queue/" itemprop="url">
+                  线程安全队列
+                </a>
+              
+            
+          </h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2018-07-13 21:14:17" itemprop="dateCreated datePublished" datetime="2018-07-13T21:14:17+08:00">2018-07-13</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2018-07-15 21:25:40" itemprop="dateModified" datetime="2018-07-15T21:25:40+08:00">2018-07-15</time>
+              
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>记录一个非常好的线程安全队列写法。非常方便、简洁的实现。<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// thread_safe_queue.h</span></span><br><span class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">ThreadSafeQueue</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">         <span class="function"><span class="keyword">void</span> <span class="title">Insert</span><span class="params">(T value)</span></span>;</span><br><span class="line">         <span class="function"><span class="keyword">void</span> <span class="title">Popup</span><span class="params">(T &amp;value)</span></span>;</span><br><span class="line">         <span class="function"><span class="keyword">bool</span> <span class="title">Empety</span><span class="params">()</span></span>;</span><br><span class="line"> </span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">       <span class="keyword">mutable</span> <span class="built_in">std</span>::mutex mut_;</span><br><span class="line">       <span class="built_in">std</span>::<span class="built_in">queue</span>&lt;T&gt; que_;</span><br><span class="line">       <span class="built_in">std</span>::condition_variable cond_;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure></p>
+<p>对应接口实现。<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// thread_safe_queue.cpp</span></span><br><span class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</span><br><span class="line"><span class="keyword">void</span> ThreadSafeQueue::Insert(T value) &#123;</span><br><span class="line">        <span class="built_in">std</span>::lock_guard&lt;<span class="built_in">std</span>::mutex&gt; lk(mut_);</span><br><span class="line">        que_.push_back(value);</span><br><span class="line">        cond_.notify_one();</span><br><span class="line">&#125;</span><br><span class="line"> </span><br><span class="line"> </span><br><span class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</span><br><span class="line"><span class="keyword">void</span> ThreadSafeQueue::Popup(T &amp;value) &#123;</span><br><span class="line">	<span class="built_in">std</span>::unique_lock&lt;<span class="built_in">std</span>::mutex&gt; lk(mut_);</span><br><span class="line">	cond_.wait(lk, [<span class="keyword">this</span>]&#123;<span class="keyword">return</span> !que_.empety();&#125;);</span><br><span class="line">	value = que_.front();</span><br><span class="line">	que_.pop();</span><br><span class="line">&#125;</span><br><span class="line"> </span><br><span class="line"> </span><br><span class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</span><br><span class="line"><span class="keyword">bool</span> ThreadSafeQueue::Empty() <span class="keyword">const</span> &#123;</span><br><span class="line">        <span class="built_in">std</span>::lock_guard&lt;<span class="built_in">std</span>::mutex&gt; lk(mut_);</span><br><span class="line">        <span class="keyword">return</span> que_.empty();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/06/08/ubuntu16-04-config-samba/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1571,147 +1724,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/05/01/Simple-binary-search-tree-implementation/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Datong Li">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/mine.png">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="写在人生的边上">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h2 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/05/01/Simple-binary-search-tree-implementation/" itemprop="url">
-                  简单二叉搜索树实现
-                </a>
-              
-            
-          </h2>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-
-            
-            
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2018-05-01 02:45:38 / 修改时间：02:46:15" itemprop="dateCreated datePublished" datetime="2018-05-01T02:45:38+08:00">2018-05-01</time>
-            
-
-            
-              
-
-              
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>实现个二叉搜索树。唯一需要注意的是：在Insert的时候注意传参进去传的是形参，需要获取返回值Node*来更新指针。</p>
-<p>比较麻烦的是删除操作的时候需要区分几种不同节点分布的情况，具体看算法导论P167。</p>
-<figure class="highlight crmsh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#include "common.h"</span></span><br><span class="line"></span><br><span class="line">class BinarySearchTree &#123;</span><br><span class="line">private:</span><br><span class="line">    struct <span class="keyword">Node</span> <span class="title">&#123;</span></span><br><span class="line"><span class="title">        int</span> val;</span><br><span class="line">        <span class="keyword">Node</span><span class="title">* left</span>;</span><br><span class="line">        <span class="keyword">Node</span><span class="title">* right</span>;</span><br><span class="line">        <span class="keyword">Node</span><span class="title">(int</span> value) : val(value), left(NULL), right(NULL) &#123;&#125;</span><br><span class="line">    &#125;;</span><br><span class="line">public:</span><br><span class="line">    BinarySearchTree(const vector<span class="tag">&lt;int&gt;</span>&amp; arr) : root(NULL) &#123;</span><br><span class="line">        for (auto &amp;a : arr) &#123;</span><br><span class="line">            root = InnerInsertNode(root, a);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    void InsertNode(int value) &#123;</span><br><span class="line">        root = InnerInsertNode(root, value);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    bool FindNode(int value) &#123;</span><br><span class="line">        <span class="keyword">Node</span><span class="title">* node</span> = root;</span><br><span class="line">        while (<span class="keyword">node</span> <span class="title">!= NULL</span>) &#123;</span><br><span class="line">            if (value &gt; <span class="keyword">node</span><span class="title">-&gt;val</span>) &#123;</span><br><span class="line">                <span class="keyword">node</span> <span class="title">= node-</span>&gt;right;</span><br><span class="line">            &#125; else if (value <span class="tag">&lt; node-&gt;</span>val) &#123;</span><br><span class="line">                <span class="keyword">node</span> <span class="title">= node-</span>&gt;left;</span><br><span class="line">            &#125; else &#123;</span><br><span class="line">                return <span class="literal">true</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        return <span class="literal">false</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    bool RemoveNode(int value) &#123;</span><br><span class="line">        bool is_existed = <span class="literal">false</span>;</span><br><span class="line">        <span class="keyword">Node</span><span class="title">* node</span> = root;</span><br><span class="line">        <span class="keyword">Node</span><span class="title">* node_parent</span> = NULL;</span><br><span class="line">        bool is_left = <span class="literal">false</span>;</span><br><span class="line">        while (<span class="keyword">node</span> <span class="title">!= NULL</span>) &#123;</span><br><span class="line">            if (value &gt; <span class="keyword">node</span><span class="title">-&gt;val</span>) &#123;</span><br><span class="line">                node_parent = <span class="keyword">node</span><span class="title">;</span></span><br><span class="line"><span class="title">                node</span> = <span class="keyword">node</span><span class="title">-&gt;right</span>;</span><br><span class="line">                is_left = <span class="literal">false</span>;</span><br><span class="line">            &#125; else if (value <span class="tag">&lt; node-&gt;</span>val) &#123;</span><br><span class="line">                node_parent = <span class="keyword">node</span><span class="title">;</span></span><br><span class="line"><span class="title">                node</span> = <span class="keyword">node</span><span class="title">-&gt;left</span>;</span><br><span class="line">                is_left = <span class="literal">true</span>;</span><br><span class="line">            &#125; else &#123;</span><br><span class="line">                is_existed = <span class="literal">true</span>;</span><br><span class="line">                break;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        if (!is_existed) &#123;</span><br><span class="line">            return <span class="literal">false</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        if (node_parent == NULL) &#123;</span><br><span class="line">            // remove root</span><br><span class="line">            if (<span class="keyword">node</span><span class="title">-&gt;right</span> == NULL) &#123;</span><br><span class="line">                root = <span class="keyword">node</span><span class="title">-&gt;left</span>;</span><br><span class="line">            &#125; else &#123;</span><br><span class="line">                <span class="keyword">Node</span><span class="title">* successor_parent</span> = <span class="keyword">node</span><span class="title">;</span></span><br><span class="line"><span class="title">                Node</span>* successor = <span class="keyword">node</span><span class="title">-&gt;right</span>;</span><br><span class="line">                if (successor-&gt;left == NULL) &#123;</span><br><span class="line">                    successor-&gt;left = <span class="keyword">node</span><span class="title">-&gt;left</span>;</span><br><span class="line">                &#125; else &#123;</span><br><span class="line">                    while(successor-&gt;left != NULL) &#123;</span><br><span class="line">                        successor_parent = successor;</span><br><span class="line">                        successor = successor_parent-&gt;left;</span><br><span class="line">                    &#125;</span><br><span class="line">                    successor_parent-&gt;left = successor-&gt;right;</span><br><span class="line">                    successor-&gt;left = <span class="keyword">node</span><span class="title">-&gt;left</span>;</span><br><span class="line">                    successor-&gt;right = <span class="keyword">node</span><span class="title">-&gt;right</span>;</span><br><span class="line">                &#125;</span><br><span class="line">                root = successor;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125; else &#123;</span><br><span class="line">            if (IsLeaf(<span class="keyword">node</span><span class="title">)) &#123;</span></span><br><span class="line"><span class="title">                is_left</span> == <span class="literal">true</span> ? node_parent-&gt;left = NULL : node_parent-&gt;right = NULL;</span><br><span class="line">            &#125; else if (!IsLeaf(<span class="keyword">node</span><span class="title">) &amp;&amp; (node-</span>&gt;left != NULL &amp;&amp; <span class="keyword">node</span><span class="title">-&gt;right</span> == NULL)) &#123;</span><br><span class="line">                <span class="keyword">Node</span><span class="title">* new_node</span> = <span class="keyword">node</span><span class="title">-&gt;left</span>;</span><br><span class="line">                is_left == <span class="literal">true</span> ? node_parent-&gt;left = new_node : node_parent-&gt;right = new_node;</span><br><span class="line">            &#125; else if (!IsLeaf(<span class="keyword">node</span><span class="title">) &amp;&amp; (node-</span>&gt;left == NULL &amp;&amp; <span class="keyword">node</span><span class="title">-&gt;right</span> != NULL)) &#123;</span><br><span class="line">                <span class="keyword">Node</span><span class="title">* new_node</span> = <span class="keyword">node</span><span class="title">-&gt;right</span>;</span><br><span class="line">                is_left == <span class="literal">true</span> ? node_parent-&gt;left = new_node : node_parent-&gt;right = new_node;</span><br><span class="line">            &#125; else &#123;</span><br><span class="line">                // two children</span><br><span class="line">                // successor parent</span><br><span class="line">                <span class="keyword">Node</span><span class="title">* successor_parent</span> = <span class="keyword">node</span><span class="title">;</span></span><br><span class="line"><span class="title">                Node</span>* successor = <span class="keyword">node</span><span class="title">-&gt;right</span>;</span><br><span class="line">                if (successor-&gt;left == NULL) &#123;</span><br><span class="line">                    is_left == <span class="literal">true</span> ? node_parent-&gt;left = successor : node_parent-&gt;right = successor;</span><br><span class="line">                    successor-&gt;left = <span class="keyword">node</span><span class="title">-&gt;left</span>;</span><br><span class="line">                &#125; else &#123;</span><br><span class="line">                    while(successor-&gt;left != NULL) &#123;</span><br><span class="line">                        successor_parent = successor;</span><br><span class="line">                        successor = successor_parent-&gt;left;</span><br><span class="line">                    &#125;</span><br><span class="line">                    successor_parent-&gt;left = successor-&gt;right;</span><br><span class="line">                    is_left == <span class="literal">true</span> ? node_parent-&gt;left = successor : node_parent-&gt;right = successor;</span><br><span class="line">                    successor-&gt;left = <span class="keyword">node</span><span class="title">-&gt;left</span>;</span><br><span class="line">                    successor-&gt;right = <span class="keyword">node</span><span class="title">-&gt;right</span>;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        delete <span class="keyword">node</span><span class="title">;</span></span><br><span class="line"><span class="title">        node</span> = NULL;</span><br><span class="line">        return <span class="literal">true</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    void TreeWalk() &#123;</span><br><span class="line">        InorderTreeWalk(root);</span><br><span class="line">        cout <span class="tag">&lt;&lt; endl;</span></span><br><span class="line"><span class="tag">    &#125;</span></span><br><span class="line"><span class="tag"></span></span><br><span class="line"><span class="tag">    int MaxValue() &#123;</span></span><br><span class="line"><span class="tag">        Node* node = root;</span></span><br><span class="line"><span class="tag">        int max_value = 0;</span></span><br><span class="line"><span class="tag">        while (node != NULL) &#123;</span></span><br><span class="line"><span class="tag">            max_value = node-&gt;</span>val;</span><br><span class="line">            <span class="keyword">node</span> <span class="title">= node-</span>&gt;right;</span><br><span class="line">        &#125;</span><br><span class="line">        return max_value;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    int MinValue() &#123;</span><br><span class="line">        <span class="keyword">Node</span><span class="title">* node</span> = root;</span><br><span class="line">        int min_value = <span class="number">0</span>;</span><br><span class="line">        while (<span class="keyword">node</span> <span class="title">!= NULL</span>) &#123;</span><br><span class="line">            min_value = <span class="keyword">node</span><span class="title">-&gt;val</span>;</span><br><span class="line">            <span class="keyword">node</span> <span class="title">= node-</span>&gt;right;</span><br><span class="line">        &#125;</span><br><span class="line">        return min_value;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">private:</span><br><span class="line">    bool IsLeaf(<span class="keyword">Node</span><span class="title">* node</span>) &#123;</span><br><span class="line">        return (<span class="keyword">node</span><span class="title">-&gt;left</span> == NULL) &amp;&amp; (<span class="keyword">node</span><span class="title">-&gt;right</span> == NULL);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">Node</span><span class="title">* InnerInsertNode</span>(<span class="keyword">Node</span><span class="title">* node</span>, int value) &#123;</span><br><span class="line">        if (<span class="keyword">node</span> <span class="title">== NULL</span>) &#123;</span><br><span class="line">            <span class="keyword">node</span> <span class="title">= new</span> <span class="keyword">Node</span><span class="title">(value</span>);</span><br><span class="line">        &#125; else &#123;</span><br><span class="line">            if (value <span class="tag">&lt; node-&gt;</span>val) &#123;</span><br><span class="line">                <span class="keyword">node</span><span class="title">-&gt;left</span> = InnerInsertNode(<span class="keyword">node</span><span class="title">-&gt;left</span>, value);</span><br><span class="line">            &#125; else &#123;</span><br><span class="line">                <span class="keyword">node</span><span class="title">-&gt;right</span> = InnerInsertNode(<span class="keyword">node</span><span class="title">-&gt;right</span>, value);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        return <span class="keyword">node</span><span class="title">;</span></span><br><span class="line"><span class="title">    &#125;</span></span><br><span class="line"><span class="title"></span></span><br><span class="line"><span class="title">    void</span> InorderTreeWalk(<span class="keyword">Node</span><span class="title">* node</span>) &#123;</span><br><span class="line">        if (<span class="keyword">node</span> <span class="title">== NULL</span>) return;</span><br><span class="line">        InorderTreeWalk(<span class="keyword">node</span><span class="title">-&gt;left</span>);</span><br><span class="line">        cout <span class="tag">&lt;&lt; node-&gt;</span>val <span class="tag">&lt;&lt; ", ";</span></span><br><span class="line"><span class="tag">        InorderTreeWalk(node-&gt;</span>right);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">Node</span><span class="title">* root</span>;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">int main() &#123;</span><br><span class="line">    vector<span class="tag">&lt;int&gt;</span> arr&#123;<span class="number">8</span>, <span class="number">1</span>, <span class="number">16</span>, <span class="number">14</span>, <span class="number">7</span>, <span class="number">9</span>, <span class="number">4</span>, <span class="number">10</span>, <span class="number">3</span>, <span class="number">2</span>&#125;;</span><br><span class="line">    BinarySearchTree binary_tree(arr);</span><br><span class="line">    binary_tree.TreeWalk();</span><br><span class="line">    binary_tree.InsertNode(<span class="number">43</span>);</span><br><span class="line">    binary_tree.InsertNode(<span class="number">22</span>);</span><br><span class="line">    binary_tree.TreeWalk();</span><br><span class="line">    binary_tree.RemoveNode(<span class="number">16</span>);</span><br><span class="line">    binary_tree.TreeWalk();</span><br><span class="line">    binary_tree.RemoveNode(<span class="number">8</span>);</span><br><span class="line">    binary_tree.TreeWalk();</span><br><span class="line">    return <span class="number">0</span>;    </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-          
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -1763,7 +1775,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">45</span>
+                    <span class="site-state-item-count">46</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
