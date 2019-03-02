@@ -285,6 +285,157 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/05/10/shared-ptr-thread-safe-level/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Datong Li">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/mine.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="写在人生的边上">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/05/10/shared-ptr-thread-safe-level/" itemprop="url">
+                  shared_ptr的安全级别
+                </a>
+              
+            
+          </h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2018-05-10 20:06:41 / 修改时间：20:09:45" itemprop="dateCreated datePublished" datetime="2018-05-10T20:06:41+08:00">2018-05-10</time>
+            
+
+            
+              
+
+              
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>这是一个很容易忘记的问题，使用shared_ptr并不意味着就一定是安全的。因为shared_ptr的结构（g++的实现见：<code>include/bits/shared_ptr_base.h</code>）为：<br><figure class="highlight sqf"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">class <span class="variable">__shared_ptr</span></span><br><span class="line">: public <span class="variable">__shared_ptr_access</span>&lt;<span class="variable">_Tp</span>, <span class="variable">_Lp</span>&gt;</span><br><span class="line">&#123;</span><br><span class="line">public:</span><br><span class="line">    ...</span><br><span class="line"><span class="built_in">private</span>:</span><br><span class="line">  element_type*	   <span class="variable">_M_ptr</span>;         <span class="comment">// Contained pointer.</span></span><br><span class="line">  <span class="variable">__shared_count</span>&lt;<span class="variable">_Lp</span>&gt;  <span class="variable">_M_refcount</span>;    <span class="comment">// Reference counter.</span></span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure></p>
+<p>引用计数是线程安全的，但是__shared_ptr本身却不是线程安全的。对于shared_ptr本身的读写不能原子化。</p>
+<p>介绍文档：<code>https://www.boost.org/doc/libs/1_48_0/libs/smart_ptr/shared_ptr.htm#example</code></p>
+<p>根据boost中的介绍，shared_ptr的线程安全级别和内建类型、标准库容器、std::string一样，即：</p>
+<ol>
+<li>一个shared_ptr对象实体可被多个线程同时读取（例1）；</li>
+<li>两个shared_ptr对象实体可以被两个线程同时写入（例2），“析构”算写操作；</li>
+<li>如果要从多个线程读写同一个shared_ptr对象实体，需要加锁（例3~5）。</li>
+</ol>
+<p>具体例子罗列如下：</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">shared_ptr&lt;int&gt;</span> <span class="string">p(new</span> <span class="string">int(42));</span></span><br><span class="line"></span><br><span class="line"><span class="string">//---</span> <span class="string">Example</span> <span class="number">1</span> <span class="meta">---</span></span><br><span class="line"></span><br><span class="line"><span class="string">//</span> <span class="string">thread</span> <span class="string">A</span></span><br><span class="line"><span class="string">shared_ptr&lt;int&gt;</span> <span class="string">p2(p);</span> <span class="string">//</span> <span class="string">reads</span> <span class="string">p</span></span><br><span class="line"></span><br><span class="line"><span class="string">//</span> <span class="string">thread</span> <span class="string">B</span></span><br><span class="line"><span class="string">shared_ptr&lt;int&gt;</span> <span class="string">p3(p);</span> <span class="string">//</span> <span class="string">OK,</span> <span class="string">multiple</span> <span class="string">reads</span> <span class="string">are</span> <span class="string">safe</span></span><br><span class="line"></span><br><span class="line"><span class="string">//---</span> <span class="string">Example</span> <span class="number">2</span> <span class="meta">---</span></span><br><span class="line"></span><br><span class="line"><span class="string">//</span> <span class="string">thread</span> <span class="string">A</span></span><br><span class="line"><span class="string">p.reset(new</span> <span class="string">int(1912));</span> <span class="string">//</span> <span class="string">writes</span> <span class="string">p</span></span><br><span class="line"></span><br><span class="line"><span class="string">//</span> <span class="string">thread</span> <span class="string">B</span></span><br><span class="line"><span class="string">p2.reset();</span> <span class="string">//</span> <span class="string">OK,</span> <span class="string">writes</span> <span class="string">p2</span></span><br><span class="line"></span><br><span class="line"><span class="string">//---</span> <span class="string">Example</span> <span class="number">3</span> <span class="meta">---</span></span><br><span class="line"></span><br><span class="line"><span class="string">//</span> <span class="string">thread</span> <span class="string">A</span></span><br><span class="line"><span class="string">p</span> <span class="string">=</span> <span class="string">p3;</span> <span class="string">//</span> <span class="string">reads</span> <span class="string">p3,</span> <span class="string">writes</span> <span class="string">p</span></span><br><span class="line"></span><br><span class="line"><span class="string">//</span> <span class="string">thread</span> <span class="string">B</span></span><br><span class="line"><span class="string">p3.reset();</span> <span class="string">//</span> <span class="string">writes</span> <span class="string">p3;</span> <span class="string">undefined,</span> <span class="string">simultaneous</span> <span class="string">read/write</span></span><br><span class="line"></span><br><span class="line"><span class="string">//---</span> <span class="string">Example</span> <span class="number">4</span> <span class="meta">---</span></span><br><span class="line"></span><br><span class="line"><span class="string">//</span> <span class="string">thread</span> <span class="string">A</span></span><br><span class="line"><span class="string">p3</span> <span class="string">=</span> <span class="string">p2;</span> <span class="string">//</span> <span class="string">reads</span> <span class="string">p2,</span> <span class="string">writes</span> <span class="string">p3</span></span><br><span class="line"></span><br><span class="line"><span class="string">//</span> <span class="string">thread</span> <span class="string">B</span></span><br><span class="line"><span class="string">//</span> <span class="string">p2</span> <span class="string">goes</span> <span class="string">out</span> <span class="string">of</span> <span class="attr">scope:</span> <span class="string">undefined,</span> <span class="string">the</span> <span class="string">destructor</span> <span class="string">is</span> <span class="string">considered</span> <span class="string">a</span> <span class="string">"write access"</span></span><br><span class="line"></span><br><span class="line"><span class="string">//---</span> <span class="string">Example</span> <span class="number">5</span> <span class="meta">---</span></span><br><span class="line"></span><br><span class="line"><span class="string">//</span> <span class="string">thread</span> <span class="string">A</span></span><br><span class="line"><span class="string">p3.reset(new</span> <span class="string">int(1));</span></span><br><span class="line"></span><br><span class="line"><span class="string">//</span> <span class="string">thread</span> <span class="string">B</span></span><br><span class="line"><span class="string">p3.reset(new</span> <span class="string">int(2));</span> <span class="string">//</span> <span class="string">undefined,</span> <span class="string">multiple</span> <span class="string">write</span></span><br></pre></td></tr></table></figure>
+<p>具体加锁的方式是：<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="built_in">std</span>::<span class="built_in">shared_ptr</span>&lt;T&gt; global_ptr;</span><br><span class="line"><span class="built_in">std</span>::mutex mu;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">ThreadOpSharedPtr</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="built_in">std</span>::<span class="built_in">shared_ptr</span>&lt;T&gt; local_ptr;</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="function">MutexLockGuard <span class="title">lock</span><span class="params">(mu)</span></span>;</span><br><span class="line">        local_ptr = global_ptr;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// use local_ptr do whatever you want, it's thread-safe now</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/05/01/Simple-binary-search-tree-implementation/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1674,161 +1825,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/04/18/A-more-elegant-way-to-implement-an-enum-type-map-to-a-string/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Datong Li">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/mine.png">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="写在人生的边上">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h2 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/04/18/A-more-elegant-way-to-implement-an-enum-type-map-to-a-string/" itemprop="url">
-                  更优雅实现enum类型映射到string的方法——重载<<运算符
-                </a>
-              
-            
-          </h2>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-
-            
-            
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2018-04-18 22:03:57" itemprop="dateCreated datePublished" datetime="2018-04-18T22:03:57+08:00">2018-04-18</time>
-            
-
-            
-              
-
-              
-                
-                <span class="post-meta-divider">|</span>
-                
-
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">更新于</span>
-                
-                <time title="修改时间：2018-05-01 02:13:51" itemprop="dateModified" datetime="2018-05-01T02:13:51+08:00">2018-05-01</time>
-              
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>在代码中经常需要写状态机的代码，通常状态state都是用enum，而为了方便打印出一些状态信息，都需要建立state <--> msg map，使用的方法都是类似于用map结构保存，或者是建立一个全局数组，通过一个函数接口来GetStateMsg。</--></p>
-<p>可以考虑重载ostream的&lt;&lt;运算符，非常优雅地达到这样的目的。</p>
-<p><strong>注意：c++11后enum更安全的定义方法是enum class name [: type] {}，这里type就是underlying_type，通常是int，但是由编译器决定，使用underlying_type来做static_cast会是更安全的用法</strong></p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">enum</span> <span class="class"><span class="keyword">class</span> <span class="title">StateType</span> &#123;</span></span><br><span class="line">    StatePrepare,</span><br><span class="line">    StateProcess,</span><br><span class="line">    StateEnd,</span><br><span class="line">    StateUnknown</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">ostream&amp; <span class="keyword">operator</span>&lt;&lt;(ostream&amp; o, <span class="keyword">const</span> StateType&amp; st) &#123;</span><br><span class="line">    <span class="keyword">static</span> <span class="keyword">const</span> <span class="keyword">char</span>* msg[] = &#123;</span><br><span class="line">        <span class="string">"StatePrepare"</span>,</span><br><span class="line">        <span class="string">"StateProcess"</span>,</span><br><span class="line">        <span class="string">"StateEnd"</span>,</span><br><span class="line">        <span class="string">"StateUnknown"</span></span><br><span class="line">    &#125;;</span><br><span class="line">    <span class="keyword">static</span> <span class="keyword">uint32_t</span> msg_size = <span class="keyword">sizeof</span>(msg)/<span class="keyword">sizeof</span>(<span class="keyword">const</span> <span class="keyword">char</span>*);</span><br><span class="line">    <span class="keyword">using</span> state_type = <span class="built_in">std</span>::underlying_type&lt;StateType&gt;::type;</span><br><span class="line">    <span class="keyword">uint32_t</span> index = <span class="keyword">static_cast</span>&lt;state_type&gt;(st) - <span class="keyword">static_cast</span>&lt;state_type&gt;(StateType::StatePrepare);</span><br><span class="line">    index = index &lt; msg_size ? index : (msg_size - <span class="number">1</span>);</span><br><span class="line">    o &lt;&lt; msg[index];</span><br><span class="line">    <span class="keyword">return</span> o;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    StateType st = StateType::StateProcess;</span><br><span class="line">    <span class="built_in">cout</span> &lt;&lt; st &lt;&lt; <span class="built_in">endl</span>;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-          
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -1880,7 +1876,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">46</span>
+                    <span class="site-state-item-count">47</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
