@@ -285,6 +285,149 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/05/26/vector-reverse/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Datong Li">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/mine.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="写在人生的边上">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/05/26/vector-reverse/" itemprop="url">
+                  vector的reverse函数陷阱
+                </a>
+              
+            
+          </h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2019-05-26 19:39:04 / 修改时间：19:52:11" itemprop="dateCreated datePublished" datetime="2019-05-26T19:39:04+08:00">2019-05-26</time>
+            
+
+            
+              
+
+              
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>vector的reserve函数，只是预留了空间，直接调用vector[0]进行赋值，是不会报错的。</p>
+<p>但是reserve的空间用vector.at(1)使用时，就会出core，因为这部分空间是未分配的。</p>
+<p>不过如果空间已经分配了，比如说vector初始化时指定了4个空间，用at时不会出core的。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;vector&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">  <span class="built_in">std</span>::<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; aaa;</span><br><span class="line">  aaa.reserve(<span class="number">4</span>);</span><br><span class="line">  <span class="built_in">std</span>::<span class="built_in">cout</span> &lt;&lt; <span class="string">"size = "</span> &lt;&lt; aaa.size() &lt;&lt; <span class="built_in">std</span>::<span class="built_in">endl</span>;</span><br><span class="line">	aaa[<span class="number">0</span>] = <span class="number">1</span>;</span><br><span class="line">  <span class="comment">//aaa.at(1) = 2; // 这个调用会出core</span></span><br><span class="line">  <span class="built_in">std</span>::<span class="built_in">cout</span> &lt;&lt; <span class="string">"aaa[0] = "</span> &lt;&lt; aaa[<span class="number">0</span>] &lt;&lt; <span class="string">", aaa[1] = "</span> &lt;&lt; aaa[<span class="number">1</span>] &lt;&lt; <span class="built_in">std</span>::<span class="built_in">endl</span>;</span><br><span class="line">  <span class="built_in">std</span>::<span class="built_in">cout</span> &lt;&lt; <span class="string">"size = "</span> &lt;&lt; aaa.size() &lt;&lt; <span class="built_in">std</span>::<span class="built_in">endl</span>;</span><br><span class="line"></span><br><span class="line">  <span class="built_in">std</span>::<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; bbb(<span class="number">4</span>);</span><br><span class="line">  <span class="built_in">std</span>::<span class="built_in">cout</span> &lt;&lt; <span class="string">"size = "</span> &lt;&lt; bbb.size() &lt;&lt; <span class="built_in">std</span>::<span class="built_in">endl</span>;</span><br><span class="line">  bbb[<span class="number">0</span>] = <span class="number">2</span>;</span><br><span class="line">  bbb.at(<span class="number">1</span>) = <span class="number">4</span>;</span><br><span class="line">  <span class="built_in">std</span>::<span class="built_in">cout</span> &lt;&lt; <span class="string">"bbb[0] = "</span> &lt;&lt; bbb[<span class="number">0</span>] &lt;&lt; <span class="string">", bbb[1] = "</span> &lt;&lt; bbb[<span class="number">1</span>] &lt;&lt; <span class="built_in">std</span>::<span class="built_in">endl</span>;</span><br><span class="line">  <span class="built_in">std</span>::<span class="built_in">cout</span> &lt;&lt; <span class="string">"size = "</span> &lt;&lt; bbb.size() &lt;&lt; <span class="built_in">std</span>::<span class="built_in">endl</span>;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">result:</span><br><span class="line">size = <span class="number">0</span></span><br><span class="line">aaa[<span class="number">0</span>] = <span class="number">1</span>, aaa[<span class="number">1</span>] = <span class="number">-2147483648</span></span><br><span class="line">size = <span class="number">0</span></span><br><span class="line">size = <span class="number">4</span></span><br><span class="line">bbb[<span class="number">0</span>] = <span class="number">2</span>, bbb[<span class="number">1</span>] = <span class="number">4</span></span><br><span class="line">size = <span class="number">4</span></span><br></pre></td></tr></table></figure>
+
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/05/26/functions/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1769,154 +1912,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/09/17/Allocator-usage-learning/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Datong Li">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/mine.png">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="写在人生的边上">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h2 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/09/17/Allocator-usage-learning/" itemprop="url">
-                  Allocator用法学习
-                </a>
-              
-            
-          </h2>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-
-            
-            
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2018-09-17 13:19:26 / 修改时间：13:20:05" itemprop="dateCreated datePublished" datetime="2018-09-17T13:19:26+08:00">2018-09-17</time>
-            
-
-            
-              
-
-              
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h3 id="allocator的作用说明"><a href="#allocator的作用说明" class="headerlink" title="allocator的作用说明"></a><code>allocator</code>的作用说明</h3><p>一般使用<code>new</code>和<code>delete</code>限定了内存分配和对象构造一起执行，缺少灵活性。使用<code>allocator</code>可以把二者分离。</p>
-<ol>
-<li>使用<code>allocator</code>对象的<code>allocate</code>函数可以分配未初始化的内存；</li>
-<li>使用<code>construct</code>进行对象初始化，注意初始化的参数第一个需要是未初始化内存的开始指针；一定注意未初始化的内存不能访问；</li>
-<li>使用<code>destroy</code>对对象进行析构；</li>
-<li>使用<code>deallocate</code>释放分配的内存；</li>
-</ol>
-<p>此外，配合<code>uninitialized_copy</code>和<code>uninitialized_fill_n</code>函数，可以对未初始化内存创建对象。</p>
-<h3 id="allocator的具体用法"><a href="#allocator的具体用法" class="headerlink" title="allocator的具体用法"></a><code>allocator</code>的具体用法</h3><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;memory&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;string&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;vector&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">  <span class="built_in">std</span>::allocator&lt;<span class="keyword">int</span>&gt; a1;   <span class="comment">// default allocator for ints</span></span><br><span class="line">  <span class="keyword">int</span>* a = a1.allocate(<span class="number">1</span>);  <span class="comment">// space for one int</span></span><br><span class="line">  a1.construct(a, <span class="number">7</span>);       <span class="comment">// construct the int</span></span><br><span class="line">  <span class="built_in">std</span>::<span class="built_in">cout</span> &lt;&lt; a[<span class="number">0</span>] &lt;&lt; <span class="string">'\n'</span>;</span><br><span class="line">  a1.deallocate(a, <span class="number">1</span>);  <span class="comment">// deallocate space for one int</span></span><br><span class="line"></span><br><span class="line">  <span class="comment">// default allocator for strings</span></span><br><span class="line">  <span class="built_in">std</span>::allocator&lt;<span class="built_in">std</span>::<span class="built_in">string</span>&gt; a2;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// same, but obtained by rebinding from the type of a1</span></span><br><span class="line">  <span class="keyword">decltype</span>(a1)::rebind&lt;<span class="built_in">std</span>::<span class="built_in">string</span>&gt;::other a2_1;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// same, but obtained by rebinding from the type of a1 via allocator_traits</span></span><br><span class="line">  <span class="built_in">std</span>::allocator_traits&lt;<span class="keyword">decltype</span>(a1)&gt;::rebind_alloc&lt;<span class="built_in">std</span>::<span class="built_in">string</span>&gt; a2_2;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">int</span> str_num = <span class="number">10</span>;</span><br><span class="line">  <span class="built_in">std</span>::<span class="built_in">string</span>* s = a2.allocate(str_num);  <span class="comment">// space for 2 strings</span></span><br><span class="line"></span><br><span class="line">  <span class="built_in">std</span>::<span class="built_in">string</span>* s0 = s;</span><br><span class="line">  a2.construct(s0, <span class="string">"foo"</span>);</span><br><span class="line">  <span class="built_in">std</span>::<span class="built_in">string</span>* s1 = s + <span class="number">1</span>;</span><br><span class="line">  a2.construct(s1, <span class="string">"bar"</span>);</span><br><span class="line">  <span class="built_in">std</span>::<span class="built_in">cout</span> &lt;&lt; *s0 &lt;&lt; <span class="string">' '</span> &lt;&lt; *s1 &lt;&lt; <span class="string">'\n'</span>;</span><br><span class="line"></span><br><span class="line">  <span class="built_in">std</span>::<span class="built_in">string</span>* s2 = s1 + <span class="number">1</span>;</span><br><span class="line">  <span class="built_in">std</span>::<span class="built_in">vector</span>&lt;<span class="built_in">std</span>::<span class="built_in">string</span>&gt; vec&#123;<span class="string">"hello"</span>, <span class="string">"world"</span>&#125;;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// Copy vec to s2, avoid string assign after construct</span></span><br><span class="line">  <span class="keyword">auto</span> s3 = uninitialized_copy(vec.begin(), vec.end(), s2);</span><br><span class="line">  <span class="comment">// fill 6 string with "xxx"</span></span><br><span class="line">  uninitialized_fill_n(s3, str_num - <span class="number">4</span>, <span class="string">"xxx"</span>);</span><br><span class="line"></span><br><span class="line">  <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; str_num; ++i) &#123;</span><br><span class="line">    <span class="built_in">std</span>::<span class="built_in">cout</span> &lt;&lt; s[i] &lt;&lt; <span class="string">","</span>;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="built_in">std</span>::<span class="built_in">cout</span> &lt;&lt; <span class="built_in">std</span>::<span class="built_in">endl</span>;</span><br><span class="line"></span><br><span class="line">  <span class="built_in">std</span>::<span class="built_in">string</span>* start = s;</span><br><span class="line">  <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; str_num; ++i) &#123;</span><br><span class="line">    a2.destroy(start++);</span><br><span class="line">  &#125;</span><br><span class="line">  a2.deallocate(s, str_num);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-          
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -1968,7 +1963,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">48</span>
+                    <span class="site-state-item-count">49</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>

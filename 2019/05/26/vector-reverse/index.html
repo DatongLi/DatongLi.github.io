@@ -108,25 +108,25 @@
 
 
 
-  <meta name="description" content="linux系统下一般调用rand/rand_r函数来获取随机数，但是这个随机数随不随机其实跟seed有关，如果seed是一样的，那么多轮的随机数其实是完全一样的。这时可以依赖系统时间来获取真正的随机数，实现如下： 12345678910111213141516171819202122#include &amp;lt;sys/time.h&amp;gt;#include &amp;lt;stdlib.h&amp;gt;#inclu">
-<meta name="keywords" content="linux">
+  <meta name="description" content="vector的reserve函数，只是预留了空间，直接调用vector[0]进行赋值，是不会报错的。 但是reserve的空间用vector.at(1)使用时，就会出core，因为这部分空间是未分配的。 不过如果空间已经分配了，比如说vector初始化时指定了4个空间，用at时不会出core的。 1234567891011121314151617181920212223242526272829#i">
+<meta name="keywords" content="cpp">
 <meta property="og:type" content="article">
-<meta property="og:title" content="linux系统下获取随机数">
-<meta property="og:url" content="http://yoursite.com/2018/04/18/The-random-number-is-obtained-under-the-system-of-linux/index.html">
+<meta property="og:title" content="vector的reverse函数陷阱">
+<meta property="og:url" content="http://yoursite.com/2019/05/26/vector-reverse/index.html">
 <meta property="og:site_name" content="写在人生的边上">
-<meta property="og:description" content="linux系统下一般调用rand/rand_r函数来获取随机数，但是这个随机数随不随机其实跟seed有关，如果seed是一样的，那么多轮的随机数其实是完全一样的。这时可以依赖系统时间来获取真正的随机数，实现如下： 12345678910111213141516171819202122#include &amp;lt;sys/time.h&amp;gt;#include &amp;lt;stdlib.h&amp;gt;#inclu">
+<meta property="og:description" content="vector的reserve函数，只是预留了空间，直接调用vector[0]进行赋值，是不会报错的。 但是reserve的空间用vector.at(1)使用时，就会出core，因为这部分空间是未分配的。 不过如果空间已经分配了，比如说vector初始化时指定了4个空间，用at时不会出core的。 1234567891011121314151617181920212223242526272829#i">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2018-04-30T18:13:51.000Z">
+<meta property="og:updated_time" content="2019-05-26T11:52:11.558Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="linux系统下获取随机数">
-<meta name="twitter:description" content="linux系统下一般调用rand/rand_r函数来获取随机数，但是这个随机数随不随机其实跟seed有关，如果seed是一样的，那么多轮的随机数其实是完全一样的。这时可以依赖系统时间来获取真正的随机数，实现如下： 12345678910111213141516171819202122#include &amp;lt;sys/time.h&amp;gt;#include &amp;lt;stdlib.h&amp;gt;#inclu">
+<meta name="twitter:title" content="vector的reverse函数陷阱">
+<meta name="twitter:description" content="vector的reserve函数，只是预留了空间，直接调用vector[0]进行赋值，是不会报错的。 但是reserve的空间用vector.at(1)使用时，就会出core，因为这部分空间是未分配的。 不过如果空间已经分配了，比如说vector初始化时指定了4个空间，用at时不会出core的。 1234567891011121314151617181920212223242526272829#i">
 
 
 
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2018/04/18/The-random-number-is-obtained-under-the-system-of-linux/"/>
+  <link rel="canonical" href="http://yoursite.com/2019/05/26/vector-reverse/"/>
 
 
 
@@ -136,7 +136,7 @@
   };
 </script>
 
-  <title>linux系统下获取随机数 | 写在人生的边上</title>
+  <title>vector的reverse函数陷阱 | 写在人生的边上</title>
   
 
 
@@ -289,7 +289,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/04/18/The-random-number-is-obtained-under-the-system-of-linux/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/05/26/vector-reverse/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Datong Li">
@@ -306,7 +306,7 @@
 
         
         
-          <h2 class="post-title" itemprop="name headline">linux系统下获取随机数
+          <h2 class="post-title" itemprop="name headline">vector的reverse函数陷阱
               
             
           </h2>
@@ -331,24 +331,12 @@
                 
               
 
-              <time title="创建时间：2018-04-18 22:01:16" itemprop="dateCreated datePublished" datetime="2018-04-18T22:01:16+08:00">2018-04-18</time>
+              <time title="创建时间：2019-05-26 19:39:04 / 修改时间：19:52:11" itemprop="dateCreated datePublished" datetime="2019-05-26T19:39:04+08:00">2019-05-26</time>
             
 
             
               
 
-              
-                
-                <span class="post-meta-divider">|</span>
-                
-
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">更新于</span>
-                
-                <time title="修改时间：2018-05-01 02:13:51" itemprop="dateModified" datetime="2018-05-01T02:13:51+08:00">2018-05-01</time>
               
             
           </span>
@@ -381,8 +369,11 @@
       
 
       
-        <p>linux系统下一般调用rand/rand_r函数来获取随机数，但是这个随机数随不随机其实跟seed有关，如果seed是一样的，那么多轮的随机数其实是完全一样的。这时可以依赖系统时间来获取真正的随机数，实现如下：</p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;sys/time.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdlib.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">int</span></span><br><span class="line">main(<span class="keyword">int</span> argc, <span class="keyword">char</span> *argv[])</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">int</span> j, r, nloops = <span class="number">20</span>;</span><br><span class="line">    <span class="keyword">unsigned</span> <span class="keyword">int</span> seed;</span><br><span class="line"></span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">timeval</span> <span class="title">tv</span>;</span></span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">timezone</span> <span class="title">tz</span>;</span></span><br><span class="line">    gettimeofday(&amp;tv, &amp;tz);</span><br><span class="line">    seed = tv.tv_usec;</span><br><span class="line">    srand(seed);</span><br><span class="line">    <span class="keyword">for</span> (j = <span class="number">0</span>; j &lt; nloops; j++) &#123;</span><br><span class="line">        r =  rand();</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">"%d\n"</span>, r);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="built_in">exit</span>(EXIT_SUCCESS);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+        <p>vector的reserve函数，只是预留了空间，直接调用vector[0]进行赋值，是不会报错的。</p>
+<p>但是reserve的空间用vector.at(1)使用时，就会出core，因为这部分空间是未分配的。</p>
+<p>不过如果空间已经分配了，比如说vector初始化时指定了4个空间，用at时不会出core的。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;vector&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">  <span class="built_in">std</span>::<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; aaa;</span><br><span class="line">  aaa.reserve(<span class="number">4</span>);</span><br><span class="line">  <span class="built_in">std</span>::<span class="built_in">cout</span> &lt;&lt; <span class="string">"size = "</span> &lt;&lt; aaa.size() &lt;&lt; <span class="built_in">std</span>::<span class="built_in">endl</span>;</span><br><span class="line">	aaa[<span class="number">0</span>] = <span class="number">1</span>;</span><br><span class="line">  <span class="comment">//aaa.at(1) = 2; // 这个调用会出core</span></span><br><span class="line">  <span class="built_in">std</span>::<span class="built_in">cout</span> &lt;&lt; <span class="string">"aaa[0] = "</span> &lt;&lt; aaa[<span class="number">0</span>] &lt;&lt; <span class="string">", aaa[1] = "</span> &lt;&lt; aaa[<span class="number">1</span>] &lt;&lt; <span class="built_in">std</span>::<span class="built_in">endl</span>;</span><br><span class="line">  <span class="built_in">std</span>::<span class="built_in">cout</span> &lt;&lt; <span class="string">"size = "</span> &lt;&lt; aaa.size() &lt;&lt; <span class="built_in">std</span>::<span class="built_in">endl</span>;</span><br><span class="line"></span><br><span class="line">  <span class="built_in">std</span>::<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; bbb(<span class="number">4</span>);</span><br><span class="line">  <span class="built_in">std</span>::<span class="built_in">cout</span> &lt;&lt; <span class="string">"size = "</span> &lt;&lt; bbb.size() &lt;&lt; <span class="built_in">std</span>::<span class="built_in">endl</span>;</span><br><span class="line">  bbb[<span class="number">0</span>] = <span class="number">2</span>;</span><br><span class="line">  bbb.at(<span class="number">1</span>) = <span class="number">4</span>;</span><br><span class="line">  <span class="built_in">std</span>::<span class="built_in">cout</span> &lt;&lt; <span class="string">"bbb[0] = "</span> &lt;&lt; bbb[<span class="number">0</span>] &lt;&lt; <span class="string">", bbb[1] = "</span> &lt;&lt; bbb[<span class="number">1</span>] &lt;&lt; <span class="built_in">std</span>::<span class="built_in">endl</span>;</span><br><span class="line">  <span class="built_in">std</span>::<span class="built_in">cout</span> &lt;&lt; <span class="string">"size = "</span> &lt;&lt; bbb.size() &lt;&lt; <span class="built_in">std</span>::<span class="built_in">endl</span>;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">result:</span><br><span class="line">size = <span class="number">0</span></span><br><span class="line">aaa[<span class="number">0</span>] = <span class="number">1</span>, aaa[<span class="number">1</span>] = <span class="number">-2147483648</span></span><br><span class="line">size = <span class="number">0</span></span><br><span class="line">size = <span class="number">4</span></span><br><span class="line">bbb[<span class="number">0</span>] = <span class="number">2</span>, bbb[<span class="number">1</span>] = <span class="number">4</span></span><br><span class="line">size = <span class="number">4</span></span><br></pre></td></tr></table></figure>
+
       
     </div>
 
@@ -402,7 +393,7 @@
       
         <div class="post-tags">
           
-            <a href="/tags/linux/" rel="tag"># linux</a>
+            <a href="/tags/cpp/" rel="tag"># cpp</a>
           
         </div>
       
@@ -415,8 +406,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2018/04/17/Function-definitions-and-implementations-cannot-be-separated-for-template/" rel="next" title="template函数定义和实现不能分离">
-                <i class="fa fa-chevron-left"></i> template函数定义和实现不能分离
+              <a href="/2019/05/26/functions/" rel="next" title="仿函数和匿名函数的使用">
+                <i class="fa fa-chevron-left"></i> 仿函数和匿名函数的使用
               </a>
             
           </div>
@@ -424,10 +415,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2018/04/18/A-way-to-gracefully-implement-state-transfer-of-state-machine/" rel="prev" title="优雅地实现状态机状态转移的方法">
-                优雅地实现状态机状态转移的方法 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
