@@ -285,6 +285,149 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/04/29/frequently-used-command-in-Shell/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Datong Li">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/mine.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="写在人生的边上">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/04/29/frequently-used-command-in-Shell/" itemprop="url">
+                  常用的shell指令
+                </a>
+              
+            
+          </h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2018-04-29 22:21:41 / 修改时间：22:28:30" itemprop="dateCreated datePublished" datetime="2018-04-29T22:21:41+08:00">2018-04-29</time>
+            
+
+            
+              
+
+              
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>用grep过滤特定字符，也可以用<code>grep -v</code>指定筛选出不包含某些字符的行<br><figure class="highlight gradle"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cat <span class="regexp">/tmp/</span>aa | <span class="keyword">grep</span> <span class="string">"request timeout"</span> &gt; <span class="regexp">/tmp/</span>bb</span><br></pre></td></tr></table></figure></p>
+<p>用shell来做取某一行并且排列、去重<br><figure class="highlight gradle"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cat <span class="regexp">/tmp/</span>dd | awk <span class="string">'&#123;print $2&#125;'</span> | <span class="keyword">sort</span> | uniq -c &gt; <span class="regexp">/tmp/</span>ee</span><br></pre></td></tr></table></figure></p>
+<p>用shell做split，很方便<br><figure class="highlight stata"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">cat</span> /tmp/<span class="keyword">cc</span> | awk '&#123;<span class="keyword">split</span>(<span class="variable">$0</span>,a,<span class="string">":"</span>); <span class="keyword">print</span> a[3],a[2],a[1]&#125;' &gt; /tmp/dd</span><br></pre></td></tr></table></figure></p>
+<p>通过获取name service挂载的机器列表，对每个机器进行ssh登录，并且执行一系列shell指令获取输出到本地文件<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#!/bin/sh</span></span><br><span class="line">rm -rf LOG</span><br><span class="line">rm -rf tmp_*</span><br><span class="line">get_hosts_by_path XXX_name_service | <span class="keyword">while</span> <span class="built_in">read</span> x;</span><br><span class="line"><span class="keyword">do</span></span><br><span class="line">&#123;</span><br><span class="line">  <span class="built_in">echo</span> -e <span class="string">"=====<span class="variable">$x</span>"</span> &gt; <span class="string">"tmp_"</span><span class="variable">$x</span></span><br><span class="line">  ssh -o StrictHostKeyChecking=no -t <span class="variable">$x</span> -n <span class="string">"nice -19 cd /xxx/job_xxx_*/xxxx/ &amp;&amp; *do something* "</span> &gt;&gt; <span class="string">"tmp_"</span><span class="variable">$x</span></span><br><span class="line">  <span class="comment">#ssh -o StrictHostKeyChecking=no -t $x -n "nice -19 awk '\$1&gt;\"2017/12/08-16:15\" &amp;&amp; /No such file or directory/ &#123;print \$0&#125;' /xxx/job_xxx_*/xxxx/yyy.log" &gt;&gt; "tmp_"$x</span></span><br><span class="line">  <span class="built_in">echo</span> -e <span class="variable">$x</span> &gt;&gt; LOG</span><br><span class="line">&#125; &amp;</span><br><span class="line"><span class="keyword">done</span></span><br><span class="line"><span class="keyword">while</span> [[ TRUE ]]; <span class="keyword">do</span></span><br><span class="line">    cat LOG | wc -l</span><br><span class="line">    sleep 10</span><br><span class="line"><span class="keyword">done</span></span><br></pre></td></tr></table></figure></p>
+
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/04/20/simple-paxos/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1763,166 +1906,11 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/04/14/How-to-use-hexo/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Datong Li">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/mine.png">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="写在人生的边上">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h2 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/04/14/How-to-use-hexo/" itemprop="url">
-                  如何使用hexo
-                </a>
-              
-            
-          </h2>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-
-            
-            
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2018-04-14 18:38:41" itemprop="dateCreated datePublished" datetime="2018-04-14T18:38:41+08:00">2018-04-14</time>
-            
-
-            
-              
-
-              
-                
-                <span class="post-meta-divider">|</span>
-                
-
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">更新于</span>
-                
-                <time title="修改时间：2018-05-01 02:13:51" itemprop="dateModified" datetime="2018-05-01T02:13:51+08:00">2018-05-01</time>
-              
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>今天开始使用hexo+github，构建一个简单的blog，做一些技术内容的记录。担心会时不时忘记hexo怎么用，那么就先来记录一下hexo的用法吧。<br>首先，安装nodejs<br><figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt <span class="keyword">install</span> nodejs</span><br></pre></td></tr></table></figure></p>
-<p>获取了代码库（<a href="mailto:git@github.com" target="_blank" rel="noopener">git@github.com</a>:DatongLi/hexo_blog.git）之后<br><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">sudo npm <span class="keyword">install</span> hexo <span class="comment">--save</span></span><br><span class="line">sudo npm <span class="keyword">install</span></span><br><span class="line"></span><br><span class="line">sudo npm <span class="keyword">install</span> hexo-renderer-pug <span class="comment">--save</span></span><br><span class="line">sudo npm <span class="keyword">install</span> hexo-renderer-sass <span class="comment">--save</span></span><br><span class="line">(</span><br><span class="line">    npm <span class="keyword">install</span> -g cnpm <span class="comment">--registry=https://registry.npm.taobao.org</span></span><br><span class="line">    sudo cnpm <span class="keyword">install</span> hexo-renderer-sass <span class="comment">--save</span></span><br><span class="line">)</span><br></pre></td></tr></table></figure></p>
-<p>按理可以正常使用了，后续指令是用hexo的<br><figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">hexo g <span class="comment">//generate ,编译成静态文件</span></span><br><span class="line">hexo d <span class="comment">//deploy, 部署网站</span></span><br><span class="line">hexo s <span class="comment">//server, 本地运行</span></span><br><span class="line">hexo <span class="built_in">c</span> <span class="comment">//clean, 清空generate生成器的文件</span></span><br></pre></td></tr></table></figure></p>
-<p>新建文件：<br><figure class="highlight haxe"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hexo <span class="keyword">new</span> <span class="type">post</span> <span class="string">"newPost"</span></span><br></pre></td></tr></table></figure></p>
-
-          
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/4/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/4/">4</a><span class="page-number current">5</span>
+    <a class="extend prev" rel="prev" href="/page/4/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/4/">4</a><span class="page-number current">5</span><a class="page-number" href="/page/6/">6</a><a class="extend next" rel="next" href="/page/6/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
   </nav>
 
 
@@ -1969,7 +1957,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">50</span>
+                    <span class="site-state-item-count">51</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
