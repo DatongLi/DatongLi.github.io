@@ -108,25 +108,25 @@
 
 
 
-  <meta name="description" content="zk经常使用，但是也经常忘记这些指令，稍微记录一下。 123// Create Znodescreate /path /datae.g. create /FirstZnode “Myfirstzookeeper-app” 123// Get Data : It returns the associated data of the znode and metadata of the specifie">
-<meta name="keywords" content="utils">
+  <meta name="description" content="纯虚函数/虚函数的模板，结合了模板和虚函数的灵活性，在某些场景下可能会需要。 模板其实是在编译期展开，所以在编译之后其实得到的还是一个带虚函数的类，既不违背模板的编译期确定，也不违背虚函数的运行期确定。 1234567891011121314151617181920212223242526272829303132333435363738394041#include &amp;lt;functional&amp;g">
+<meta name="keywords" content="cpp">
 <meta property="og:type" content="article">
-<meta property="og:title" content="zookeeper cli 常用命令">
-<meta property="og:url" content="http://yoursite.com/2018/04/19/zookeeper-cli-common-commands/index.html">
+<meta property="og:title" content="纯虚函数模板的使用">
+<meta property="og:url" content="http://yoursite.com/2019/06/02/Use-of-pure-virtual-function-templates/index.html">
 <meta property="og:site_name" content="写在人生的边上">
-<meta property="og:description" content="zk经常使用，但是也经常忘记这些指令，稍微记录一下。 123// Create Znodescreate /path /datae.g. create /FirstZnode “Myfirstzookeeper-app” 123// Get Data : It returns the associated data of the znode and metadata of the specifie">
+<meta property="og:description" content="纯虚函数/虚函数的模板，结合了模板和虚函数的灵活性，在某些场景下可能会需要。 模板其实是在编译期展开，所以在编译之后其实得到的还是一个带虚函数的类，既不违背模板的编译期确定，也不违背虚函数的运行期确定。 1234567891011121314151617181920212223242526272829303132333435363738394041#include &amp;lt;functional&amp;g">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2018-04-30T18:13:51.000Z">
+<meta property="og:updated_time" content="2019-06-02T06:01:24.632Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="zookeeper cli 常用命令">
-<meta name="twitter:description" content="zk经常使用，但是也经常忘记这些指令，稍微记录一下。 123// Create Znodescreate /path /datae.g. create /FirstZnode “Myfirstzookeeper-app” 123// Get Data : It returns the associated data of the znode and metadata of the specifie">
+<meta name="twitter:title" content="纯虚函数模板的使用">
+<meta name="twitter:description" content="纯虚函数/虚函数的模板，结合了模板和虚函数的灵活性，在某些场景下可能会需要。 模板其实是在编译期展开，所以在编译之后其实得到的还是一个带虚函数的类，既不违背模板的编译期确定，也不违背虚函数的运行期确定。 1234567891011121314151617181920212223242526272829303132333435363738394041#include &amp;lt;functional&amp;g">
 
 
 
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2018/04/19/zookeeper-cli-common-commands/"/>
+  <link rel="canonical" href="http://yoursite.com/2019/06/02/Use-of-pure-virtual-function-templates/"/>
 
 
 
@@ -136,7 +136,7 @@
   };
 </script>
 
-  <title>zookeeper cli 常用命令 | 写在人生的边上</title>
+  <title>纯虚函数模板的使用 | 写在人生的边上</title>
   
 
 
@@ -289,7 +289,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/04/19/zookeeper-cli-common-commands/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/06/02/Use-of-pure-virtual-function-templates/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Datong Li">
@@ -306,7 +306,7 @@
 
         
         
-          <h2 class="post-title" itemprop="name headline">zookeeper cli 常用命令
+          <h2 class="post-title" itemprop="name headline">纯虚函数模板的使用
               
             
           </h2>
@@ -331,24 +331,12 @@
                 
               
 
-              <time title="创建时间：2018-04-19 23:33:52" itemprop="dateCreated datePublished" datetime="2018-04-19T23:33:52+08:00">2018-04-19</time>
+              <time title="创建时间：2019-06-02 13:56:53 / 修改时间：14:01:24" itemprop="dateCreated datePublished" datetime="2019-06-02T13:56:53+08:00">2019-06-02</time>
             
 
             
               
 
-              
-                
-                <span class="post-meta-divider">|</span>
-                
-
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">更新于</span>
-                
-                <time title="修改时间：2018-05-01 02:13:51" itemprop="dateModified" datetime="2018-05-01T02:13:51+08:00">2018-05-01</time>
               
             
           </span>
@@ -381,12 +369,11 @@
       
 
       
-        <p>zk经常使用，但是也经常忘记这些指令，稍微记录一下。</p>
-<figure class="highlight n1ql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">// <span class="keyword">Create</span> Znodes</span><br><span class="line"><span class="keyword">create</span> /<span class="keyword">path</span> /data</span><br><span class="line"><span class="built_in">e</span>.g. <span class="keyword">create</span> /FirstZnode “Myfirstzookeeper-app”</span><br></pre></td></tr></table></figure>
-<figure class="highlight livecodeserver"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">// Get Data : It returns <span class="keyword">the</span> associated data <span class="keyword">of</span> <span class="keyword">the</span> znode <span class="keyword">and</span> metadata <span class="keyword">of</span> <span class="keyword">the</span> specified znode</span><br><span class="line"><span class="built_in">get</span> /path </span><br><span class="line">e.g. <span class="built_in">get</span> /FirstZnode</span><br></pre></td></tr></table></figure>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">// <span class="keyword">Set</span> <span class="keyword">Data</span> : <span class="keyword">Set</span> the <span class="keyword">data</span> <span class="keyword">of</span> the specified znode</span><br><span class="line"><span class="keyword">set</span> /<span class="keyword">path</span> /<span class="keyword">data</span></span><br><span class="line">e.g. <span class="keyword">get</span> /SecondZnode <span class="string">"Data-updated"</span></span><br></pre></td></tr></table></figure>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">// Watch : Watches <span class="keyword">show</span> a notification <span class="keyword">when</span> the specified znode <span class="keyword">or</span> znode’s children <span class="keyword">data</span> changes</span><br><span class="line"><span class="keyword">get</span> /<span class="keyword">path</span> [watch] <span class="number">1</span></span><br><span class="line">e.g. <span class="keyword">get</span> /FirstZnode <span class="number">1</span></span><br></pre></td></tr></table></figure>
-<figure class="highlight jboss-cli"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">//</span> List Children</span><br><span class="line"><span class="keyword">ls</span> <span class="string">/path</span></span><br><span class="line">e.g. <span class="keyword">ls</span> <span class="string">/MyFirstZnode</span></span><br></pre></td></tr></table></figure>
+        <p>纯虚函数/虚函数的模板，结合了模板和虚函数的灵活性，在某些场景下可能会需要。</p>
+<p>模板其实是在编译期展开，所以在编译之后其实得到的还是一个带虚函数的类，既不违背模板的编译期确定，也不违背虚函数的运行期确定。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;functional&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;vector&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Processor</span> &#123;</span></span><br><span class="line"> <span class="keyword">public</span>:</span><br><span class="line">  Processor() &#123;&#125;</span><br><span class="line">  <span class="keyword">virtual</span> ~Processor() &#123;&#125;</span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">virtual</span> T <span class="title">Process</span><span class="params">(<span class="keyword">const</span> <span class="built_in">std</span>::<span class="built_in">vector</span>&lt;T&gt;&amp;)</span> </span>= <span class="number">0</span>;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> Func&gt;</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">ProcessorImpl</span> :</span> <span class="keyword">public</span> Processor&lt;<span class="keyword">uint64_t</span>&gt; &#123;</span><br><span class="line"> <span class="keyword">public</span>:</span><br><span class="line">  ProcessorImpl(Func func) : func_(func) &#123;&#125;</span><br><span class="line">  ~ProcessorImpl() &#123;&#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">uint64_t</span> Process(<span class="keyword">const</span> <span class="built_in">std</span>::<span class="built_in">vector</span>&lt;<span class="keyword">uint64_t</span>&gt;&amp; process_list) &#123;</span><br><span class="line">    <span class="keyword">return</span> func_(process_list);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line"> <span class="keyword">private</span>:</span><br><span class="line">  Func func_;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">  <span class="keyword">auto</span> AddFunc = [](<span class="keyword">const</span> <span class="built_in">std</span>::<span class="built_in">vector</span>&lt;<span class="keyword">uint64_t</span>&gt;&amp; process_list) -&gt; <span class="keyword">uint64_t</span> &#123;</span><br><span class="line">    <span class="keyword">uint64_t</span> result = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">uint64_t</span> num : process_list) &#123;</span><br><span class="line">      result += num;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> result;</span><br><span class="line">  &#125;;</span><br><span class="line">  ProcessorImpl&lt;<span class="keyword">decltype</span>(AddFunc)&gt; processor_impl(AddFunc);</span><br><span class="line">  <span class="built_in">std</span>::<span class="built_in">cout</span> &lt;&lt; <span class="string">"sum(3,4,5) = "</span></span><br><span class="line">            &lt;&lt; processor_impl.Process(<span class="built_in">std</span>::<span class="built_in">vector</span>&lt;<span class="keyword">uint64_t</span>&gt;&#123;<span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>&#125;)</span><br><span class="line">            &lt;&lt; <span class="built_in">std</span>::<span class="built_in">endl</span>;</span><br><span class="line">  <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>结果：<br><figure class="highlight lsl"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sum(<span class="number">3</span>,<span class="number">4</span>,<span class="number">5</span>) = <span class="number">12</span></span><br></pre></td></tr></table></figure></p>
+
       
     </div>
 
@@ -406,7 +393,7 @@
       
         <div class="post-tags">
           
-            <a href="/tags/utils/" rel="tag"># utils</a>
+            <a href="/tags/cpp/" rel="tag"># cpp</a>
           
         </div>
       
@@ -419,8 +406,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2018/04/18/A-more-elegant-way-to-implement-an-enum-type-map-to-a-string/" rel="next" title="更优雅实现enum类型映射到string的方法——重载<<运算符">
-                <i class="fa fa-chevron-left"></i> 更优雅实现enum类型映射到string的方法——重载<<运算符
+              <a href="/2019/06/01/Container-set-custom-comparison-function/" rel="next" title="容器set自定义比较函数">
+                <i class="fa fa-chevron-left"></i> 容器set自定义比较函数
               </a>
             
           </div>
@@ -428,10 +415,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2018/04/19/Base-class-and-derived-class-virtual-destructors-affect-the-release-of-resources/" rel="prev" title="基类和派生类虚析构对释放资源影响">
-                基类和派生类虚析构对释放资源影响 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
