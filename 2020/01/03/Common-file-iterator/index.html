@@ -108,25 +108,25 @@
 
 
 
-  <meta name="description" content="CRTP奇异递归模板模式(curiously recurring template pattern,CRTP)，是cpp中一种静态多态技术。大致如：1234567891011121314151617181920212223242526// The Curiously Recurring Template Pattern (CRTP)template &amp;lt;class T&amp;gt;class Bas">
+  <meta name="description" content="常用文件迭代器在开发中，经常遇到需要读文件的场景，cpp的实现太多而可以直接拿来用的太少。 根据迭代器接口，写了个易用的按行读文件的实现，大家可以直接copy使用，当然如果开源要用的话需要附上我这篇博客，让我开心下，哈哈，谢谢大家了！ 1234567891011121314151617181920212223242526272829303132333435363738394041424344454">
 <meta name="keywords" content="cpp">
 <meta property="og:type" content="article">
-<meta property="og:title" content="奇异递归模板模式（CRTP）——enable_shared_from_this实现原理">
-<meta property="og:url" content="http://yoursite.com/2018/11/17/crtp/index.html">
+<meta property="og:title" content="Common file iterator">
+<meta property="og:url" content="http://yoursite.com/2020/01/03/Common-file-iterator/index.html">
 <meta property="og:site_name" content="写在人生的边上">
-<meta property="og:description" content="CRTP奇异递归模板模式(curiously recurring template pattern,CRTP)，是cpp中一种静态多态技术。大致如：1234567891011121314151617181920212223242526// The Curiously Recurring Template Pattern (CRTP)template &amp;lt;class T&amp;gt;class Bas">
+<meta property="og:description" content="常用文件迭代器在开发中，经常遇到需要读文件的场景，cpp的实现太多而可以直接拿来用的太少。 根据迭代器接口，写了个易用的按行读文件的实现，大家可以直接copy使用，当然如果开源要用的话需要附上我这篇博客，让我开心下，哈哈，谢谢大家了！ 1234567891011121314151617181920212223242526272829303132333435363738394041424344454">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2018-11-17T07:59:18.000Z">
+<meta property="og:updated_time" content="2020-01-03T13:34:08.300Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="奇异递归模板模式（CRTP）——enable_shared_from_this实现原理">
-<meta name="twitter:description" content="CRTP奇异递归模板模式(curiously recurring template pattern,CRTP)，是cpp中一种静态多态技术。大致如：1234567891011121314151617181920212223242526// The Curiously Recurring Template Pattern (CRTP)template &amp;lt;class T&amp;gt;class Bas">
+<meta name="twitter:title" content="Common file iterator">
+<meta name="twitter:description" content="常用文件迭代器在开发中，经常遇到需要读文件的场景，cpp的实现太多而可以直接拿来用的太少。 根据迭代器接口，写了个易用的按行读文件的实现，大家可以直接copy使用，当然如果开源要用的话需要附上我这篇博客，让我开心下，哈哈，谢谢大家了！ 1234567891011121314151617181920212223242526272829303132333435363738394041424344454">
 
 
 
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2018/11/17/crtp/"/>
+  <link rel="canonical" href="http://yoursite.com/2020/01/03/Common-file-iterator/"/>
 
 
 
@@ -136,7 +136,7 @@
   };
 </script>
 
-  <title>奇异递归模板模式（CRTP）——enable_shared_from_this实现原理 | 写在人生的边上</title>
+  <title>Common file iterator | 写在人生的边上</title>
   
 
 
@@ -289,7 +289,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/11/17/crtp/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/01/03/Common-file-iterator/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Datong Li">
@@ -306,7 +306,7 @@
 
         
         
-          <h2 class="post-title" itemprop="name headline">奇异递归模板模式（CRTP）——enable_shared_from_this实现原理
+          <h2 class="post-title" itemprop="name headline">Common file iterator
               
             
           </h2>
@@ -331,7 +331,7 @@
                 
               
 
-              <time title="创建时间：2018-11-17 15:56:44 / 修改时间：15:59:18" itemprop="dateCreated datePublished" datetime="2018-11-17T15:56:44+08:00">2018-11-17</time>
+              <time title="创建时间：2020-01-03 21:30:20 / 修改时间：21:34:08" itemprop="dateCreated datePublished" datetime="2020-01-03T21:30:20+08:00">2020-01-03</time>
             
 
             
@@ -369,21 +369,9 @@
       
 
       
-        <h3 id="CRTP"><a href="#CRTP" class="headerlink" title="CRTP"></a>CRTP</h3><p>奇异递归模板模式(curiously recurring template pattern,CRTP)，是cpp中一种静态多态技术。大致如：<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// The Curiously Recurring Template Pattern (CRTP)</span></span><br><span class="line"><span class="keyword">template</span> &lt;<span class="class"><span class="keyword">class</span> <span class="title">T</span>&gt;</span></span><br><span class="line"><span class="class"><span class="title">class</span> <span class="title">Base</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">interface</span><span class="params">()</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="comment">// ...</span></span><br><span class="line">        <span class="keyword">static_cast</span>&lt;T*&gt;(<span class="keyword">this</span>)-&gt;implementation();</span><br><span class="line">        <span class="comment">// ...</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">static</span> <span class="keyword">void</span> <span class="title">static_func</span><span class="params">()</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="comment">// ...</span></span><br><span class="line">        T::static_sub_func();</span><br><span class="line">        <span class="comment">// ...</span></span><br><span class="line">    &#125;</span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">    <span class="keyword">friend</span> <span class="class"><span class="keyword">class</span> <span class="title">T</span>;</span></span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Derived</span> :</span> Base&lt;Derived&gt; &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">implementation</span><span class="params">()</span></span>;</span><br><span class="line">    <span class="function"><span class="keyword">static</span> <span class="keyword">void</span> <span class="title">static_sub_func</span><span class="params">()</span></span>;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure></p>
-<p>CRTP简单来说就是：<code>以派生类作为基类模板参数</code>，这样在基类中就能通过<code>static_cast&lt;T*&gt;(this)</code>这种方式获取派生类对象做函数操作，并且往往还可以在基类中加入派生类类型友元，方便派生类访问基类对象。</p>
-<h3 id="CRTP好处"><a href="#CRTP好处" class="headerlink" title="CRTP好处"></a>CRTP好处</h3><p>绕这么大圈有啥好处呢？</p>
-<ol>
-<li>最大的好处就是在基类的非虚函数中可以调用派生类对象函数，注意，是非虚函数，这意味着不需要使用虚函数+动态多态这套东西可以实现多态的功能，如上面例子中<code>static_cast&lt;T*&gt;(this)-&gt;implementation()</code>转换之后其实就是派生类正常调用，随着模板展开这里其实是静态的，没有动态的特性，但是却对不同派生类有不同的实现（其实就是多态），也叫做静态多态。</li>
-<li>另一个好处就是在父类中保存有子类的实例信息，经典实现就是<code>enable_shared_from_this</code>。</li>
-</ol>
-<h3 id="enable-shared-from-this源码解析"><a href="#enable-shared-from-this源码解析" class="headerlink" title="enable_shared_from_this源码解析"></a><code>enable_shared_from_this</code>源码解析</h3><p><code>enable_shared_from_this</code>使用说明：</p>
-<ol>
-<li>目标类继承基类<code>template&lt;typename _Tp&gt; class enable_shared_from_this</code>；</li>
-<li>调用<code>shared_ptr&lt;_Tp&gt; shared_from_this()</code>获取目标类的shared_ptr。</li>
-</ol>
-<p>下面是具体实现：<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">template</span>&lt;<span class="keyword">typename</span> _Tp&gt;</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">enable_shared_from_this</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">  <span class="built_in">shared_ptr</span>&lt;_Tp&gt;</span><br><span class="line">  shared_from_this()</span><br><span class="line">  &#123; <span class="keyword">return</span> <span class="built_in">shared_ptr</span>&lt;_Tp&gt;(<span class="keyword">this</span>-&gt;_M_weak_this); &#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">  <span class="keyword">mutable</span> weak_ptr&lt;_Tp&gt;  _M_weak_this;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure></p>
-<p>目标类使用范例：<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">TargetObj</span> :</span> <span class="keyword">public</span> enable_shared_from_this&lt;TargetObj&gt; &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    TargetObj() &#123;&#125;</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">DoSth</span><span class="params">(OtherObj* obj)</span> </span>&#123; obj-&gt;invoke(shared_from_this()); &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">OtherObj</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">invoke</span><span class="params">(<span class="built_in">shared_ptr</span>&lt;TargetObj&gt; obj)</span> </span>&#123; ... &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>当<code>new TargetObj</code>的同时，会调用基类<code>enable_shared_from_this</code>构造<code>weak_ptr</code>，这样在调用到使用<code>shared_from_this()</code>时，就从基类的<code>weak_ptr</code> promote为<code>shared_ptr</code>返回。</p>
+        <h3 id="常用文件迭代器"><a href="#常用文件迭代器" class="headerlink" title="常用文件迭代器"></a>常用文件迭代器</h3><p>在开发中，经常遇到需要读文件的场景，cpp的实现太多而可以直接拿来用的太少。</p>
+<p>根据迭代器接口，写了个易用的按行读文件的实现，大家可以直接copy使用，当然如果开源要用的话需要附上我这篇博客，让我开心下，哈哈，谢谢大家了！</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// file_iterator.h</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">pragma</span> once</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;string&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;cstdio&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">namespace</span> Utils &#123;</span><br><span class="line"></span><br><span class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Iterator</span> &#123;</span></span><br><span class="line"> <span class="keyword">public</span>:</span><br><span class="line">  <span class="keyword">virtual</span> ~Iterator() &#123;&#125;</span><br><span class="line">  <span class="function"><span class="keyword">virtual</span> <span class="keyword">void</span> <span class="title">Next</span><span class="params">()</span> </span>= <span class="number">0</span>;</span><br><span class="line">  <span class="function"><span class="keyword">virtual</span> <span class="keyword">bool</span> <span class="title">Valid</span><span class="params">()</span> </span>= <span class="number">0</span>;</span><br><span class="line">  <span class="function"><span class="keyword">virtual</span> T <span class="title">Value</span><span class="params">()</span> </span>= <span class="number">0</span>;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">FileIterator</span> :</span> <span class="keyword">public</span> Iterator&lt;<span class="built_in">std</span>::<span class="built_in">string</span>&gt; &#123;</span><br><span class="line"> <span class="keyword">public</span>:</span><br><span class="line">  FileIterator(<span class="keyword">const</span> <span class="built_in">std</span>::<span class="built_in">string</span>&amp; file_name);</span><br><span class="line">  <span class="keyword">virtual</span> ~FileIterator();</span><br><span class="line">  <span class="function"><span class="keyword">void</span> <span class="title">Next</span><span class="params">()</span> override</span>;</span><br><span class="line">  <span class="function"><span class="keyword">bool</span> <span class="title">Valid</span><span class="params">()</span> override</span>;</span><br><span class="line">  <span class="built_in">std</span>::<span class="function"><span class="built_in">string</span> <span class="title">Value</span><span class="params">()</span> override</span>;</span><br><span class="line"></span><br><span class="line"> <span class="keyword">private</span>:</span><br><span class="line">  <span class="built_in">std</span>::FILE* fd;</span><br><span class="line">  <span class="keyword">bool</span> valid_;</span><br><span class="line">  <span class="keyword">char</span> rep_[<span class="number">1024</span>];</span><br><span class="line">&#125;;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">// file_iterator.cpp</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">"file_iterator.h"</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;cstring&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">namespace</span> Utils &#123;</span><br><span class="line">FileIterator::FileIterator(<span class="keyword">const</span> <span class="built_in">std</span>::<span class="built_in">string</span>&amp; file_name) &#123;</span><br><span class="line">  fd = <span class="built_in">std</span>::fopen(file_name.c_str(), <span class="string">"r"</span>);</span><br><span class="line">  <span class="keyword">if</span> (fd == <span class="literal">nullptr</span>) &#123;</span><br><span class="line">    valid_ = <span class="literal">false</span>;</span><br><span class="line">  &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    valid_ = <span class="literal">true</span>;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="built_in">std</span>::<span class="built_in">memset</span>(rep_, <span class="number">0</span>, <span class="keyword">sizeof</span>(rep_));</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">FileIterator::~FileIterator() &#123;</span><br><span class="line">  <span class="built_in">std</span>::fclose(fd);</span><br><span class="line">  valid_ = <span class="literal">false</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">void</span> FileIterator::Next() &#123;</span><br><span class="line">  <span class="built_in">std</span>::<span class="built_in">memset</span>(rep_, <span class="number">0</span>, <span class="keyword">sizeof</span>(rep_));</span><br><span class="line">  <span class="keyword">if</span> (<span class="literal">nullptr</span> == <span class="built_in">std</span>::fgets(rep_, <span class="keyword">sizeof</span>(rep_), fd)) &#123;</span><br><span class="line">    valid_ = <span class="literal">false</span>;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">bool</span> FileIterator::Valid() &#123; <span class="keyword">return</span> valid_ == <span class="literal">true</span>; &#125;</span><br><span class="line"></span><br><span class="line"><span class="built_in">std</span>::<span class="built_in">string</span> FileIterator::Value() &#123; <span class="keyword">return</span> <span class="built_in">std</span>::<span class="built_in">string</span>(rep_); &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
       
     </div>
@@ -417,8 +405,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2018/11/15/Traits-extraction-technique/" rel="next" title="Traits萃取技术">
-                <i class="fa fa-chevron-left"></i> Traits萃取技术
+              <a href="/2019/06/02/Use-of-pure-virtual-function-templates/" rel="next" title="纯虚函数模板的使用">
+                <i class="fa fa-chevron-left"></i> 纯虚函数模板的使用
               </a>
             
           </div>
@@ -426,10 +414,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2018/11/19/The-use-and-implement-of-priority-queue/" rel="prev" title="priority_queue的用法和实现">
-                priority_queue的用法和实现 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -593,7 +577,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#CRTP"><span class="nav-text">CRTP</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#CRTP好处"><span class="nav-text">CRTP好处</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#enable-shared-from-this源码解析"><span class="nav-text">enable_shared_from_this源码解析</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#常用文件迭代器"><span class="nav-text">常用文件迭代器</span></a></li></ol></div>
             
 
           </div>
