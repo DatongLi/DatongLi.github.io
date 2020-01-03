@@ -285,6 +285,152 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/01/03/Block-IO-non-block-IO-synchronous-IO-asynchronous-IO/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Datong Li">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/mine.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="写在人生的边上">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2020/01/03/Block-IO-non-block-IO-synchronous-IO-asynchronous-IO/" itemprop="url">
+                  阻塞IO、非阻塞IO、同步IO、异步IO
+                </a>
+              
+            
+          </h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2020-01-03 21:52:41 / 修改时间：21:55:48" itemprop="dateCreated datePublished" datetime="2020-01-03T21:52:41+08:00">2020-01-03</time>
+            
+
+            
+              
+
+              
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>经常容易混淆的各种IO，一个IO操作其实分成了两个步骤：发起IO请求和实际的IO操作</p>
+<ul>
+<li>阻塞IO和非阻塞IO的区别在于第一步：发起IO请求是否会被阻塞，如果阻塞直到完成那么就是传统的阻塞IO;</li>
+<li>如果不阻塞，那么就是非阻塞IO;</li>
+<li>同步IO和异步IO的区别就在于第二个步骤是否阻塞，如果实际的IO读写阻塞请求进程，那么就是同步IO，因此阻塞IO、非阻塞IO、IO复用、信号驱动IO都是同步IO;</li>
+<li>如果不阻塞，而是操作系统帮你做完IO操作再将结果返回给你，那么就是异步IO</li>
+</ul>
+
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/01/03/Template-specialization-examples/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1581,152 +1727,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/11/19/The-use-and-implement-of-priority-queue/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Datong Li">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/mine.png">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="写在人生的边上">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h2 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/11/19/The-use-and-implement-of-priority-queue/" itemprop="url">
-                  priority_queue的用法和实现
-                </a>
-              
-            
-          </h2>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-
-            
-            
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2018-11-19 10:39:23 / 修改时间：10:40:15" itemprop="dateCreated datePublished" datetime="2018-11-19T10:39:23+08:00">2018-11-19</time>
-            
-
-            
-              
-
-              
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h3 id="priority-queue用法"><a href="#priority-queue用法" class="headerlink" title="priority_queue用法"></a>priority_queue用法</h3><ol>
-<li>使用优先队列接口push和pop，优先队列内部通过heap接口rebalance，不需用户关心，非常方便；</li>
-<li>使用优先队列场景来说，往往都是自定义的元素，一般需要自定义比较器。</li>
-</ol>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;queue&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;vector&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;utility&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">my_pair_t</span> = <span class="built_in">std</span>::pair&lt;<span class="keyword">size_t</span>,<span class="keyword">bool</span>&gt;;</span><br><span class="line"><span class="keyword">using</span> <span class="keyword">my_container_t</span> = <span class="built_in">std</span>::<span class="built_in">vector</span>&lt;<span class="keyword">my_pair_t</span>&gt;;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">auto</span> my_comp =</span><br><span class="line">        [](<span class="keyword">const</span> <span class="keyword">my_pair_t</span>&amp; e1, <span class="keyword">const</span> <span class="keyword">my_pair_t</span>&amp; e2)</span><br><span class="line">        &#123; <span class="keyword">return</span> e1.first &gt; e2.first; &#125;;</span><br><span class="line">    <span class="built_in">std</span>::priority_queue&lt;<span class="keyword">my_pair_t</span>,</span><br><span class="line">                        <span class="keyword">my_container_t</span>,</span><br><span class="line">                        <span class="keyword">decltype</span>(my_comp)&gt; <span class="built_in">queue</span>(my_comp);</span><br><span class="line">    <span class="built_in">queue</span>.push(<span class="built_in">std</span>::make_pair(<span class="number">5</span>, <span class="literal">true</span>));</span><br><span class="line">    <span class="built_in">queue</span>.push(<span class="built_in">std</span>::make_pair(<span class="number">3</span>, <span class="literal">false</span>));</span><br><span class="line">    <span class="built_in">queue</span>.push(<span class="built_in">std</span>::make_pair(<span class="number">7</span>, <span class="literal">true</span>));</span><br><span class="line">    <span class="built_in">std</span>::<span class="built_in">cout</span> &lt;&lt; <span class="built_in">std</span>::boolalpha;</span><br><span class="line">    <span class="keyword">while</span>(!<span class="built_in">queue</span>.empty())</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">const</span> <span class="keyword">auto</span>&amp; p = <span class="built_in">queue</span>.top();</span><br><span class="line">        <span class="built_in">std</span>::<span class="built_in">cout</span> &lt;&lt; p.first &lt;&lt; <span class="string">" "</span> &lt;&lt; p.second &lt;&lt; <span class="string">"\n"</span>;</span><br><span class="line">        <span class="built_in">queue</span>.pop();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h3 id="priority-queue实现"><a href="#priority-queue实现" class="headerlink" title="priority_queue实现"></a>priority_queue实现</h3><p><code>priority_queue</code>利用stl的<code>heap+vector</code>实现的。提供的<code>top()</code>、<code>pop()</code>和<code>push()</code>接口足够使用。具体实现不难，直接看代码吧。</p>
-<figure class="highlight sqf"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br></pre></td><td class="code"><pre><span class="line">template&lt;<span class="built_in">typename</span> <span class="variable">_Tp</span>, <span class="built_in">typename</span> <span class="variable">_Sequence</span> = vector&lt;<span class="variable">_Tp</span>&gt;,</span><br><span class="line">  <span class="built_in">typename</span> <span class="variable">_Compare</span>  = less&lt;<span class="built_in">typename</span> <span class="variable">_Sequence</span>::value_type&gt; &gt;</span><br><span class="line">  class priority_queue</span><br><span class="line">  &#123;</span><br><span class="line">  protected:</span><br><span class="line">    <span class="comment">//  See queue::c for notes on these names.</span></span><br><span class="line">    <span class="variable">_Sequence</span>  c;</span><br><span class="line">    <span class="variable">_Compare</span>   comp;</span><br><span class="line"></span><br><span class="line">    priority_queue(const <span class="variable">_Compare</span>&amp; <span class="variable">__x</span> = <span class="variable">_Compare</span>(),</span><br><span class="line">     const <span class="variable">_Sequence</span>&amp; <span class="variable">__s</span> = <span class="variable">_Sequence</span>())</span><br><span class="line">    : c(<span class="variable">__s</span>), comp(<span class="variable">__x</span>)</span><br><span class="line">    &#123; std::make_heap(c.begin(), c.end(), comp); &#125;</span><br><span class="line"></span><br><span class="line">    template&lt;<span class="built_in">typename</span> <span class="variable">_InputIterator</span>&gt;</span><br><span class="line"> priority_queue(<span class="variable">_InputIterator</span> <span class="variable">__first</span>, <span class="variable">_InputIterator</span> <span class="variable">__last</span>,</span><br><span class="line">       const <span class="variable">_Compare</span>&amp; <span class="variable">__x</span>,</span><br><span class="line">       const <span class="variable">_Sequence</span>&amp; <span class="variable">__s</span>)</span><br><span class="line"> : c(<span class="variable">__s</span>), comp(<span class="variable">__x</span>)</span><br><span class="line"> &#123;</span><br><span class="line">   <span class="variable">__glibcxx_requires_valid_range</span>(<span class="variable">__first</span>, <span class="variable">__last</span>);</span><br><span class="line">   c.insert(c.end(), <span class="variable">__first</span>, <span class="variable">__last</span>);</span><br><span class="line">   std::make_heap(c.begin(), c.end(), comp);</span><br><span class="line"> &#125;</span><br><span class="line"></span><br><span class="line"> bool</span><br><span class="line">    empty() const</span><br><span class="line">    &#123; return c.empty(); &#125;</span><br><span class="line"></span><br><span class="line">    size_type</span><br><span class="line">    <span class="built_in">size</span>() const</span><br><span class="line">    &#123; return c.<span class="built_in">size</span>(); &#125;</span><br><span class="line"></span><br><span class="line">    const_reference</span><br><span class="line">    top() const</span><br><span class="line">    &#123;</span><br><span class="line">   <span class="variable">__glibcxx_requires_nonempty</span>();</span><br><span class="line">   return c.front();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    void</span><br><span class="line">    push(const value_type&amp; <span class="variable">__x</span>)</span><br><span class="line">    &#123;</span><br><span class="line">   c.push_back(<span class="variable">__x</span>);</span><br><span class="line">   std::push_heap(c.begin(), c.end(), comp);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    template&lt;<span class="built_in">typename</span>... <span class="variable">_Args</span>&gt;</span><br><span class="line"> void</span><br><span class="line"> emplace(<span class="variable">_Args</span>&amp;&amp;... <span class="variable">__args</span>)</span><br><span class="line"> &#123;</span><br><span class="line">   c.emplace_back(std::forward&lt;<span class="variable">_Args</span>&gt;(<span class="variable">__args</span>)...);</span><br><span class="line">   std::push_heap(c.begin(), c.end(), comp);</span><br><span class="line"> &#125;</span><br><span class="line"></span><br><span class="line"> void</span><br><span class="line">    pop()</span><br><span class="line">    &#123;</span><br><span class="line">   <span class="variable">__glibcxx_requires_nonempty</span>();</span><br><span class="line">   std::pop_heap(c.begin(), c.end(), comp);</span><br><span class="line">   c.pop_back();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
-
-          
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -1778,7 +1778,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">55</span>
+                    <span class="site-state-item-count">56</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
