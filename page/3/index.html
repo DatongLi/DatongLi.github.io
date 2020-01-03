@@ -285,6 +285,164 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/08/29/PostgreSQL-usage-records/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Datong Li">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/mine.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="写在人生的边上">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/08/29/PostgreSQL-usage-records/" itemprop="url">
+                  PostgreSQL使用记录
+                </a>
+              
+            
+          </h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2018-08-29 22:10:07" itemprop="dateCreated datePublished" datetime="2018-08-29T22:10:07+08:00">2018-08-29</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2018-09-01 01:37:53" itemprop="dateModified" datetime="2018-09-01T01:37:53+08:00">2018-09-01</time>
+              
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h4 id="安装PostgreSQL"><a href="#安装PostgreSQL" class="headerlink" title="安装PostgreSQL"></a>安装<code>PostgreSQL</code></h4><p>仅限于Ubuntu。<br><figure class="highlight crystal"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="symbol">https:</span>/<span class="regexp">/www.postgresql.org/download</span><span class="regexp">/linux/ubuntu</span><span class="regexp">/</span></span><br><span class="line"><span class="regexp">1. Create the file /etc</span><span class="regexp">/apt/sources</span>.list.d/pgdg.list and add a line <span class="keyword">for</span> the repository</span><br><span class="line">deb <span class="symbol">http:</span>/<span class="regexp">/apt.postgresql.org/pub</span><span class="regexp">/repos/apt</span><span class="regexp">/ xenial-pgdg main</span></span><br><span class="line"><span class="regexp"></span></span><br><span class="line"><span class="regexp">2. Import the repository signing key, and update the package lists</span></span><br><span class="line"><span class="regexp">wget --quiet -O - https:/</span><span class="regexp">/www.postgresql.org/media</span><span class="regexp">/keys/</span>ACCC4CF8.asc | sudo apt-key add -</span><br><span class="line">sudo apt-get update</span><br><span class="line"></span><br><span class="line"><span class="number">3</span>. apt-get install postgresql-<span class="number">10</span></span><br><span class="line"></span><br><span class="line"><span class="number">4</span>. /usr/<span class="class"><span class="keyword">lib</span>/<span class="title">postgresql</span>/10/<span class="title">bin</span>/<span class="title">pg_ctl</span> -<span class="title">D</span> /<span class="title">var</span>/<span class="title">lib</span>/<span class="title">postgresql</span>/10/<span class="title">main</span> -<span class="title">l</span> <span class="title">logfile</span> <span class="title">start</span></span></span><br><span class="line"></span><br><span class="line">LD_LIBRARY_PATH=<span class="regexp">/usr/lib</span><span class="regexp">/postgresql/</span><span class="number">10</span>/<span class="class"><span class="keyword">lib</span></span></span><br><span class="line">PATH=<span class="regexp">/usr/lib</span><span class="regexp">/postgresql/</span><span class="number">10</span>/bin</span><br></pre></td></tr></table></figure></p>
+<h4 id="创建新账户"><a href="#创建新账户" class="headerlink" title="创建新账户"></a>创建新账户</h4><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">sudo adduser dbuser</span><br><span class="line">sudo su - postgres</span><br><span class="line">psql</span><br><span class="line">\password postgres</span><br><span class="line"><span class="keyword">CREATE</span> <span class="keyword">USER</span> dbuser <span class="keyword">WITH</span> <span class="keyword">PASSWORD</span> <span class="string">'password'</span>;</span><br><span class="line"><span class="keyword">CREATE</span> <span class="keyword">DATABASE</span> exampledb OWNER dbuser;</span><br><span class="line"><span class="keyword">GRANT</span> ALL <span class="keyword">PRIVILEGES</span> <span class="keyword">ON</span> <span class="keyword">DATABASE</span> exampledb <span class="keyword">to</span> dbuser;</span><br><span class="line">\q</span><br></pre></td></tr></table></figure>
+<h4 id="登录使用PostgreSQL"><a href="#登录使用PostgreSQL" class="headerlink" title="登录使用PostgreSQL"></a>登录使用<code>PostgreSQL</code></h4><figure class="highlight lsl"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">psql -U dbuser -d exampledb -h <span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span> -p <span class="number">5432</span></span><br></pre></td></tr></table></figure>
+<h4 id="常用语句"><a href="#常用语句" class="headerlink" title="常用语句"></a>常用语句</h4><figure class="highlight gams"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"># 创建新表</span><br><span class="line">CREATE <span class="keyword">TABLE</span> user_tbl(name <span class="comment">VARCHAR(20), signup_date DATE)</span>;</span><br><span class="line"></span><br><span class="line"># 插入数据</span><br><span class="line">INSERT INTO user_tbl(name, signup_date) VALUES(<span class="string">'张三'</span>, <span class="string">'2013-12-22'</span>);</span><br><span class="line"></span><br><span class="line"># 选择记录</span><br><span class="line">SELECT * FROM user_tbl;</span><br><span class="line"></span><br><span class="line"># 更新数据</span><br><span class="line">UPDATE user_tbl <span class="keyword">set</span> name <span class="comment">=</span> <span class="comment">'李四'</span><span class="comment"> WHERE name =</span> <span class="comment">'张三'</span>;</span><br><span class="line"></span><br><span class="line"># 删除记录</span><br><span class="line">DELETE FROM user_tbl WHERE name = <span class="string">'李四'</span> ;</span><br><span class="line"></span><br><span class="line"># 添加栏位</span><br><span class="line">ALTER <span class="keyword">TABLE</span> user_tbl <span class="comment">ADD email VARCHAR(40)</span>;</span><br><span class="line"></span><br><span class="line"># 更新结构</span><br><span class="line">ALTER <span class="keyword">TABLE</span> user_tbl <span class="comment">ALTER COLUMN signup_date SET NOT NULL</span>;</span><br><span class="line"></span><br><span class="line"># 更名栏位</span><br><span class="line">ALTER <span class="keyword">TABLE</span> user_tbl <span class="comment">RENAME COLUMN signup_date TO signup</span>;</span><br><span class="line"></span><br><span class="line"># 删除栏位</span><br><span class="line">ALTER <span class="keyword">TABLE</span> user_tbl <span class="comment">DROP COLUMN email</span>;</span><br><span class="line"></span><br><span class="line"># 表格更名</span><br><span class="line">ALTER <span class="keyword">TABLE</span> user_tbl <span class="comment">RENAME TO backup_tbl</span>;</span><br><span class="line"></span><br><span class="line"># 删除表格</span><br><span class="line">DROP <span class="keyword">TABLE</span> IF <span class="comment">EXISTS backup_tbl</span>;</span><br></pre></td></tr></table></figure>
+<h4 id="编译example"><a href="#编译example" class="headerlink" title="编译example"></a>编译example</h4><p>编译一个官网给的例子，代码见节尾。编译的时候很可能找不到头文件<code>libpq-fe.h</code>，在ubuntu16.04下，解决办法如下：<br><figure class="highlight actionscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-<span class="keyword">get</span> install libpq-dev</span><br><span class="line">/usr/<span class="meta"><span class="meta-keyword">include</span>/postgresql/libpq-fe.h</span></span><br></pre></td></tr></table></figure></p>
+<p>g++ example.cpp -o example -I/usr/include/postgresql -L/usr/lib/postgresql/10/lib -lpq<br><figure class="highlight mipsasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment"> * src/test/examples/testlibpq.c</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * testlibpq.c</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> *      Test the C version of libpq, the PostgreSQL frontend library.</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="comment">#include &lt;stdio.h&gt;</span></span><br><span class="line"><span class="comment">#include &lt;stdlib.h&gt;</span></span><br><span class="line"><span class="comment">#include "libpq-fe.h"</span></span><br><span class="line"></span><br><span class="line">static void</span><br><span class="line">exit_nicely(PGconn *conn)</span><br><span class="line">&#123;</span><br><span class="line">    PQfinish(conn)<span class="comment">;</span></span><br><span class="line">    exit(<span class="number">1</span>)<span class="comment">;</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">int</span><br><span class="line">main(int argc, char **argv)</span><br><span class="line">&#123;</span><br><span class="line">    const char *conninfo<span class="comment">;</span></span><br><span class="line">    PGconn     *conn<span class="comment">;</span></span><br><span class="line">    PGresult   *res<span class="comment">;</span></span><br><span class="line">    int         nFields<span class="comment">;</span></span><br><span class="line">    int         i,</span><br><span class="line">                <span class="keyword">j;</span></span><br><span class="line"><span class="keyword"></span></span><br><span class="line"><span class="keyword"> </span>   <span class="comment">/*</span></span><br><span class="line"><span class="comment">     * If the user supplies a parameter on the command line, use it as the</span></span><br><span class="line"><span class="comment">     * conninfo string; otherwise default to setting dbname=postgres and using</span></span><br><span class="line"><span class="comment">     * environment variables or defaults for all other connection parameters.</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    if (argc &gt; <span class="number">1</span>)</span><br><span class="line">        conninfo = argv[<span class="number">1</span>]<span class="comment">;</span></span><br><span class="line">    else</span><br><span class="line">        conninfo = <span class="string">"dbname=exampledb hostaddr=127.0.0.1 user=dbuser password=password"</span><span class="comment">;</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">/* Make a connection to the database */</span></span><br><span class="line">    conn = PQconnectdb(conninfo)<span class="comment">;</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">/* Check to see that the backend connection was successfully made */</span></span><br><span class="line">    if (PQstatus(conn) != CONNECTION_OK)</span><br><span class="line">    &#123;</span><br><span class="line">        fprintf(stderr, <span class="string">"Connection to database failed: %s"</span>,</span><br><span class="line">                PQerrorMessage(conn))<span class="comment">;</span></span><br><span class="line">        exit_nicely(conn)<span class="comment">;</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/* Set always-secure search path, so malicous users can't take control. */</span></span><br><span class="line">    res = PQexec(conn,</span><br><span class="line">                 <span class="string">"SELECT pg_catalog.set_config('search_path', '', false)"</span>)<span class="comment">;</span></span><br><span class="line">    if (PQresultStatus(res) != PGRES_TUPLES_OK)</span><br><span class="line">    &#123;</span><br><span class="line">        fprintf(stderr, <span class="string">"SET failed: %s"</span>, PQerrorMessage(conn))<span class="comment">;</span></span><br><span class="line">        PQclear(res)<span class="comment">;</span></span><br><span class="line">        exit_nicely(conn)<span class="comment">;</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/*</span></span><br><span class="line"><span class="comment">     * Should PQclear PGresult whenever it is no longer needed to avoid memory</span></span><br><span class="line"><span class="comment">     * leaks</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    PQclear(res)<span class="comment">;</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">/*</span></span><br><span class="line"><span class="comment">     * Our test case here involves using a cursor, for which we must be inside</span></span><br><span class="line"><span class="comment">     * a transaction block.  We could do the whole thing with a single</span></span><br><span class="line"><span class="comment">     * PQexec() of "select * from pg_database", but that's too trivial to make</span></span><br><span class="line"><span class="comment">     * a good example.</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">/* Start a transaction block */</span></span><br><span class="line">    res = PQexec(conn, <span class="string">"BEGIN"</span>)<span class="comment">;</span></span><br><span class="line">    if (PQresultStatus(res) != PGRES_COMMAND_OK)</span><br><span class="line">    &#123;</span><br><span class="line">        fprintf(stderr, <span class="string">"BEGIN command failed: %s"</span>, PQerrorMessage(conn))<span class="comment">;</span></span><br><span class="line">        PQclear(res)<span class="comment">;</span></span><br><span class="line">        exit_nicely(conn)<span class="comment">;</span></span><br><span class="line">    &#125;</span><br><span class="line">    PQclear(res)<span class="comment">;</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">/*</span></span><br><span class="line"><span class="comment">     * Fetch rows from pg_database, the system catalog of databases</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    res = PQexec(conn, <span class="string">"DECLARE myportal CURSOR FOR select * from pg_database"</span>)<span class="comment">;</span></span><br><span class="line">    if (PQresultStatus(res) != PGRES_COMMAND_OK)</span><br><span class="line">    &#123;</span><br><span class="line">        fprintf(stderr, <span class="string">"DECLARE CURSOR failed: %s"</span>, PQerrorMessage(conn))<span class="comment">;</span></span><br><span class="line">        PQclear(res)<span class="comment">;</span></span><br><span class="line">        exit_nicely(conn)<span class="comment">;</span></span><br><span class="line">    &#125;</span><br><span class="line">    PQclear(res)<span class="comment">;</span></span><br><span class="line"></span><br><span class="line">    res = PQexec(conn, <span class="string">"FETCH ALL in myportal"</span>)<span class="comment">;</span></span><br><span class="line">    if (PQresultStatus(res) != PGRES_TUPLES_OK)</span><br><span class="line">    &#123;</span><br><span class="line">        fprintf(stderr, <span class="string">"FETCH ALL failed: %s"</span>, PQerrorMessage(conn))<span class="comment">;</span></span><br><span class="line">        PQclear(res)<span class="comment">;</span></span><br><span class="line">        exit_nicely(conn)<span class="comment">;</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/* first, print out the attribute names */</span></span><br><span class="line">    nFields = PQnfields(res)<span class="comment">;</span></span><br><span class="line">    for (i = <span class="number">0</span><span class="comment">; i &lt; nFields; i++)</span></span><br><span class="line">        printf(<span class="string">"%-15s"</span>, PQfname(res, i))<span class="comment">;</span></span><br><span class="line">    printf(<span class="string">"\n\n"</span>)<span class="comment">;</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">/* next, print out the rows */</span></span><br><span class="line">    for (i = <span class="number">0</span><span class="comment">; i &lt; PQntuples(res); i++)</span></span><br><span class="line">    &#123;</span><br><span class="line">        for (<span class="keyword">j </span>= <span class="number">0</span><span class="comment">; j &lt; nFields; j++)</span></span><br><span class="line">            printf(<span class="string">"%-15s"</span>, PQgetvalue(res, i, <span class="keyword">j));</span></span><br><span class="line"><span class="keyword"> </span>       printf(<span class="string">"\n"</span>)<span class="comment">;</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    PQclear(res)<span class="comment">;</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">/* close the portal ... we don't bother to check for errors ... */</span></span><br><span class="line">    res = PQexec(conn, <span class="string">"CLOSE myportal"</span>)<span class="comment">;</span></span><br><span class="line">    PQclear(res)<span class="comment">;</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">/* end the transaction */</span></span><br><span class="line">    res = PQexec(conn, <span class="string">"END"</span>)<span class="comment">;</span></span><br><span class="line">    PQclear(res)<span class="comment">;</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">/* close the connection to the database and cleanup */</span></span><br><span class="line">    PQfinish(conn)<span class="comment">;</span></span><br><span class="line"></span><br><span class="line">    return <span class="number">0</span><span class="comment">;</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>参考<a href="http://www.ruanyifeng.com/blog/2013/12/getting_started_with_postgresql.html" target="_blank" rel="noopener">资料</a>。</p>
+
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/08/18/Use-and-configuration-of-tmux/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1626,152 +1784,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/06/08/ubuntu16-04-config-samba/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Datong Li">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/mine.png">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="写在人生的边上">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h2 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/06/08/ubuntu16-04-config-samba/" itemprop="url">
-                  ubuntu16.04配置samba
-                </a>
-              
-            
-          </h2>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-
-            
-            
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2018-06-08 21:09:24 / 修改时间：21:11:37" itemprop="dateCreated datePublished" datetime="2018-06-08T21:09:24+08:00">2018-06-08</time>
-            
-
-            
-              
-
-              
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h4 id="1-samba安装"><a href="#1-samba安装" class="headerlink" title="1. samba安装"></a>1. samba安装</h4><p><code>sudo apt-get install samba samba-common smbclient</code></p>
-<h4 id="2-查看samba服务"><a href="#2-查看samba服务" class="headerlink" title="2. 查看samba服务"></a>2. 查看samba服务</h4><p>samba安装成功后，会默认启动samba服务。<br><code>ps -ef | grep smb</code></p>
-<h4 id="3-修改samba配置文件-etc-samba-smb-conf"><a href="#3-修改samba配置文件-etc-samba-smb-conf" class="headerlink" title="3. 修改samba配置文件/etc/samba/smb.conf"></a>3. 修改samba配置文件/etc/samba/smb.conf</h4><figure class="highlight vhdl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">#======================= Share Definitions =======================</span><br><span class="line"> </span><br><span class="line"># Un-comment the following <span class="keyword">and</span> create the netlogon directory <span class="keyword">for</span> Domain Logons</span><br><span class="line"># Un-comment the following (<span class="keyword">and</span> tweak the other settings below <span class="keyword">to</span> suit)</span><br><span class="line"># <span class="keyword">to</span> enable the <span class="keyword">default</span> home directory shares. This will share each</span><br><span class="line"># user<span class="symbol">'s</span> home directory as \\server\username</span><br><span class="line">[homes]</span><br><span class="line">  comment = Home Directories</span><br><span class="line">  browseable = no</span><br><span class="line"> </span><br><span class="line"># By <span class="keyword">default</span>, the home directories are exported read-only. Change the</span><br><span class="line"># <span class="keyword">next</span> parameter <span class="keyword">to</span> <span class="symbol">'no</span>' <span class="keyword">if</span> you want <span class="keyword">to</span> be able <span class="keyword">to</span> write <span class="keyword">to</span> them.</span><br><span class="line">  read only = no</span><br><span class="line"> </span><br><span class="line"># <span class="keyword">File</span> creation mask <span class="keyword">is</span> set <span class="keyword">to</span> <span class="number">0700</span> <span class="keyword">for</span> security reasons. <span class="keyword">If</span> you want <span class="keyword">to</span></span><br><span class="line"># create files <span class="keyword">with</span> <span class="keyword">group</span>=rw permissions, set <span class="keyword">next</span> parameter <span class="keyword">to</span> <span class="number">0775</span>.</span><br><span class="line">  create mask = <span class="number">0775</span></span><br><span class="line"> </span><br><span class="line"># Directory creation mask <span class="keyword">is</span> set <span class="keyword">to</span> <span class="number">0700</span> <span class="keyword">for</span> security reasons. <span class="keyword">If</span> you want <span class="keyword">to</span></span><br><span class="line"># create dirs. <span class="keyword">with</span> <span class="keyword">group</span>=rw permissions, set <span class="keyword">next</span> parameter <span class="keyword">to</span> <span class="number">0775</span>.</span><br><span class="line">  directory mask = <span class="number">0775</span></span><br></pre></td></tr></table></figure>
-<h4 id="4-重启samba服务"><a href="#4-重启samba服务" class="headerlink" title="4. 重启samba服务"></a>4. 重启samba服务</h4><p><code>/etc/init.d/samba restart</code></p>
-<h4 id="5-调试samba功能"><a href="#5-调试samba功能" class="headerlink" title="5. 调试samba功能"></a>5. 调试samba功能</h4><h5 id="5-1-创建linux登录账号（例如test-user-test-password）"><a href="#5-1-创建linux登录账号（例如test-user-test-password）" class="headerlink" title="5.1 创建linux登录账号（例如test_user/test_password）"></a>5.1 创建linux登录账号（例如test_user/test_password）</h5><p><code>sudo adduser test_user</code></p>
-<h5 id="5-2-给上述test-user用户创建samba密码"><a href="#5-2-给上述test-user用户创建samba密码" class="headerlink" title="5.2 给上述test_user用户创建samba密码"></a>5.2 给上述test_user用户创建samba密码</h5><p><code>sudo smbpasswd -a test_user</code></p>
-<p>如果因权限不足问题，不能创建、修改该目录下的文件，请检查<code>3.修改samba配置文件/etc/samba/smb.conf</code>是否配置正确。samba详细配置见/etc/samba/smb.conf 文件中的注释或用命令man smb.conf查看。</p>
-
-          
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -1823,7 +1835,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">54</span>
+                    <span class="site-state-item-count">55</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
