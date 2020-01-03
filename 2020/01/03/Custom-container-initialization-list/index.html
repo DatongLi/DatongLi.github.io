@@ -108,25 +108,25 @@
 
 
 
-  <meta name="description" content="有一些很基础的知识也挺容易忘记的，比如说：负数补码。容易忘记的原因往往是因为理解得不够深刻。 取模和数学中的补数取模的概念很容易理解，举个时钟的例子，12个小时转一圈，比如北京时间和比利时时间时差7小时，反应在时钟上就是：北京时间5点时，比利时时间10点，既可以通过5-7=-2%12=10得到，也可以通过5+（12-7）=5+5=10得到。 这时对于模12的数字7来说，5就是补数了。这说明啥？说明">
-<meta name="keywords" content="linux">
+  <meta name="description" content="自定义容器初始化列表其实initializer_list就是一个array包含了同类数据的类型，专门用“{}”这个中括号符号来表示，在gcc词法语法分析时会将中括号的内容转化成array，然后用initializer_list这个迭代器来遍历。 123456789101112131415161718192021222324252627#include &amp;lt;iostream&amp;gt;#includ">
+<meta name="keywords" content="cpp">
 <meta property="og:type" content="article">
-<meta property="og:title" content="负数的补码">
-<meta property="og:url" content="http://yoursite.com/2018/10/31/Negative-complement/index.html">
+<meta property="og:title" content="Custom container initialization list">
+<meta property="og:url" content="http://yoursite.com/2020/01/03/Custom-container-initialization-list/index.html">
 <meta property="og:site_name" content="写在人生的边上">
-<meta property="og:description" content="有一些很基础的知识也挺容易忘记的，比如说：负数补码。容易忘记的原因往往是因为理解得不够深刻。 取模和数学中的补数取模的概念很容易理解，举个时钟的例子，12个小时转一圈，比如北京时间和比利时时间时差7小时，反应在时钟上就是：北京时间5点时，比利时时间10点，既可以通过5-7=-2%12=10得到，也可以通过5+（12-7）=5+5=10得到。 这时对于模12的数字7来说，5就是补数了。这说明啥？说明">
+<meta property="og:description" content="自定义容器初始化列表其实initializer_list就是一个array包含了同类数据的类型，专门用“{}”这个中括号符号来表示，在gcc词法语法分析时会将中括号的内容转化成array，然后用initializer_list这个迭代器来遍历。 123456789101112131415161718192021222324252627#include &amp;lt;iostream&amp;gt;#includ">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2018-10-30T17:03:34.000Z">
+<meta property="og:updated_time" content="2020-01-03T13:43:14.251Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="负数的补码">
-<meta name="twitter:description" content="有一些很基础的知识也挺容易忘记的，比如说：负数补码。容易忘记的原因往往是因为理解得不够深刻。 取模和数学中的补数取模的概念很容易理解，举个时钟的例子，12个小时转一圈，比如北京时间和比利时时间时差7小时，反应在时钟上就是：北京时间5点时，比利时时间10点，既可以通过5-7=-2%12=10得到，也可以通过5+（12-7）=5+5=10得到。 这时对于模12的数字7来说，5就是补数了。这说明啥？说明">
+<meta name="twitter:title" content="Custom container initialization list">
+<meta name="twitter:description" content="自定义容器初始化列表其实initializer_list就是一个array包含了同类数据的类型，专门用“{}”这个中括号符号来表示，在gcc词法语法分析时会将中括号的内容转化成array，然后用initializer_list这个迭代器来遍历。 123456789101112131415161718192021222324252627#include &amp;lt;iostream&amp;gt;#includ">
 
 
 
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2018/10/31/Negative-complement/"/>
+  <link rel="canonical" href="http://yoursite.com/2020/01/03/Custom-container-initialization-list/"/>
 
 
 
@@ -136,7 +136,7 @@
   };
 </script>
 
-  <title>负数的补码 | 写在人生的边上</title>
+  <title>Custom container initialization list | 写在人生的边上</title>
   
 
 
@@ -289,7 +289,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/10/31/Negative-complement/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/01/03/Custom-container-initialization-list/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Datong Li">
@@ -306,7 +306,7 @@
 
         
         
-          <h2 class="post-title" itemprop="name headline">负数的补码
+          <h2 class="post-title" itemprop="name headline">Custom container initialization list
               
             
           </h2>
@@ -331,7 +331,7 @@
                 
               
 
-              <time title="创建时间：2018-10-31 00:39:11 / 修改时间：01:03:34" itemprop="dateCreated datePublished" datetime="2018-10-31T00:39:11+08:00">2018-10-31</time>
+              <time title="创建时间：2020-01-03 21:41:48 / 修改时间：21:43:14" itemprop="dateCreated datePublished" datetime="2020-01-03T21:41:48+08:00">2020-01-03</time>
             
 
             
@@ -369,14 +369,9 @@
       
 
       
-        <p>有一些很基础的知识也挺容易忘记的，比如说：负数补码。容易忘记的原因往往是因为理解得不够深刻。</p>
-<h3 id="取模和数学中的补数"><a href="#取模和数学中的补数" class="headerlink" title="取模和数学中的补数"></a>取模和数学中的补数</h3><p>取模的概念很容易理解，举个时钟的例子，12个小时转一圈，比如北京时间和比利时时间时差7小时，反应在时钟上就是：北京时间5点时，比利时时间10点，既可以通过5-7=-2%12=10得到，也可以通过5+（12-7）=5+5=10得到。</p>
-<p>这时对于模12的数字7来说，5就是补数了。这说明啥？说明减去一个数等于加上这个数的补数，这样就能够把减法转变为加法了。</p>
-<h3 id="负数的补码"><a href="#负数的补码" class="headerlink" title="负数的补码"></a>负数的补码</h3><p>负数的补码就是取模/补数，先来个简单的4位机计算机，模2^4=16，如何计算5-3呢？<br><figure class="highlight lsl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">5</span><span class="number">-3</span></span><br><span class="line"></span><br><span class="line">#等价于</span><br><span class="line"><span class="number">5</span>+(<span class="number">16</span><span class="number">-3</span>)</span><br><span class="line"></span><br><span class="line">#等价于用二进制表示</span><br><span class="line"><span class="number">0101</span> + (<span class="number">1</span> <span class="number">0000</span> - <span class="number">0011</span>)</span><br><span class="line"></span><br><span class="line">#等价于</span><br><span class="line"><span class="number">0101</span> + (<span class="number">0001</span> + <span class="number">1111</span> - <span class="number">0011</span>)</span><br><span class="line"></span><br><span class="line">#等价于</span><br><span class="line"><span class="number">0101</span> + (<span class="number">0001</span> + <span class="number">1100</span>) <span class="comment">// 1100 就是0011的反码，而0001+1100就是0011的补码</span></span><br><span class="line"></span><br><span class="line">#等价于</span><br><span class="line"><span class="number">0101</span> + <span class="number">1101</span></span><br><span class="line"></span><br><span class="line">#等价于</span><br><span class="line"><span class="number">1</span> <span class="number">0010</span></span><br><span class="line"></span><br><span class="line">#因为最高位<span class="number">1</span>溢出</span><br><span class="line"><span class="number">0010</span> = <span class="number">2</span></span><br></pre></td></tr></table></figure></p>
-<p>在计算机中如果是8位正负机的话，也就是模2^8=256，用最高位来表示正负，也就是范围在-127~127之间（一共255个数），就说-5，就用<code>1000 0101</code>表示，-5的补码是啥呢？根据上面的取模和补数的理论，因为最高位1代表负数，不动，那么：<br><figure class="highlight lsl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">-5</span></span><br><span class="line"></span><br><span class="line">#二进制表示</span><br><span class="line"><span class="number">1</span> <span class="number">000</span> <span class="number">0101</span></span><br><span class="line"></span><br><span class="line">#除去最高位代表负数外，余下的<span class="number">7</span>位可全填满，所以模的话是第<span class="number">8</span>位为<span class="number">1</span> ，也就是<span class="number">128</span></span><br><span class="line">#所以相当于不区分正负的<span class="number">1000</span> <span class="number">0000</span>，也就是 <span class="number">111</span> <span class="number">1111</span> + <span class="number">000</span> <span class="number">0001</span></span><br><span class="line">(<span class="number">111</span> <span class="number">1111</span> + <span class="number">000</span> <span class="number">0001</span>) - <span class="number">000</span> <span class="number">0101</span> = <span class="number">000</span> <span class="number">0001</span>+ <span class="number">111</span> <span class="number">1010</span> = <span class="number">111</span> <span class="number">1011</span></span><br><span class="line"></span><br><span class="line">#所以<span class="number">-5</span>的补数是：</span><br><span class="line"><span class="number">1111</span> <span class="number">1011</span> = <span class="number">-123</span></span><br><span class="line"></span><br><span class="line">#验证下减去一个数等于加上它的补数理论</span><br><span class="line"><span class="number">125</span> - (- <span class="number">5</span>) = <span class="number">130</span> % <span class="number">128</span> = <span class="number">2</span></span><br><span class="line"><span class="number">125</span> + (<span class="number">-123</span>) = <span class="number">2</span></span><br></pre></td></tr></table></figure></p>
-<h3 id="结论是啥"><a href="#结论是啥" class="headerlink" title="结论是啥"></a>结论是啥</h3><p>说明了上面的负数补码，其实总结就是这么一句话：<code>负数的补码等于最高位的其余位取反+1</code>，为啥+1这个其实很容易理解，就是就是模，比如上面的<code>1000 0000 = 0111 1111 + 0000 0001</code>，想想不难理解的东西，以前计算机老师只知道让记住，也是醉醉的。</p>
-<h3 id="有啥用呢？"><a href="#有啥用呢？" class="headerlink" title="有啥用呢？"></a>有啥用呢？</h3><p>那么搞了这么一通，负数补码有啥用呢？最大的作用就是：计算机中负数都是以补码保存的。奇怪吧？为啥？</p>
-<p>其实原因也简单，为了统一正负数的加减电路。就举例8位正负机，16 + (-8)，使用二进制表示，如果不用补码：0001 0000 + 1000 1000 = 1001 1000 = -24，直接加起来是不对的，因为压根正负数直接想加就得不到想加的值，而通过同等的对-8的取模转换-120，0001 0000 + 1111 1000 = 1 0000 1000 = 8，就能够直接的到结果了。所以呢，为了通过二进制能够跟一般加法一样处理正数和负数想加，负数还是保存其补数吧，对于计算机来说一套电路结构就能处理全部整数加减了。</p>
+        <h3 id="自定义容器初始化列表"><a href="#自定义容器初始化列表" class="headerlink" title="自定义容器初始化列表"></a>自定义容器初始化列表</h3><p>其实initializer_list就是一个array包含了同类数据的类型，专门用“{}”这个中括号符号来表示，在gcc词法语法分析时会将中括号的内容转化成array，然后用initializer_list这个迭代器来遍历。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;initializer_list&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;vector&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> V&gt;</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">MyVector</span></span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line"><span class="keyword">public</span> :</span><br><span class="line">  MyVector(<span class="built_in">std</span>::<span class="built_in">initializer_list</span>&lt;V&gt; v_list) &#123;</span><br><span class="line">    internal_v_.insert(internal_v_.begin(), v_list.begin(), v_list.end());</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="function"><span class="keyword">void</span> <span class="title">Print</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">auto</span> &amp;v : internal_v_) &#123;</span><br><span class="line">      <span class="built_in">std</span>::<span class="built_in">cout</span> &lt;&lt; v &lt;&lt; <span class="string">","</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">std</span>::<span class="built_in">cout</span> &lt;&lt;<span class="built_in">std</span>::<span class="built_in">endl</span>;</span><br><span class="line">  &#125;</span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">    <span class="built_in">std</span>::<span class="built_in">vector</span>&lt;V&gt; internal_v_;</span><br><span class="line">&#125;</span><br><span class="line">;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">  MyVector&lt;<span class="keyword">int</span>&gt; myv&#123;<span class="number">1</span>,<span class="number">3</span>,<span class="number">5</span>,<span class="number">6</span>,<span class="number">9</span>&#125;;</span><br><span class="line">  myv.Print();</span><br><span class="line"><span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight arduino"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/// initializer_list</span></span><br><span class="line">  <span class="keyword">template</span>&lt;class _E&gt;</span><br><span class="line">    class initializer_list</span><br><span class="line">    &#123;</span><br><span class="line">    <span class="keyword">public</span>:</span><br><span class="line">      <span class="keyword">typedef</span> _E 		value_type;</span><br><span class="line">      <span class="keyword">typedef</span> <span class="keyword">const</span> _E&amp; 	reference;</span><br><span class="line">      <span class="keyword">typedef</span> <span class="keyword">const</span> _E&amp; 	const_reference;</span><br><span class="line">      <span class="keyword">typedef</span> size_t 		size_type;</span><br><span class="line">      <span class="keyword">typedef</span> <span class="keyword">const</span> _E* 	iterator;</span><br><span class="line">      <span class="keyword">typedef</span> <span class="keyword">const</span> _E* 	const_iterator;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span>:</span><br><span class="line">      iterator			_M_array;</span><br><span class="line">      size_type			_M_len;</span><br><span class="line"></span><br><span class="line">      <span class="comment">// The compiler can call a private constructor.</span></span><br><span class="line">      <span class="keyword">constexpr</span> initializer_list(const_iterator __a, size_type __l)</span><br><span class="line">      : _M_array(__a), _M_len(__l) &#123; &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span>:</span><br><span class="line">      <span class="keyword">constexpr</span> initializer_list() <span class="keyword">noexcept</span></span><br><span class="line">      : _M_array(<span class="number">0</span>), _M_len(<span class="number">0</span>) &#123; &#125;</span><br><span class="line"></span><br><span class="line">      <span class="comment">// Number of elements.</span></span><br><span class="line">      <span class="keyword">constexpr</span> size_type</span><br><span class="line">      <span class="built_in">size</span>() <span class="keyword">const</span> <span class="keyword">noexcept</span> &#123; <span class="built_in">return</span> _M_len; &#125;</span><br><span class="line"></span><br><span class="line">      <span class="comment">// First element.</span></span><br><span class="line">      <span class="keyword">constexpr</span> const_iterator</span><br><span class="line">      <span class="built_in">begin</span>() <span class="keyword">const</span> <span class="keyword">noexcept</span> &#123; <span class="built_in">return</span> _M_array; &#125;</span><br><span class="line"></span><br><span class="line">      <span class="comment">// One past the last element.</span></span><br><span class="line">      <span class="keyword">constexpr</span> const_iterator</span><br><span class="line">      <span class="built_in">end</span>() <span class="keyword">const</span> <span class="keyword">noexcept</span> &#123; <span class="built_in">return</span> <span class="built_in">begin</span>() + <span class="built_in">size</span>(); &#125;</span><br><span class="line">    &#125;;</span><br></pre></td></tr></table></figure>
 
       
     </div>
@@ -397,7 +392,7 @@
       
         <div class="post-tags">
           
-            <a href="/tags/linux/" rel="tag"># linux</a>
+            <a href="/tags/cpp/" rel="tag"># cpp</a>
           
         </div>
       
@@ -410,8 +405,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2018/10/29/stl-most-basic-allocator/" rel="next" title="STL最重要的基础——空间配置器（allocator）">
-                <i class="fa fa-chevron-left"></i> STL最重要的基础——空间配置器（allocator）
+              <a href="/2020/01/03/Common-file-iterator/" rel="next" title="Common file iterator">
+                <i class="fa fa-chevron-left"></i> Common file iterator
               </a>
             
           </div>
@@ -419,10 +414,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2018/11/15/Traits-extraction-technique/" rel="prev" title="Traits萃取技术">
-                Traits萃取技术 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -586,7 +577,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#取模和数学中的补数"><span class="nav-text">取模和数学中的补数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#负数的补码"><span class="nav-text">负数的补码</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#结论是啥"><span class="nav-text">结论是啥</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#有啥用呢？"><span class="nav-text">有啥用呢？</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#自定义容器初始化列表"><span class="nav-text">自定义容器初始化列表</span></a></li></ol></div>
             
 
           </div>

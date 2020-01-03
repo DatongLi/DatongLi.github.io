@@ -285,6 +285,150 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/05/01/Heap-sort-and-the-heap-of-priority-queues/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Datong Li">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/mine.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="写在人生的边上">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/05/01/Heap-sort-and-the-heap-of-priority-queues/" itemprop="url">
+                  堆排序和最大堆的优先队列
+                </a>
+              
+            
+          </h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2018-05-01 02:42:10 / 修改时间：02:43:47" itemprop="dateCreated datePublished" datetime="2018-05-01T02:42:10+08:00">2018-05-01</time>
+            
+
+            
+              
+
+              
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>堆排序新建最差时间复杂度：O(nlogn)</p>
+<p>因为是满二叉树，所以树高度：O(logn)+1</p>
+<p>最大堆的优先队列，取最大值时间复杂度：O(1)，但是每次取都要调整堆，最差时间复杂度O(logn)</p>
+<p>插入一个节点，因为只能插到最后的叶子节点(如果插入到root节点，将root节点送到最后的叶子结点，仅仅调整root进行heapify会造成新叶子结点部分无法处理，还是要整个堆调整)，涉及整个堆的调整，所以最差时间复杂度O(nlogn)；update一个节点的时间复杂度也是O(nlogn)。<code>这部分据算法导论说可以优化到O(logn)，后面再更新吧</code></p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">"common.h"</span></span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">HeapSort</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    HeapSort(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; arr) : arr_(arr.size() * <span class="number">2</span>, <span class="number">0</span>), start_(<span class="number">1</span>), end_(arr.size()<span class="number">-1</span>) &#123;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt; arr.size(); ++i) &#123;</span><br><span class="line">            arr_[i] = arr[i];</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">virtual</span> ~HeapSort() &#123;&#125;</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">MaxHeapify</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&amp; arr, <span class="keyword">int</span> i)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (i &lt; start_) <span class="keyword">return</span>;</span><br><span class="line">        <span class="keyword">int</span> left = <span class="number">2</span>*i;</span><br><span class="line">        <span class="keyword">int</span> right = <span class="number">2</span>*i+<span class="number">1</span>;</span><br><span class="line">        <span class="keyword">int</span> largest = i;</span><br><span class="line">        <span class="keyword">if</span> (left &lt;= end_ &amp;&amp; arr[left] &gt; arr[largest]) &#123;</span><br><span class="line">            largest = left;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (right &lt;= end_ &amp;&amp; arr[right] &gt; arr[largest]) &#123;</span><br><span class="line">            largest = right;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (largest != i) &#123;</span><br><span class="line">            <span class="keyword">int</span> swap_tmp = arr[i];</span><br><span class="line">            arr[i] = arr[largest];</span><br><span class="line">            arr[largest] = swap_tmp;</span><br><span class="line">            MaxHeapify(arr, largest);</span><br><span class="line">            <span class="built_in">cout</span> &lt;&lt; <span class="string">"swap : arr["</span> &lt;&lt; i &lt;&lt; <span class="string">"] = "</span> &lt;&lt; arr[i] &lt;&lt; <span class="string">", arr["</span> &lt;&lt; largest &lt;&lt; <span class="string">"] &lt;&lt; "</span>&lt;&lt; arr[largest] &lt;&lt; <span class="built_in">endl</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="built_in">cout</span> &lt;&lt; <span class="string">"i = "</span> &lt;&lt; i &lt;&lt; <span class="string">" "</span>;</span><br><span class="line">        PrintHeap();</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">BuildHeap</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = end_/<span class="number">2</span>; i &gt;= start_; --i) &#123;</span><br><span class="line">            MaxHeapify(arr_, i);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">int</span> <span class="title">RemoveRoot</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="built_in">cout</span> &lt;&lt; <span class="string">"Remove Root"</span> &lt;&lt; <span class="built_in">endl</span>;</span><br><span class="line">        <span class="keyword">int</span> root = arr_[start_];</span><br><span class="line">        arr_[start_] = arr_[end_--];</span><br><span class="line">        <span class="comment">//BuildHeap(); // O(nlogn)</span></span><br><span class="line">        MaxHeapify(arr_, start_); <span class="comment">//O(logn)</span></span><br><span class="line">        PrintHeap();</span><br><span class="line">        <span class="keyword">return</span> root;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">InsertValue</span><span class="params">(<span class="keyword">int</span> value)</span> </span>&#123;</span><br><span class="line">        <span class="built_in">cout</span> &lt;&lt; <span class="string">"Insert value"</span> &lt;&lt; <span class="built_in">endl</span>;</span><br><span class="line">        arr_[++end_] = value;</span><br><span class="line">        BuildHeap(); <span class="comment">// O(nlogn)</span></span><br><span class="line">        PrintHeap();</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">UpdateValue</span><span class="params">(<span class="keyword">int</span> index, <span class="keyword">int</span> value)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (index &lt; start_ || index &gt; end_) <span class="keyword">return</span>;</span><br><span class="line">        <span class="built_in">cout</span> &lt;&lt; <span class="string">"Update value : "</span> &lt;&lt; arr_[index] &lt;&lt; <span class="string">" =&gt; "</span> &lt;&lt; value &lt;&lt; <span class="built_in">endl</span>;</span><br><span class="line">        arr_[index] = value;</span><br><span class="line">        BuildHeap(); <span class="comment">// O(nlogn)</span></span><br><span class="line">        PrintHeap();</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">PrintHeap</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = start_; i &lt;= end_; ++i) &#123;</span><br><span class="line">            <span class="built_in">cout</span> &lt;&lt; arr_[i] &lt;&lt; <span class="string">", "</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="built_in">cout</span> &lt;&lt; <span class="built_in">endl</span>;</span><br><span class="line">    &#125;</span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">    <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; arr_;</span><br><span class="line">    <span class="keyword">int</span> start_;</span><br><span class="line">    <span class="keyword">int</span> end_;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; arr&#123;<span class="number">0</span>, <span class="number">8</span>, <span class="number">1</span>, <span class="number">16</span>, <span class="number">14</span>, <span class="number">7</span>, <span class="number">9</span>, <span class="number">4</span>, <span class="number">10</span>, <span class="number">3</span>, <span class="number">2</span>&#125;;</span><br><span class="line">    <span class="function">HeapSort <span class="title">hsort</span><span class="params">(arr)</span></span>;</span><br><span class="line">    hsort.BuildHeap();</span><br><span class="line">    hsort.PrintHeap();</span><br><span class="line">    <span class="built_in">cout</span> &lt;&lt; <span class="string">"remove root = "</span> &lt;&lt; hsort.RemoveRoot() &lt;&lt; <span class="built_in">endl</span>;</span><br><span class="line">    hsort.InsertValue(<span class="number">43</span>);</span><br><span class="line">    hsort.UpdateValue(<span class="number">5</span>, <span class="number">80</span>);</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/04/29/Find-the-method-for-the-oldest-child-array/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1708,160 +1852,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/04/17/Function-definitions-and-implementations-cannot-be-separated-for-template/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Datong Li">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/mine.png">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="写在人生的边上">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h2 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/04/17/Function-definitions-and-implementations-cannot-be-separated-for-template/" itemprop="url">
-                  template函数定义和实现不能分离
-                </a>
-              
-            
-          </h2>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-
-            
-            
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2018-04-17 22:33:13" itemprop="dateCreated datePublished" datetime="2018-04-17T22:33:13+08:00">2018-04-17</time>
-            
-
-            
-              
-
-              
-                
-                <span class="post-meta-divider">|</span>
-                
-
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">更新于</span>
-                
-                <time title="修改时间：2018-05-01 02:13:51" itemprop="dateModified" datetime="2018-05-01T02:13:51+08:00">2018-05-01</time>
-              
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>今天遇到一个编译器的小坑，使用template在编译的时候不能把定义和实现分别放在.h和.cpp中，不然会报<code>Undefined symbols for architecture x86_64</code> 或 <code>undefined reference to</code>错，出错在链接的时候（<code>collect2: error: ld returned 1 exit status</code>）。</p>
-<p>出错原因是：使用模板的时候，程序编译期间因为能够找到模板函数的声明(.h)，所以编译器不会报错；但是在链接库（.so or .a）的时候，因为模板在编译器中是根据调用者传入不同的参数类型编译出不同的代码块，在编译期间只对模板函数声明进行进行编译，而实现却没有进行编译，链接期间无法找到模板传入不同参数实现的代码库，而导致链接报错。</p>
-<p>测试代码就是把下面的代码拆到.h和.cpp中。</p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// template_test.cpp</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span><br><span class="line"><span class="comment">//递归终止函数</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">print</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">   <span class="built_in">cout</span> &lt;&lt; <span class="string">"empty"</span> &lt;&lt; <span class="built_in">endl</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//展开函数</span></span><br><span class="line"><span class="keyword">template</span> &lt;<span class="class"><span class="keyword">class</span> <span class="title">T</span>, <span class="title">class</span> ... <span class="title">Args</span>&gt;</span></span><br><span class="line"><span class="class"><span class="title">void</span> <span class="title">print</span>(<span class="title">T</span> <span class="title">head</span>, <span class="title">Args</span> ... <span class="title">rest</span>)</span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line">   <span class="built_in">cout</span> &lt;&lt; <span class="string">"parameter "</span> &lt;&lt; head &lt;&lt; <span class="built_in">endl</span>;</span><br><span class="line">   print(rest...);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">void</span>)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">   print(<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>);</span><br><span class="line">   <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-          
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -1913,7 +1903,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">53</span>
+                    <span class="site-state-item-count">54</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
